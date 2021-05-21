@@ -1,0 +1,16 @@
+{% extends "ApachecmsBackendBundle::Emails/layout.html.twig" %}
+{% block body %}
+<h2>{{ 'hello' | trans }} {{ query.landing.customer.firstName }}!</h2>
+<p>Una persona te ha enviado una consulta desde esta landing page <a href="{{ url('apachecms_frontend_dinamic_'~ query.landing.customer.usernameUrl,{ slug: query.landing.slug }) }}">{{ query.landing.title }}</a>.</p>
+<p>Estos son los datos de contacto:</p>
+<ul>
+    <li>Tipo de consulta: General</li>
+    <li>Nombre: {{ query.contact.name }}</li>
+    {% if query.type %}
+    <li>Producto o servicio: {{ query.type }}</li>
+    {% endif %}
+    <li>E-mail: {{ query.contact.email }}</li>
+    <li>Teléfono: {{ query.contact.phone }}</li>
+    <li>Consulta: {{ query.query | nl2br}}</li>
+</ul>
+{% endblock %}

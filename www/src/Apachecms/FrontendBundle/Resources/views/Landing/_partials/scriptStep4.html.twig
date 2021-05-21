@@ -1,0 +1,17 @@
+<script src="{{ asset('bundles/apachecmsbackend/assets/plugins/bootstrap-colorpicker-2.5.2/dist/js/bootstrap-colorpicker.js') }}"></script>
+<script type="text/javascript">
+    function sendColor(object){
+        $('#landing_step4_colour').val($(object).attr('data-color')).trigger('change');
+    }
+    $(function (){
+         $('.colorpicker-component').colorpicker();
+        $('#landing_step4_useChatbot').change(function (){
+            if($(this).is(":checked")==true){
+                $('#chatbotConfig').slideDown('fast');
+            }else{
+                $('#chatbotConfig').slideUp('fast');
+
+            }
+        });
+    });
+</script>

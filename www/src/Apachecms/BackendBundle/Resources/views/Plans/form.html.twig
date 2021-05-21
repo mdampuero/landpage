@@ -1,0 +1,125 @@
+{% extends "ApachecmsBackendBundle::layout.html.twig" %}
+{% block stylesheet %}
+{{ parent() }} 
+<link href="{{ asset('bundles/apachecmsbackend/') }}bootstrap-wysiwyg-master/external/google-code-prettify/prettify.css" rel="stylesheet">
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+<link href="{{ asset('bundles/apachecmsbackend/') }}bootstrap-wysiwyg-master/index.css" rel="stylesheet">
+{% endblock stylesheet %}
+{% block body %} 
+{{ parent()}}             
+{{ form_start(form, {'attr': {'novalidate':'novalidate'} }) }}
+    <div class="form-body">
+        <h3 class="card-title">Datos personales</h3>
+        <hr>
+        <div class="row p-t-20">
+            <div class="col-md-6">
+                <div class="form-group {% if form_errors(form.nameEs) %} has-danger {% endif %}">
+                    {{form_label(form.nameEs)}}
+                    {{form_widget(form.nameEs,{ 'attr':{'placeholder': form.nameEs.vars.label }})}}
+                    <div class="form-errors">{{ form_errors(form.nameEs)}} </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group {% if form_errors(form.price) %} has-danger {% endif %}">
+                    {{form_label(form.price)}}
+                    {{form_widget(form.price,{ 'attr':{'placeholder': form.price.vars.label }})}}
+                    <div class="form-errors">{{ form_errors(form.price)}} </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group {% if form_errors(form.percentDiscount) %} has-danger {% endif %}">
+                    {{form_label(form.percentDiscount)}}
+                    {{form_widget(form.percentDiscount,{ 'attr':{'placeholder': form.percentDiscount.vars.label }})}}
+                    <div class="form-errors">{{ form_errors(form.percentDiscount)}} </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group {% if form_errors(form.order) %} has-danger {% endif %}">
+                    {{form_label(form.order)}}
+                    {{form_widget(form.order,{ 'attr':{'placeholder': form.order.vars.label }})}}
+                    <div class="form-errors">{{ form_errors(form.order)}} </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group {% if form_errors(form.trialDays) %} has-danger {% endif %}">
+                    {{form_label(form.trialDays)}}
+                    {{form_widget(form.trialDays,{ 'attr':{'placeholder': form.trialDays.vars.label }})}}
+                    <div class="form-errors">{{ form_errors(form.trialDays)}} </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group {% if form_errors(form.maxBusiness) %} has-danger {% endif %}">
+                    {{form_label(form.maxBusiness)}}
+                    {{form_widget(form.maxBusiness,{ 'attr':{'placeholder': form.maxBusiness.vars.label }})}}
+                    <div class="form-errors">{{ form_errors(form.maxBusiness)}} </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group {% if form_errors(form.maxLanding) %} has-danger {% endif %}">
+                    {{form_label(form.maxLanding)}}
+                    {{form_widget(form.maxLanding,{ 'attr':{'placeholder': form.maxLanding.vars.label }})}}
+                    <div class="form-errors">{{ form_errors(form.maxLanding)}} </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group {% if form_errors(form.maxVisits) %} has-danger {% endif %}">
+                    {{form_label(form.maxVisits)}}
+                    {{form_widget(form.maxVisits,{ 'attr':{'placeholder': form.maxVisits.vars.label }})}}
+                    <div class="form-errors">{{ form_errors(form.maxVisits)}} </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group {% if form_errors(form.maxLeads) %} has-danger {% endif %}">
+                    {{form_label(form.maxLeads)}}
+                    {{form_widget(form.maxLeads,{ 'attr':{'placeholder': form.maxLeads.vars.label }})}}
+                    <div class="form-errors">{{ form_errors(form.maxLeads)}} </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group {% if form_errors(form.supportEmail) %} has-danger {% endif %}">
+                    {{form_label(form.supportEmail)}}
+                    {{form_widget(form.supportEmail,{ 'attr':{'placeholder': form.supportEmail.vars.label }})}}
+                    <div class="form-errors">{{ form_errors(form.supportEmail)}} </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-none">{{form_widget(form.descriptionEs)}}</div>
+        {{form_label(form.descriptionEs)}}
+        {% include 'ApachecmsBackendBundle:_partials:editorTool.html.twig' with { id:form.descriptionEs.vars.id } %}    
+        
+        <div class="d-none">{{form_widget(form.descriptionEn)}}</div>
+        {{form_label(form.descriptionEn)}}
+        {% include 'ApachecmsBackendBundle:_partials:editorTool.html.twig' with { id:form.descriptionEn.vars.id } %}    
+    </div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Guardar</button>
+        <button type="button" class="btn btn-inverse" onclick="location.href='{{ path(pathBase) }}'">Cancelar</button>
+    </div>
+{{ form_end(form) }}
+{% endblock body %}
+{% block javascripts %} 
+{{ parent() }}
+{% include 'ApachecmsBackendBundle:_partials:editorScripts.html.twig' %}
+<script type="text/javascript">
+    $(function() {
+        $('#editor_{{ form.descriptionEs.vars.id }}').html($('#{{ form.descriptionEs.vars.id }}').text());
+        $('form').submit(function (e){
+            $('#{{ form.descriptionEs.vars.id }}').val($('#editor_{{ form.descriptionEs.vars.id }}').html());
+        });
+
+        $('#editor_{{ form.descriptionEs.vars.id }}').wysiwyg({
+            fileUploadError: showErrorAlert
+        });
+        
+        $('#editor_{{ form.descriptionEn.vars.id }}').html($('#{{ form.descriptionEn.vars.id }}').text());
+        $('form').submit(function (e){
+            $('#{{ form.descriptionEn.vars.id }}').val($('#editor_{{ form.descriptionEn.vars.id }}').html());
+        });
+
+        $('#editor_{{ form.descriptionEn.vars.id }}').wysiwyg({
+            fileUploadError: showErrorAlert
+        });
+    });
+</script>
+{% endblock %}

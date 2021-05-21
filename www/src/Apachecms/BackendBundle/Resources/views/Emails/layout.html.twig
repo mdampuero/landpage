@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{{ title }}{% endblock %}</title>
+    {% block stylesheets %}
+    {% endblock %}
+    <style>
+    *{
+        font-family: Verdana, Geneva, sans-serif;
+    }
+    </style>
+</head>
+<body>
+
+<div style="overflow: hidden;">
+<div style="font-family:'Lucida Grande',Helvetica,Arial,sans-serif;background-color:white;color:#333333">
+  <center>
+    <table class="m_2047302814745216698content m_2047302814745216698body" cellpadding="0" cellspacing="0" border="0" align="center" width="570" style="background-color:white;table-layout:fixed;padding:10px;font-family:'Lucida Grande',Helvetica,Arial,sans-serif;color:#333333;font-weight:normal;text-align:left">
+    <tbody><tr>
+       <td colspan="2">
+         <table cellpadding="0" cellspacing="0" border="0" width="100%">
+           <tbody><tr>
+             <td class="m_2047302814745216698columnSingle" valign="top" style="padding-top:23px">
+               <a href="https://www.land.page/" style="color:rgb(0,102,204);text-decoration:none" target="_blank" >
+                 <img src="https://www.land.page/wp-content/uploads/2019/03/logo-land-page-icon-200.png" alt="" style="width:200px;display:block;border:0 none;margin:0 auto" border="0" class="CToWUd">
+               </a>
+             </td>
+           </tr>
+           <tr>
+             <td class="m_2047302814745216698columnSingle" style="padding:10px 0 5px" valign="middle">
+                 {% block body %}
+    {% endblock %}
+
+<p>Powered by: <a href="{{ url('apachecms_frontend_homepage') }}">Land.Page</a></p>
+             </td>
+           </tr>
+         </tbody></table>
+       </td>
+      </tr>
+     
+      <tr style="margin-bottom:30px">
+        <td colspan="2" style="font-size:11px;color:#999999">
+          <span>©Land.Page All rights reserved</span>
+         
+        </span></td>
+      </tr>
+    </tbody></table>
+  </center></div></div>
+
+
+    <br>
+    <footer>
+	  <center>
+     <a href="https://www.land.page/" style="color:rgb(0,102,204);text-decoration:none" target="_blank" >
+                 <img src="https://www.land.page/wp-content/uploads/2019/03/logo-land-page-icon-200.png" alt="" style="width:120px;display:block;border:0 none;margin:0 auto" border="0" class="CToWUd">
+               </a>
+			    </center>
+    </footer>
+</body>
+</html>

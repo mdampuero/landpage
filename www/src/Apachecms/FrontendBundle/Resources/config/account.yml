@@ -1,0 +1,71 @@
+apachecms_frontend_account:
+    path:     /profile
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Account:profile
+    options:
+        breadcrumb:
+            label: account.profile
+            parent_route: apachecms_frontend_homepage
+
+apachecms_frontend_account_contacts:
+    path:     /contacts
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Account:contacts
+    options:
+        breadcrumb:
+            label: account.contacts
+            parent_route: apachecms_frontend_homepage
+
+apachecms_frontend_account_plans:
+    path:     /plan
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Account:plan
+    options:
+        breadcrumb:
+            label: my.plan
+            parent_route: apachecms_frontend_homepage
+
+apachecms_frontend_account_plans_renew:
+    path:     /plan/renovar
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Account:planRenew
+    options:
+        breadcrumb:
+            label: renew
+            parent_route: apachecms_frontend_account_plans
+
+apachecms_frontend_account_plans_pay:
+    path:     /plan/pago/{plan}
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Account:pay
+    options:
+        breadcrumb:
+            label: pay
+            parent_route: apachecms_frontend_account_plans_renew
+
+apachecms_frontend_account_plans_result_pay:
+    path:     /plan/pago/result/{plan}
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Account:resultPay
+    options:
+        breadcrumb:
+            label: pay
+            parent_route: apachecms_frontend_account_plans_pay
+            
+apachecms_frontend_account_files:
+    path:     /files
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Account:pictures
+    options:
+        breadcrumb:
+            label: my.pictures
+            parent_route: apachecms_frontend_homepage
+
+apachecms_frontend_account_save:
+    path:     /create
+    defaults: { _controller: ApachecmsFrontendBundle:Account:profileSave }
+    methods: POST
+    options:
+        breadcrumb:
+            label: Profile
+            parent_route: apachecms_frontend_dashboard

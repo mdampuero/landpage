@@ -1,0 +1,18 @@
+<hr class="gray">
+    <footer id="footer" style="font-weight:bold;">
+        <div class="container text-center">
+        Powered by: <a href="{{ path('apachecms_frontend_homepage')}}"><img src="{{ asset('bundles/apachecmsfrontend/')}}/img/logo.png" style="max-width: 130px;" alt="" title="" /></img></a> Creá tu landing page en minutos!
+        </div>
+        {# {{ include('ApachecmsFrontendBundle::Templates/_partials/powered.html.twig') }} #}
+    </footer>
+    <hr>
+    <div class="container text-center">
+        &reg; 2019 - {{ 'all.right.reserved' | trans }} - <a href="javascript:openModalTerms()">{{ 'terms' | trans }}</a> - <a href="javascript:openModalPolicies()">{{ 'policies' | trans }}</a>
+    </div>
+    <br>
+    <div class="d-sm-none">
+    &nbsp;<br/>&nbsp;
+    </div>
+    {{ render(controller('ApachecmsFrontendBundle:Helper:pageStatic', { 'code': 'terms' } )) }}
+    {{ render(controller('ApachecmsFrontendBundle:Helper:pageStatic', { 'code': 'policies' } )) }}
+    {{ render(controller('ApachecmsFrontendBundle:Helper:pageStatic', { 'code': 'cookies' } )) }}

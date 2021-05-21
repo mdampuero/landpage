@@ -1,0 +1,28 @@
+
+{% if entity.useChatbot and entity.chatbot %}
+<div id="apachechat">
+    <div class="row chat-window absolute {% if template=='template_1' %}bottom-left{% else %}bottom-right{% endif %}" id="chat_window" style="width: 350px; ">
+        <div class="col-xs-12 col-md-12">
+            <div class="card" style="border-radius: 15px;">
+                <div class="card-header top-bar" style="border-radius: 15px;">
+                    <img src="{{ asset("bundles/apachecmsbackend/assets/images/avatar_default.png") }}" alt="user" class="profile-pic"/> 
+                    <span id="ChatbotTitle">{{ entity.chatbot.labelButton }}</span>
+                    <div class="pull-right">
+                        <span class="fa fa-chevron-right"></span>
+                    </div>
+                </div>
+                <div class="card-body msg_container_base" id="chatbot_messages" style="height: 300px;display:none;">
+                </div>
+                <div class="card-footer" style="display:none;">
+                    <div class="input-group">
+                        <input style="font-size:12px" type="text" maxlength="400" onkeyup="is_enter(event,this);" id="chatbot_message" class="form-control" placeholder="{{ 'enter.message' | trans }}" aria-label="{{ 'enter.message' | trans }}" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-info" id="btn-send" style="border-radius:0 .25rem .25rem 0;" type="button" onclick="send(this)"><span class="fa fa-paper-plane"></span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

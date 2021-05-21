@@ -1,0 +1,21 @@
+{% if app.user %}
+<li class="menu-has-children">
+    <a href="javascript:void(0)">My Account</a>
+    <ul>
+        <li><a href="{{ path('apachecms_frontend_dashboard') }}">Dashboard</a></li>
+        <li><a href="{{ path('apachecms_frontend_account') }}">Profile</a></li>
+        <li><a href="{{ path('security_logout_frontend') }}">Logout</a></li>
+    </ul>
+</li>
+{% else %}
+<li><a href="{{ path('apachecms_frontend_dashboard') }}">Get started</a></li>
+{% endif %}
+{# Dntro del li <li class="menu-has-children"><a href="#">Drop Down 2</a>
+            <ul>
+                <li><a href="#">Deep Drop Down 1</a></li>
+                <li><a href="#">Deep Drop Down 2</a></li>
+                <li><a href="#">Deep Drop Down 3</a></li>
+                <li><a href="#">Deep Drop Down 4</a></li>
+                <li><a href="#">Deep Drop Down 5</a></li>
+            </ul>
+        </li> #}

@@ -1,0 +1,84 @@
+{% extends "ApachecmsFrontendBundle::layout_lp.html.twig" %}
+{% block body %}
+{{ include('ApachecmsFrontendBundle::_partials/brand.html.twig') }}
+<div class="container" >
+    <div class="text-center">
+        <h1>{{ entity.firstName }},</h1>
+        <h5>{{ 'tell.us' | trans }}</h5>
+    </div>
+    {{ form_start(form, {'attr': {'id':'registerForm','novalidate':'novalidate','class':'sendToApi register'} }) }}
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <h3 class="card-header text-center">
+                    {{ 'personal.information' | trans }}
+                </h3>
+                <div class="card-body">
+                    <div class="form-group col-sm-12">
+                        {{form_label(form.firstName)}} {{form_widget(form.firstName)}}
+                        <small class="form-text text-danger">{{ form_errors(form.firstName)}}</small>
+                    </div>
+                    <div class="form-group col-sm-12">
+                        {{form_label(form.lastName)}} {{form_widget(form.lastName)}}
+                        <small class="form-text text-danger">{{ form_errors(form.lastName)}}</small>
+                    </div>
+                    <div class="form-group col-sm-12">
+                        {{form_label(form.phone)}} {{form_widget(form.phone)}}
+                        <small class="form-text text-danger">{{ form_errors(form.phone)}}</small>
+                    </div>
+                    <div class="form-group col-sm-12">
+                        {{form_label(form.document)}} {{form_widget(form.document)}}
+                        <small class="form-text text-danger">{{ form_errors(form.document)}}</small>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card">
+                <h3 class="card-header text-center">
+                    {{ 'business.information' | trans }}
+                </h3>
+                <div class="card-body">
+                    <div class="form-group col-sm-12">
+                        {{form_label(form.country)}} {{form_widget(form.country)}}
+                        <small class="form-text text-danger">{{ form_errors(form.country)}}</small>
+                    </div>
+                    <div class="form-group col-sm-12">
+                        {{form_label(form.businessName)}} {{form_widget(form.businessName)}}
+                        <small class="form-text text-danger">{{ form_errors(form.businessName)}}</small>
+                    </div>
+                    <div class="form-group col-sm-12">
+                        {{form_label(form.businessCuit)}} {{form_widget(form.businessCuit)}}
+                        <small class="form-text text-danger">{{ form_errors(form.businessCuit)}}</small>
+                    </div>
+                    <div class="form-group col-sm-12">
+                        {{form_label(form.businessAddress)}} {{form_widget(form.businessAddress)}}
+                        <small class="form-text text-danger">{{ form_errors(form.businessAddress)}}</small>
+                    </div>  
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="text-center">
+        <div class="form-check">
+            {{form_widget(form.acceptTermsAndConditions)}}
+            <a href="javascript:openModalTerms()">{{ 'accept.terms.and.conditions.me' | trans }}</a>
+            <small class="form-text text-danger" id="error_{{ form.acceptTermsAndConditions.vars.id }}">{{ form_errors(form.acceptTermsAndConditions)}}</small>
+        </div>
+        {{form_widget(form.submit,{ 'attr':{ 'class':'btn btn-info','secondary-label':'loading' | trans}})}}
+    </div>
+    {{ form_end(form) }}
+</div>
+{{ render(controller('ApachecmsFrontendBundle:Helper:pageStatic', { 'code': 'terms' } )) }}
+
+{% endblock body %}
+{% block javascripts %}
+{{ parent() }}
+<script>
+function beforeSuccess(response){
+    location.href=response.data.to;
+}
+</script>
+{% endblock javascripts %}

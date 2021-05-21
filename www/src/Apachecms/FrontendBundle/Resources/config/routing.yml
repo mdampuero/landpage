@@ -1,0 +1,98 @@
+apachecms_frontend_homepage:
+    path:     /
+    defaults: { _controller: ApachecmsFrontendBundle:Default:index }
+    options:
+        breadcrumb:
+            label: home
+apachecms_frontend_hard:
+    path:     /hard
+    defaults: { _controller: ApachecmsFrontendBundle:Default:hard }
+    options:
+        breadcrumb:
+            label: home
+apachecms_frontend_homepage_simPay:
+    path:     /simPay/{plan}/{customer}
+    defaults: { _controller: ApachecmsFrontendBundle:Default:simPay }
+    options:
+        breadcrumb:
+            label: home
+apachecms_frontend_homepage_simPayMP:
+    path:     /simPayMP/{plan}/{customer}
+    defaults: { _controller: ApachecmsFrontendBundle:Default:simPayMP }
+    options:
+        breadcrumb:
+            label: home
+
+apachecms_frontend_validate:
+    path:     /validate/{id}/{code}
+    defaults: 
+        _controller: ApachecmsFrontendBundle:Default:validate
+    methods: [GET]
+
+apachecms_frontend_change_lang:
+    path:     /changeLocale
+    defaults: { _controller: ApachecmsFrontendBundle:Default:changeLocale }
+
+apachecms_frontend_dashboard:
+    path:     /dashboard
+    defaults: { _controller: ApachecmsFrontendBundle:Account:index }
+    options:
+        breadcrumb:
+            label: account.my.landings
+            parent_route: apachecms_frontend_homepage
+            
+apachecms_frontend_login:
+    path:     /iniciarSesion
+    defaults: { _controller: ApachecmsFrontendBundle:Login:index }
+
+apachecms_frontend_success:
+    path:     /landing/success/{idLanding}/{idQuery}
+    defaults: { _controller: ApachecmsFrontendBundle:Default:success }
+
+security_login_frontend:
+    resource: "@ApachecmsFrontendBundle/Resources/config/security.yml"
+    prefix:   /login
+
+apachecms_frontend_account:
+    resource: "@ApachecmsFrontendBundle/Resources/config/account.yml"
+    prefix:   /dashboard/myAccount
+
+apachecms_frontend_landing:
+    resource: "@ApachecmsFrontendBundle/Resources/config/landing.yml"
+    prefix:   /dashboard/landing
+
+apachecms_frontend_stats:
+    resource: "@ApachecmsFrontendBundle/Resources/config/stats.yml"
+    prefix:   /dashboard/stats
+
+apachecms_frontend_queries:
+    resource: "@ApachecmsFrontendBundle/Resources/config/queries.yml"
+    prefix:   /dashboard/queries
+
+apachecms_frontend_business:
+    resource: "@ApachecmsFrontendBundle/Resources/config/business.yml"
+    prefix:   /dashboard/business
+
+apachecms_frontend_lock:
+    resource: "@ApachecmsFrontendBundle/Resources/config/lock.yml"
+    prefix:   /dashboard/lock
+
+apachecms_frontend_notifications:
+    resource: "@ApachecmsFrontendBundle/Resources/config/notifications.yml"
+    prefix:   /dashboard/notifications
+
+# apachecms_frontend_started:
+#     resource: "@ApachecmsFrontendBundle/Resources/config/started.yml"
+#     prefix:   /started
+
+apachecms_frontend_pay:
+    resource: "@ApachecmsFrontendBundle/Resources/config/pay.yml"
+    prefix:   /pay
+apachecms_frontend_pay_mp:
+    resource: "@ApachecmsFrontendBundle/Resources/config/pay_mp.yml"
+    prefix:   /payMP
+
+apachecms_frontend_dinamic:
+    resource: "@ApachecmsFrontendBundle/Resources/config/dinamic.yml"
+    prefix:   /
+

@@ -1,0 +1,58 @@
+{% extends "ApachecmsFrontendBundle::layout_lp.html.twig" %}
+{% block stylesheet %} 
+<link href="{{ asset('bundles/apachecmsbackend/assets/plugins/dropify/dist/css/dropify.min.css') }}" rel="stylesheet">
+{{ parent() }}
+{% endblock %}
+{% block body %}
+{{ include('ApachecmsFrontendBundle::_partials/brand.html.twig') }}
+{% block headerPage %}
+{% include 'ApachecmsFrontendBundle:_partials:breadcrumbs.html.twig' with { 'title_entity': entity.title } %}
+{% endblock %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            {{ include('ApachecmsFrontendBundle::Stats/_partials/menu.html.twig') }}
+        </div>
+        <div class="col-md-9">
+            {{ form_start(form, {'attr': {'class': 'sendToApi','id':'registerForm','novalidate':'novalidate','enctype':"multipart/form-data"} }) }}
+            <div class="card">
+                <h2 class="card-header">
+                    {{ (app.request.attributes.get('_route_params')['_breadcrumbs']|last)['label'] | trans}}
+                </h2>
+                <div class="card-body">
+                    {% include 'ApachecmsFrontendBundle:Landing:_partials/step2.html.twig' with { 'form' : form } %}
+                </div>
+                <div class="card-footer text-right">
+                    {{form_widget(form.submit,{ 
+                        'attr':{
+                            'secondary-label':'loading' | trans,
+                            'class':'btn btn-info'
+                            },
+                        'label':'save' | trans
+                        })}}
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block javascripts %} 
+{{ parent() }}
+{% include 'ApachecmsFrontendBundle:_partials:dropifyScripts.html.twig' %}
+{% include 'ApachecmsFrontendBundle:Landing:_partials/scriptStep2.html.twig' %}
+<script>
+function beforeSuccess(response){
+    loading.hide();
+    $.toast({
+        heading: 'Resultado OK',
+        text: 'Los datos se guardaron correctamente',
+        position: 'top-right',
+        icon: 'success',
+        hideAfter: 4000, 
+        stack: 6
+    });
+}
+</script>
+{% endblock %}

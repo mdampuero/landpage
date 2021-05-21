@@ -1,0 +1,47 @@
+<h5>{{ 'metaTags' | trans }}</h5>
+<hr>
+<div class="row">
+    <div class="form-group col-sm-12">
+        {{form_label(form.metaTagsDescription)}} {{form_widget(form.metaTagsDescription)}}
+        <small class="form-text text-danger">{{ form_errors(form.metaTagsDescription)}}</small>
+    </div>
+    <div class="form-group col-sm-12">
+            <div class="form-group ">
+            {# <b>{{ 'metaIndex' | trans }}</b> &nbsp; #}
+                <span class="switch">
+                    {{form_widget(form.metaIndex)}}
+                    {{form_label(form.metaIndex)}}
+                </span>
+            </div>
+    </div>
+</div>
+<h5>{{ 'googleAnalitycs' | trans }}</h5>
+<hr>
+<div class="row">
+    <div class="form-group col-sm-12">
+        {{form_label(form.googleAnalitycs)}} {{form_widget(form.googleAnalitycs)}}
+        <small class="form-text text-danger">{{ form_errors(form.googleAnalitycs)}}</small>
+    </div>
+</div>
+<h5>{{ 'googleAds' | trans }}</h5>
+<hr>
+<div class="row">
+    <div class="form-group col-sm-12">
+        {{form_label(form.googleAdsLanding)}} {{form_widget(form.googleAdsLanding)}}
+        <small class="form-text text-danger">{{ form_errors(form.googleAdsLanding)}}</small>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-sm-12">
+        {{form_label(form.googleAdsSuccess)}} {{form_widget(form.googleAdsSuccess)}}
+        <small class="form-text text-danger">{{ form_errors(form.googleAdsSuccess)}}</small>
+    </div>
+</div>
+<h5>{{ 'pixelFacebook' | trans }}</h5>
+<hr>
+<div class="row">
+    <div class="form-group col-sm-12">
+        {{form_widget(form.pixelFacebook)}}
+        <small class="form-text text-danger">{{ form_errors(form.pixelFacebook)}}</small>
+    </div>
+</div>

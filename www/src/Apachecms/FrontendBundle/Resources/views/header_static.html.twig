@@ -1,0 +1,21 @@
+<header id="header-static">
+    <div class="container">
+        <div id="logo" class="pull-left">
+            <a href="{{ path('apachecms_frontend_homepage')}}"><img src="{{ asset('bundles/apachecmsfrontend/')}}/img/logo.png" alt="" title="" /></img></a>
+        </div>
+        <nav id="nav-menu-container">
+            <ul class="nav-menu">
+                <li><a href="{{ path('apachecms_frontend_homepage')}}">Home</a></li>
+                <li><a href="{{ path('apachecms_frontend_homepage')}}#about">About Us</a></li>
+                <li><a href="{{ path('apachecms_frontend_homepage')}}#services">Services</a></li>
+                <li><a href="{{ path('apachecms_frontend_homepage')}}#portfolio">Portfolio</a></li>
+                <li><a href="{{ path('apachecms_frontend_homepage')}}#team">Team</a></li>
+                <li><a href="{{ path('apachecms_frontend_homepage')}}#contact">Contact Us</a></li>
+                {{ include('ApachecmsFrontendBundle::Account/menuHeader.html.twig') }}
+            </ul>
+        </nav>
+    </div>
+</header>
+{% block headerPage %}
+{% include 'ApachecmsFrontendBundle:_partials:breadcrumbs.html.twig' %}
+{% endblock %}

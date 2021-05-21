@@ -1,0 +1,36 @@
+{% extends "ApachecmsFrontendBundle::layout_lp.html.twig" %}
+{% block stylesheet %} 
+{{ parent() }}
+{% endblock %}
+{% block body %}
+{{ include('ApachecmsFrontendBundle::_partials/brand.html.twig') }}
+{% block headerPage %}
+{% include 'ApachecmsFrontendBundle:_partials:breadcrumbs.html.twig' %}
+{% endblock %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            {{ include('ApachecmsFrontendBundle::Account/_partials/menu.html.twig') }}
+        </div>
+        <div class="col-md-9">
+            <div class="card">
+                <h2 class="card-header">
+                    {{ (app.request.attributes.get('_route_params')['_breadcrumbs']|last)['label'] | trans }}
+                </h2>
+                <div class="card-body">
+                    {{ include('ApachecmsFrontendBundle::Account/_partials/pictures.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %} 
+{{ parent() }}
+<script>
+function sendBackground(object){
+    return null;
+}
+</script>
+{{ include('ApachecmsFrontendBundle::Account/_partials/picturesJs.html.twig') }}
+{% endblock %}

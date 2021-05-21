@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{{ title }} 
+    {% if app.request.attributes.get('_route_params')._breadcrumbs is defined %}
+    - {{ (app.request.attributes.get('_route_params')['_breadcrumbs']|last)['label'] | trans }}
+    {% endif %}
+    {% endblock %}</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    {% if setting.getData.metaTags  %}
+       {{ setting.getData.metaTags | raw }}
+    {% endif %}
+    <meta name="google-signin-client_id" content="{{ setting.getData.loginGoogleClientId }}">
+    {% block stylesheet %}
+    <link href="{{ asset('bundles/apachecmsfrontend/')}}img/favicon.ico" rel="icon">
+    <link href="{{ asset('bundles/apachecmsfrontend/')}}img/apple-icon.png" rel="apple-icon">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400" rel="stylesheet">
+    <link href="https://land.page{{ asset('bundles/apachecmsfrontend/')}}lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://land.page{{ asset('bundles/apachecmsfrontend/')}}lib/animate/animate.min.css" rel="stylesheet">
+    <link href="https://land.page{{ asset('bundles/apachecmsfrontend/')}}css/style_lp.css" rel="stylesheet">
+    <link href="https://land.page{{ asset('bundles/apachecmsbackend/assets/plugins/toast-master/css/jquery.toast.css') }}" rel="stylesheet">
+    <link href="https://land.page{{ asset('bundles/apachecmsbackend/assets/plugins/sweetalert/sweetalert.css') }}" rel="stylesheet">    
+    {% endblock stylesheet %}
+    {% if setting.getData.scriptGoogleAnalytics  %}
+       {{ setting.getData.scriptGoogleAnalytics | raw }}
+    {% endif %}
+	
+	<!-- Facebook Pixel Code -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '658033017977524');
+  fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=658033017977524&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+</head>
+<body>
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">{{ copyright }}</p>
+        </div>
+    </div>
+    {% block body %}
+    {% endblock %} 
+    {{ render(controller('ApachecmsFrontendBundle:Helper:pageStatic', { 'code': 'cookies' } )) }}
+    {{ include('ApachecmsFrontendBundle::footer.html.twig') }}
+    {% block javascripts %}
+    <script src="https://land.page{{ asset('bundles/apachecmsfrontend/')}}lib/jquery/jquery.min.js"></script>
+    <script src="https://land.page{{ asset('bundles/apachecmsfrontend/')}}lib/jquery/jquery-migrate.min.js"></script>
+    <script src="https://land.page{{ asset('bundles/apachecmsfrontend/')}}lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="https://land.page{{ asset('bundles/apachecmsfrontend/')}}lib/easing/easing.min.js"></script>
+    <script src="https://land.page{{ asset('bundles/apachecmsfrontend/')}}lib/wow/wow.min.js"></script>
+    <script src="https://land.page{{ asset('bundles/apachecmsfrontend/')}}lib/waypoints/waypoints.min.js"></script>
+    <script src="https://land.page{{ asset('bundles/apachecmsfrontend/')}}lib/counterup/counterup.min.js"></script>
+    <script src="https://land.page{{ asset('bundles/apachecmsfrontend/')}}lib/superfish/hoverIntent.js"></script>
+    <script src="https://land.page{{ asset('bundles/apachecmsfrontend/')}}lib/superfish/superfish.min.js"></script>
+    <script src="https://land.page{{ asset('bundles/apachecmsfrontend/')}}js/main.js"></script>
+    <script src="https://land.page{{ asset('bundles/apachecmsbackend/assets/plugins/toast-master/js/jquery.toast.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script> 
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://land.page{{ asset('bundles/apachecmsbackend/assets/plugins/sweetalert/sweetalert.min.js') }}"></script>
+     <script>
+        var loading={
+            show: function (text){
+                if(typeof text !== "undefined") $('#loading').attr('data-text',text);
+                {# $('#loading').show(); #}
+                $(".preloader").fadeIn();
+                return true;
+            },
+            hide: function (){
+                {# $('#loading').removeAttr('data-text');
+                $('#loading').hide(); #}
+                $(".preloader").fadeOut();
+                return true;
+            }
+        } 
+        
+        function uniqid() {
+            var ts=String(new Date().getTime()), i = 0, out = '';
+            for(i=0;i<ts.length;i+=2) {        
+                out+=Number(ts.substr(i, 2)).toString(36);    
+            }
+            return ('d'+out);
+        }
+        function showSpinner(){
+            return `<div id="spinner" class="text-center">
+                        <i class="fa fa-gear fa-spin text-primary" style="font-size:60px"></i>
+                    </div>`;
+        }
+        // pre-submit callback 
+        function showRequest(formData, form, options) { 
+            loading.show('{{ 'loading' | trans }}');
+            var url = form.attr("action");
+            var method = form.attr("method").toUpperCase();
+            var dataForm = form.serialize();
+            var submitBtn = form.closest('form').find(':submit');
+            var inputs=form.closest('form').find(':input:not(.dropify)');
+            inputs.removeClass('error');
+            inputs.next('small').html('');
+            BtnSecondaryLabel=submitBtn.attr('secondary-label');
+            BtnHtml=submitBtn.html();
+            submitBtn.html('<i class="fa fa-gear fa-spin"></i> '+BtnSecondaryLabel);
+            submitBtn.attr('disabled',true);
+            return true; 
+        } 
+        
+        // post-submit callback 
+        function showResponse(data, statusText, xhr, form)  { 
+            var submitBtn = form.closest('form').find(':submit');
+            submitBtn.attr('disabled',false);
+            submitBtn.html(BtnHtml);
+            if(statusText=='success'){
+                if(data.response==false){
+                    loading.hide();
+                    $.toast({
+                        heading: "{{ 'error' | trans }}",
+                        text: "{{ 'ups' | trans }}",
+                        position: 'top-right',
+                        icon: 'error',
+                        hideAfter: 2000, 
+                        stack: 6
+                    });
+                    {# console.log(data.errors); #}
+                    if(data.errors.length > 0){
+                        for (var i=0; i<data.errors.length; i++){
+                            if(data.errors[i].property !=null){
+                                if($('#error_'+form.attr("name")+'_'+data.errors[i].property).length > 0){
+                                    if(form.attr("name")!=undefined){
+                                        
+                                        $('#error_'+form.attr("name")+'_'+data.errors[i].property).html(data.errors[i].message);
+                                    }else{
+                                        $('#error_'+data.errors[i].property).html(data.errors[i].message);
+                                    }
+                                    $('#error_'+data.errors[i].property).html(data.errors[i].message);
+                                }else{
+                                    $('html, body').animate({
+                                            scrollTop: $('#'+form.attr("name")+'_'+data.errors[0].property).offset().top-50
+                                        }, 800, 'easeInOutExpo');
+                                    if(form.attr("name")!=undefined){
+                                        var input=$('#'+form.attr("name")+'_'+data.errors[i].property);
+                                    }else{
+                                        var input=form.closest('form').find(':input[name='+data.errors[i].property+']');
+                                    }
+                                    input.addClass('error');
+                                    input.next('small').html(data.errors[i].message);
+                                }
+                            }
+                        }
+                    }
+                }else if(data.response==true){
+                    beforeSuccess(data);
+                }else{
+                    $.toast({
+                        heading: "{{ 'error' | trans }}",
+                        text: "{{ 'ups' | trans }}",
+                        position: 'top-right',
+                        icon: 'error',
+                        hideAfter: 2000, 
+                        stack: 6
+                    });
+                } 
+            }else{
+                $.toast({
+                    heading: "{{ 'error' | trans }}",
+                    text: "{{ 'ups' | trans }}",
+                    position: 'top-right',
+                    icon: 'error',
+                    hideAfter: 2000, 
+                    stack: 6
+                });
+            }
+        }
+        function resendValidateEmail(){
+            loading.show('{{ 'sending..' | trans }}');
+            $.post('{{ path('apachecms_api_resendEmailValidate_submit')}}', null , function (result) {
+                loading.hide();
+                if (result.response == true) {
+                    var messageSuccess='{{ 'validate.email.success' | trans }}';
+                    $.toast({
+                        heading: 'Resultado OK',
+                        text: messageSuccess.replace('%email%','<b>'+result.data.email+'</b>'),
+                        position: 'top-right',
+                        icon: 'success',
+                        hideAfter: 6000, 
+                        stack: 6
+                    });
+                }else{
+                    $.toast({
+                        heading: '{{ messages.result.error.title }}',
+                        text: '{{ messages.result.error.text }}',
+                        position: 'top-right',
+                        icon: '{{ messages.result.error.icon }}',
+                        hideAfter: 1000, 
+                        stack: 6
+                    });
+                }
+            });
+        }
+        $(function (){
+            if (document.cookie.indexOf("ModalShown=true")<0) {
+                openModalCookies();
+                document.cookie = "ModalShown=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+            }
+            var options = { 
+                beforeSubmit:  showRequest,  // pre-submit callback 
+                success:       showResponse  // post-submit callback 
+            };
+            $( "form.sendToApi" ).ajaxForm(options);
+            $('[data-toggle="tooltip"]').tooltip();
+            {% for message in app.session.flashBag.get('success') %}
+                $.toast({
+                    heading: 'Resultado OK',
+                    text: '{{ message }}',
+                    position: 'top-right',
+                    icon: 'success',
+                    hideAfter: 4000, 
+                    stack: 6
+                });
+            {% endfor %}
+            {% for message in app.session.flashBag.get('warning') %}
+                $.toast({
+                    heading: 'Atención',
+                    text: '{{ message }}',
+                    position: 'top-right',
+                    icon: 'warning',
+                    hideAfter: 4000, 
+                    stack: 6
+                });
+            {% endfor %}
+            {% for message in app.session.flashBag.get('danger') %}
+                $.toast({
+                    heading: 'Error',
+                    text: '{{ message }}',
+                    position: 'top-right',
+                    icon: 'error',
+                    hideAfter: 6000, 
+                    stack: 6
+                });
+            {% endfor %}
+        });
+        $(".preloader").fadeOut();
+    </script>
+    {% endblock %}
+	
+	<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TM24H3H"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-135355882-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-135355882-1');
+</script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-135355882-1');
+</script>
+</body>
+</html>

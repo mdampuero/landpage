@@ -1,0 +1,65 @@
+{% extends "ApachecmsFrontendBundle::layout_lp.html.twig" %}
+{% block stylesheet %} 
+{{ parent() }}
+{% endblock %}
+{% block body %}
+{{ include('ApachecmsFrontendBundle::_partials/brand.html.twig') }}
+{% block headerPage %}
+{% include 'ApachecmsFrontendBundle:_partials:breadcrumbs.html.twig' %}
+{% endblock %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            {{ include('ApachecmsFrontendBundle::Account/_partials/menu.html.twig') }}
+        </div>
+        <div class="col-md-9">
+            <div class="card">
+                <h2 class="card-header">
+                    {{ (app.request.attributes.get('_route_params')['_breadcrumbs']|last)['label'] | trans }}
+                </h2>
+                <div class="card-body">
+                    <div class="card-deck mb-3 text-center">
+                        {% for plan in plans %}
+                            <div class="card mb-4 shadow-sm bg-info text-white">
+                                <div class="card-header">
+                                    <h4 class="my-0 font-weight-normal">{{ plan.nameEs | trans }}</h4>
+                                </div>
+                                <div class="card-body">
+                                    <h1 class="card-title pricing-card-title">${{ (plan.price * setting.getData.dolar) }} <small class="">/m</small></h1>
+                                    <ul class="list-unstyled mt-3 mb-4">
+                                        <li>{{ plan.maxBusiness }} {{ 'business' | trans}}</li>
+                                        <li>{{ plan.maxLanding }} {{ 'landings' | trans}}</li>
+                                        {% if plan.maxVisits == 0 %}
+                                            <li>{{ 'visits.unlimit' | trans}}</li>
+                                        {% else %}
+                                            <li>{{ plan.maxVisits }} {{ 'visits' | trans}}</li>
+                                        {% endif %}
+                                        {% if plan.maxLeads == 0 %}
+                                            <li>{{ 'leads.unlimit' | trans}}</li>
+                                        {% else %}
+                                            <li>{{ plan.maxLeads }} {{ 'leads' | trans}}</li>
+                                        {% endif %}
+                                        {% if plan.supportEmail  %}
+                                            <li>{{ 'support.email' | trans}}</li>
+                                        {% endif %}
+                                    </ul>
+                                    <a href="{{ path('apachecms_frontend_pay',{ plan: plan.id})}}" role="button" class="btn btn-lg btn-block btn-primary">{{ 'sign.on' | trans }}</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript">
+    var url='{{ path('apachecms_frontend_account_plans_pay',{ 'plan':'__plan__'})}}';
+    function beforeSuccess(data,trial) {
+        location.href=url.replace('__plan__',data);
+    }
+</script>
+{% endblock javascripts %}

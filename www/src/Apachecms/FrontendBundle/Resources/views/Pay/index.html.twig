@@ -1,0 +1,117 @@
+{% if (app.request.attributes.get('type')=="12") %}
+{% set amount=((plan.price * 12 * (1 - (plan.percentDiscount / 100)))) %}
+{% else %} 
+{% set amount=plan.price %}
+{% endif %} 
+{% extends "ApachecmsFrontendBundle::layout_lp.html.twig" %}
+{% block body %}
+{{ include('ApachecmsFrontendBundle::_partials/brand.html.twig') }}
+<div class="container">
+    <div class="text-center">
+        <h1 class='login'>Pagar con PayPal</h1>
+        <h4>Plan {{ attribute(plan, 'name'~(app.request.locale | capitalize )) | raw }}</h4>
+        <h5>Puedes pagar mensual o pagar un año y ahorrar!</h5>
+        <div class="row">
+            <div class="col-lg-2 col-sm-1">
+            </div>
+            <div class="col-lg-8 col-sm-10">
+                <div class="row">
+                    <div class="col-md-6 col-lg-6">
+                        <label  style="width:100%">
+                            <div class="card card-input ">
+                                <div class="card-header pt-3 pb-0 text-white bg-info">
+                                    <h3><input type="radio" value="12" name="payBy" class="card-input-element" {% if app.request.attributes.get('type')=="12" %}checked="checked"{% endif %} /> 
+                                    U$D {{ ((plan.price * 12 * (1 - (plan.percentDiscount / 100))) / 12) | number_format(2,".",",")  }} / m
+                                    </h3> 
+                                </div>
+                                <div class="card-body">
+                                    <h4 class="card-title">Pago anual (-{{ plan.percentDiscount }}%</b>)</h4>
+                                    <div class="card-text text-left">
+                                        <h5><b>Monto a pagar: U$D {{ ((plan.price * 12 * (1 - (plan.percentDiscount / 100)))) | number_format(2,".",",")  }}</b></h5>
+                                        <h5 class="text-success">Ahorrás: U$D {{ ((plan.price * 12) - (plan.price * 12 * (1 - (plan.percentDiscount / 100)))) | number_format(2,".",",") }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+                        <label  style="width:100%">
+                            <div class="card card-input ">
+                                <div class="card-header pt-3 pb-0 text-white bg-info">
+                                    <h3><input type="radio" value="1" name="payBy" class="card-input-element" {% if app.request.attributes.get('type')=="1" %}checked="checked"{% endif %}/> U$D {{ (plan.price) | number_format(2,".",",")  }} / m</h3> 
+                                </div>
+                                <div class="card-body">
+                                    <h4 class="card-title">Pago mensual</h4>
+                                    <div class="card-text text-left">
+                                        <h5><b>Monto a pagar: U$D {{ ((plan.price )) | number_format(2,".",",")  }}</b></h5>
+                                        <h5 class="text-danger">Ahorrás: U$D 0</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                <div class="col col-sm-6 offset-sm-3 mt-5">
+                    <div id="paypal-button-container"></div>
+                </div>
+                <h5 class="mt-4">Otras formas de pago</h5>
+                <hr>
+                {# <h5 class="pull-left"><a href="#">&lsaquo; Transferencia Bancaria</a></h5> #}
+                <h5 class="pull-right"><a href="{{ path('apachecms_frontend_pay_mp',{ 'plan' : plan.id,'back':app.request.attributes.get('back') }) }}">Pagar con Mercado Pago &rsaquo;</a></h5>
+                
+            </div>
+        </div>
+    </div>
+</div>
+{{ form_start(form, {'attr': {'id':'form_return','class': 'sendToApi'}}) }}
+{{ form_widget(form) }}
+{{ form_end(form) }}
+{% endblock body %}
+{% block javascripts %}
+{{ parent() }}
+<script src="https://www.paypal.com/sdk/js?client-id={{ setting.getData.ppClientId }}"> </script>
+<script>
+    $(function (){
+        $('input[name="payBy"]').on('change',function(){
+            loading.show();
+            location.href="{{ path('apachecms_frontend_pay',{ 'plan' : plan.id,'back':app.request.attributes.get('back') }) }}/"+$(this).val();
+        })
+    });
+  paypal.Buttons({
+  createOrder: function(data, actions) {
+    return actions.order.create({
+      purchase_units: [{
+        amount: {
+          value: '{{ amount }}'
+        }
+      }]
+    });
+  },
+  onApprove: function(data, actions) {
+    return actions.order.capture().then(function(details) {
+      $('#back_data_backUrl').val(data.back_url);
+      $('#back_data_collectionId').val(details.id);
+      $('#back_data_collectionStatus').val('approved');
+      $('#back_data_externalReference').val('{{ transaction.id }}');
+      $('#back_data_paymentType').val('pp');
+      $('#back_data_preferenceId').val(data.payerID);
+      $('#form_return').submit();
+      {# console.log(details.id);
+      console.log(data);
+      return fetch('pp.php', {
+        method: 'post',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          data: data
+        })
+      }); #}
+    });
+  }
+}).render('#paypal-button-container');
+function beforeSuccess(response){
+    location.href=response.data.to;
+}
+</script>
+{% endblock javascripts %}

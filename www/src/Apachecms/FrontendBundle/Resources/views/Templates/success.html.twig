@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="robots" content="noindex, nofollow">
+    <title>{{ entity.title }}</title>
+    <link href="{{ asset('bundles/apachecmsfrontend/')}}img/favicon.ico" rel="icon">
+    <link href="{{ asset('bundles/apachecmsfrontend/')}}img/apple-icon.png" rel="apple-icon">
+    <link href="https://land.page{{ asset('bundles/apachecmsbackend/templates/')}}template_1/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400" rel="stylesheet">
+    <link href="https://land.page{{ asset('bundles/apachecmsbackend/templates/')}}template_1/css/style.css" rel="stylesheet">
+    <link href="https://land.page{{ asset('bundles/apachecmsbackend/templates/')}}/css/success.css" rel="stylesheet">
+    {{ include('ApachecmsFrontendBundle::Templates/_partials/styles.html.twig') }}
+    {% if prod and entity.plugins and (app.user is null or entity.customer != app.user) %}
+        {% if entity.plugins.googleAdsSuccess  %}
+            {{ entity.plugins.googleAdsSuccess | raw }}
+        {% endif %}
+    {% endif %}
+</head>
+<body id="page-top">
+    <div>        
+        <nav class="" style="background-color:#FFFFFF;border-bottom: #CCC solid 1px">
+            <div class="container">
+                {% if entity.business.brand %}
+                    <a class="navbar-brand js-scroll-trigger" href="{{ url('apachecms_frontend_dinamic_'~ entity.customer.usernameUrl,{ slug: entity.slug }) }}"><img src="https://land.page{{web_image('uploads/or/' ~ entity.business.brand).resize('250')}}" style="max-height: 50px;"></a>
+                {% else %}
+                    <a class="navbar-brand js-scroll-trigger" href="{{ url('apachecms_frontend_dinamic_'~ entity.customer.usernameUrl,{ slug: entity.slug }) }}" ><h1>{{ entity.business.name }}</h1></a>
+                {% endif %}
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </nav>
+    </div>
+    <section id="main" >
+        <div class="container text-center">
+            <h2 class="section-heading navbarContact" data-label="edit" data-type="input" id="navbarContact">Felicitaciones! </h2>
+            <h2 class="section-heading navbarContact" data-label="edit" data-type="input" id="navbarContact">Tu consulta se envió perfectamente.</h2>
+            <br/>
+            <h6 class="section-heading navbarContact" data-label="edit" data-type="input" id="navbarContact">{{ entity.contactReplyEmail | nl2br }}</h6>
+            <br/>
+            <div class="col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-sm-8 offset-sm-2 text-center">
+            {% if entity.business.brand %}
+                <img class="img-responsive" style="width:100%;" src="https://land.page{{web_image('uploads/or/' ~ entity.business.brand).resize('400')}}">
+            {% else %}
+                <h1>{{ entity.business.name }}</h1>
+            {% endif %}
+            </div>
+            <br/>
+            <br/>
+            {% if entity.social %}
+            <h4 class="section-heading navbarContact" data-label="edit" data-type="input" id="navbarContact">Por si te interesa estas son nuestras redes sociales</h4>
+            <br/>
+            <div class="social text-center">
+                {% if prod == false or entity.useWhatsapp and entity.contactPhone %}<a id="landing_step4_contactEmail" target="_blank" href="https://api.whatsapp.com/send?phone={{ entity.contactPhone }}&text=Consulta%20desde%20LandPage" title="WhatsApp" class="sr-contact-2 fa bg-section fa-whatsapp"></a>{% endif %}
+                {% if prod == false or entity.socials.web %}<a data-label="edit" data-type="link" id="landing_step3_web"  target="_blank" href="{{ entity.socials.web }}" title="Web" class="sr-contact-3 fa bg-section fa-globe"></a>{% endif %}
+                {% if prod == false or entity.socials.facebook %}<a data-label="edit" data-type="link" id="landing_step3_facebook"  target="_blank" href="{{ entity.socials.facebook }}" title="Facebook" class="sr-contact-4 fa bg-section fa-facebook"></a>{% endif %}
+                {% if prod == false or entity.socials.twitter %}<a data-label="edit" data-type="link" id="landing_step3_twitter"  target="_blank" href="{{ entity.socials.twitter }}" title="Twitter" class="sr-contact-5 fa bg-section fa-twitter"></a>{% endif %}
+                {% if prod == false or entity.socials.googlePlus %}<a data-label="edit" data-type="link" id="landing_step3_googlePlus"  target="_blank" href="{{ entity.socials.googlePlus }}" title="Google" class="sr-contact-6 fa bg-section fa-google"></a>{% endif %}
+                {% if prod == false or entity.socials.linkedin %}<a data-label="edit" data-type="link" id="landing_step3_instagram"  target="_blank" href="{{ entity.socials.linkedin }}" title="Linkedin" class="sr-contact-7 fa bg-section fa-linkedin"></a>{% endif %}
+                {% if prod == false or entity.socials.youtube %}<a data-label="edit" data-type="link" id="landing_step3_youtube"  target="_blank" href="{{ entity.socials.youtube }}" title="Youtube" class="sr-contact-8 fa bg-section fa-youtube"></a>{% endif %}
+                {% if prod == false or entity.socials.instagram %}<a data-label="edit" data-type="link" id="landing_step3_linkedin"  target="_blank" href="{{ entity.socials.instagram }}" title="Instagram" class="sr-contact-9 fa bg-section fa-instagram"></a>{% endif %}
+            </div>
+            {% endif %}
+            {# <h4 class="section-heading navbarContact" data-label="edit" data-type="input" id="navbarContact">Crees que alguien más puede estar interesado en {{ entity.business.name }}</h4> #}
+            <div class="col-lg-8 offset-lg-2">
+            <h4 class="section-heading navbarContact" data-label="edit" data-type="input" id="navbarContact">Si en 24 horas no llega tu respuesta por favor escribe a <a href="mailto:{{ entity.contactEmail }}">{{ entity.contactEmail }}</a></h4>
+            </div>
+        </div>
+    </section>
+    {{ include('ApachecmsFrontendBundle::Templates/_partials/footer.html.twig') }}
+    <script src="https://land.page{{ asset('bundles/apachecmsbackend/templates/')}}{{ template }}/assets/jquery/jquery.min.js"></script>
+    <script src="https://land.page{{ asset('bundles/apachecmsbackend/templates/')}}{{ template }}/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script>
+    $(function (){
+            $('#navBarTop a').css('color','{{ entity.navBarTopText }}');
+            $('#form-header label').css('color','{{ entity.navBarTopText }}');
+            $('#navBarTop a.active').css('color','{{ entity.navBarTopText }}');
+            $('header h1').css('color','{{ entity.navBarTopText }}');
+            $('.bg-section').css('background-color','{{ entity.colorPrimary }}');
+            $('a').not('#navBarFixed a').not('#navBarTop a').css('color','{{ entity.colorPrimary }}');
+            $('a.active').not('#navBarFixed a.active').not('#navBarTop a.active').css('color','{{ entity.colorPrimary }}');
+            $('hr').css('border-color','{{ entity.colorPrimary }}');
+            $('.btn-primary')
+                .css('background-color','{{ entity.colorPrimary }}')
+                .css('border-color','{{ entity.colorPrimary }}');
+            $('#navBarFixed').css('background-color','{{ entity.navBarFixed }}');
+            $('#navBarFixed a').css('color','{{ entity.navBarFixedText }}');
+            $('#navBarFixed a.active').css('color','{{ entity.navBarFixedText }}');
+            $('.tooltipoff').focus(function (){
+                $(this).tooltip('hide').tooltip('disable');
+            });
+        });
+    </script>
+</body>
+</html>

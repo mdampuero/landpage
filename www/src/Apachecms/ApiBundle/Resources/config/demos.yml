@@ -1,0 +1,17 @@
+apachecms_api_demos_get:
+    path:     /get/{id}
+    defaults: 
+        _controller: ApachecmsApiBundle:Demos:get
+    methods: [GET]
+
+apachecms_api_demos_get_all:
+    path:     /getAll
+    defaults: 
+        _controller: ApachecmsApiBundle:Demos:getAll
+    methods: [GET]
+
+apachecms_api_demos_get_form:
+    path:     /form
+    defaults: 
+        _controller: ApachecmsApiBundle:Demos:form
+    methods: [GET]

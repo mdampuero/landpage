@@ -1,0 +1,10 @@
+apachecms_api_pay_submit:
+    path:     /pay/{plan}/{transaction}/{back}
+    defaults: 
+        { _controller: ApachecmsApiBundle:Pay:pay , back: null }
+    methods: [POST]
+apachecms_api_pay_IPN:
+    path:     /payIPN/{transaction}
+    defaults: 
+        { _controller: ApachecmsApiBundle:Pay:IPN }
+    methods: [POST]

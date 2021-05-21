@@ -1,0 +1,71 @@
+<script src="{{ asset('bundles/apachecmsbackend/assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+<script src="//cdn.datatables.net/plug-ins/1.10.19/sorting/date-euro.js"></script>
+<script src="//cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script>
+<script>
+    $.extend( true, $.fn.dataTable.defaults, {
+        // "searching": false,
+        // "ordering": false,
+        dom: 'Bfrtip',
+        ajax: "{{ path(pathBase~'_load')}}",
+        pageLength: 15,
+        lengthMenu: [15, 25, 50],
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json'
+        },
+        buttons: [
+            'excel', 'pdf'
+        ],
+    });
+    $('#{{ pathBase }}_dataTable').on('click', 'button.btn-edit', function () {
+        var data = $('#{{ pathBase }}_dataTable').DataTable().row( $(this).parents('tr') ).data();
+        var url="{{ path(pathBase~'_edit',{ id: 'ENTITY_ID' })}}";
+        location.href=url.replace('ENTITY_ID',data.id);
+    });
+    $('#{{ pathBase }}_dataTable').on('click', 'button.btn-remove', function () {
+        var form = $("#formDelete");
+        var row=$('#{{ pathBase }}_dataTable').DataTable().row( $(this).parents('tr'));
+        var data = row.data();
+        var url = form.attr("action").replace(':ENTITY_ID', data.id);
+        var dataForm = form.serialize();
+            swal({   
+                title: "{{ messages.delete.title }}",   
+                text: "{{ messages.delete.text }}",   
+                type: "{{ messages.delete.type }}",   
+                showCancelButton: true,   
+                confirmButtonColor: "#DD6B55",   
+                confirmButtonText: "{{ messages.delete.confirmButtonText }}",   
+                cancelButtonText: "{{ messages.delete.confirmCancelText }}",   
+                closeOnConfirm: true 
+            }, function(){
+                var rows = row.remove().draw();
+                $.post(url, dataForm, function (result) {
+                    if (result.response == true) {
+                        $.toast({
+                            heading: '{{ messages.result.success.title }}',
+                            text: '{{ messages.delete.success }}',
+                            position: 'top-right',
+                            icon: '{{ messages.result.success.icon }}',
+                            hideAfter: 1000, 
+                            stack: 6
+                        });
+                    }else{
+                        $.toast({
+                            heading: '{{ messages.result.error.title }}',
+                            text: '{{ messages.result.error.text }}',
+                            position: 'top-right',
+                            icon: '{{ messages.result.error.icon }}',
+                            hideAfter: 1000, 
+                            stack: 6
+                        });
+                    }
+                });
+            });
+    });
+</script>

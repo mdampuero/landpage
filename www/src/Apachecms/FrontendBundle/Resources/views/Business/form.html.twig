@@ -1,0 +1,99 @@
+{% extends "ApachecmsFrontendBundle::layout_lp.html.twig" %}
+{% block stylesheet %} 
+<link href="{{ asset('bundles/apachecmsbackend/assets/plugins/dropify/dist/css/dropify.min.css') }}" rel="stylesheet">
+{{ parent() }}
+{% endblock %}
+{% block body %}
+{{ include('ApachecmsFrontendBundle::_partials/brand.html.twig') }}
+{% block headerPage %}
+{% include 'ApachecmsFrontendBundle:_partials:breadcrumbs.html.twig' %}
+{% endblock %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            {{ include('ApachecmsFrontendBundle::Account/_partials/menu.html.twig') }}
+        </div>
+        <div class="col-md-9">
+            {{ form_start(form, {'attr': {'class': 'sendToApi','id':'registerForm','novalidate':'novalidate','enctype':"multipart/form-data"} }) }}
+            <div class="card">
+                <h2 class="card-header">
+                    {{ (app.request.attributes.get('_route_params')['_breadcrumbs']|last)['label'] | trans}}
+                    
+                    {% if entity is defined %}
+                    <div class="pull-right">
+                        <button type="button" href="#" class="btn btn-danger delete"><i class="fa fa-trash"></i> {{ 'delete' | trans }}</button>
+                    </div>
+                    {% endif %}
+                </h2>
+                <div class="card-body">
+                    {% include 'ApachecmsFrontendBundle:Business:_partials/form.html.twig' with { 'form' : form } %}
+                </div>
+                <div class="card-footer text-right">
+                    {{form_widget(form.submit,{ 
+                        'attr':{
+                            'secondary-label':'loading' | trans,
+                            'class':'btn btn-info'
+                            },
+                        'label':'save' | trans
+                        })}}
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+
+{% if entity is defined %}
+    {{ form_start(formDelete, {'attr': {'id':id|default('formDelete')}}) }}
+    {{ form_widget(formDelete) }}
+    {{ form_end(formDelete) }}
+{% endif %}
+{% endblock %}
+{% block javascripts %} 
+{{ parent() }}
+{% include 'ApachecmsFrontendBundle:_partials:dropifyScripts.html.twig' %}
+{% include 'ApachecmsFrontendBundle:Business:_partials/formScripts.html.twig' %}
+
+<script type="text/javascript">
+    $('button.delete').on('click',function () {
+           
+            var form = $("#formDelete");
+            var url = form.attr("action");
+            var dataForm = form.serialize();
+                swal({   
+                    title: "{{ messages.delete.title }}",   
+                    text: "{{ 'delete.business' | trans }}",   
+                    type: "{{ messages.delete.type }}",   
+                    showCancelButton: true,   
+                    confirmButtonColor: "#DD6B55",   
+                    confirmButtonText: "{{ messages.delete.confirmButtonText }}",   
+                    cancelButtonText: "{{ messages.delete.confirmCancelText }}",   
+                    closeOnConfirm: true 
+                }, function(){
+                    loading.show();
+                    $.post(url, dataForm, function (result) {
+                        if (result.response == true) {
+                            location.href='{{ path('apachecms_frontend_business') }}';
+                        }else{
+                            loading.hide();
+                            $.toast({
+                                heading: '{{ messages.result.error.title }}',
+                                text: '{{ messages.result.error.text }}',
+                                position: 'top-right',
+                                icon: '{{ messages.result.error.icon }}',
+                                hideAfter: 1000, 
+                                stack: 6
+                            });
+                        }
+                    });
+                });
+        });
+    function beforeSuccess(response){
+        {% if app.request.get('back') == 1 %}
+        location.href='{{ path('apachecms_frontend_landing_add_step1')}}';
+        {% else %}
+        location.href='{{ path('apachecms_frontend_business')}}';
+        {% endif %}
+    }
+</script>
+{% endblock %}

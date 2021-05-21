@@ -1,0 +1,96 @@
+{% extends "ApachecmsFrontendBundle::layout_lp.html.twig" %}
+{% block stylesheet %} 
+{{ parent() }}
+{% endblock %}
+{% block body %}
+{{ include('ApachecmsFrontendBundle::_partials/brand.html.twig') }}
+{% block headerPage %}
+{% include 'ApachecmsFrontendBundle:_partials:breadcrumbs.html.twig' with { 'title_entity': entity.title } %}
+{% endblock %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            {{ include('ApachecmsFrontendBundle::Stats/_partials/menu.html.twig') }}
+        </div>
+        <div class="col-md-9">
+            <div class="card">
+                <h2 class="card-header">
+                    {{ (app.request.attributes.get('_route_params')['_breadcrumbs']|last)['label'] | trans }}
+                </h2>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="chats_dataTable" class="display nowrap table table-striped table-bordered" cellspacing="0" width="100%"></table>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %} 
+{{ parent() }}
+<script src="{{ asset('bundles/apachecmsbackend/assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js"></script>
+{% if app.request.locale == 'es' %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/locale/es.js"></script>
+{% endif %}
+<script>
+    $.extend( true, $.fn.dataTable.defaults, {
+        dom: 'Bfrtip',
+        ajax: "{{ path('apachecms_api_queries_getChats',{ 'landing': app.request.get('id') })}}",
+        pageLength: 15,
+        lengthMenu: [15, 25, 50],
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json'
+        },
+        buttons: [
+           { "extend": 'excel', "text":'{{ 'download.excel' | trans }}',"className": 'btn btn-info btn-sm' }
+        ],
+    });
+    $(function () {
+        $('#chats_dataTable').DataTable({
+            order: [[ 0, 'desc' ]],
+            columns: [
+                {# { title:"{{ 'Origen' | trans }}",data: "type" }, #}
+                { 
+                    data: 'created_at', 
+                    title: '{{ 'date' | trans }}',
+                    render: function (data, type, row) 
+                    {
+                        var dateMonthAsWord = moment(data).format('DD MMM YYYY HH:mm');
+                        if(dateMonthAsWord!='Invalid date'){
+                            return dateMonthAsWord;
+                        }else{
+                            return 'N/A';
+                        }
+                    }
+                },
+                {
+                    data: 'validLead',
+                    title: '{{ 'contact' | trans }}',
+                    render: function (data, type, row) {
+                        if(row.valid_lead==1){
+                            if(row.contact.email){
+                                return row.contact.name+' ('+row.contact.email+')';
+                            }else{
+                                return row.contact.name+' ('+row.contact.phone+')';
+                            }
+                        }else{
+                            return 'NO';
+                        }
+                    }
+                }
+            ]
+        });
+        $('#chats_dataTable').on('click', 'tbody>tr', function () {
+            var data = $('#chats_dataTable').DataTable().row($(this)).data();
+            var url="{{ path('apachecms_frontend_landing_chats_view',{ id: entity.id,queryId:'QUERY_ID' })}}";
+            location.href=url.replace('QUERY_ID',data.id);
+        });
+    });
+</script>
+{% endblock %}

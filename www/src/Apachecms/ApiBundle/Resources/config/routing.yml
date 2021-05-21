@@ -1,0 +1,64 @@
+
+apachecms_api_demos:
+    resource: "@ApachecmsApiBundle/Resources/config/demos.yml"
+    prefix:   /demos
+
+apachecms_api_users:
+    resource: "@ApachecmsApiBundle/Resources/config/users.yml"
+    prefix:   /users
+
+apachecms_api_login:
+    resource: "@ApachecmsApiBundle/Resources/config/login.yml"
+    prefix:   /
+
+apachecms_api_account:
+    resource: "@ApachecmsApiBundle/Resources/config/account.yml"
+    prefix:   /account
+
+apachecms_api_landing:
+    resource: "@ApachecmsApiBundle/Resources/config/landings.yml"
+    prefix:   /landings
+
+apachecms_api_queries:
+    resource: "@ApachecmsApiBundle/Resources/config/queries.yml"
+    prefix:   /queries
+
+apachecms_api_stats:
+    resource: "@ApachecmsApiBundle/Resources/config/stats.yml"
+    prefix:   /stats
+
+apachecms_api_files:
+    resource: "@ApachecmsApiBundle/Resources/config/files.yml"
+    prefix:   /files
+
+apachecms_api_business:
+    resource: "@ApachecmsApiBundle/Resources/config/business.yml"
+    prefix:   /business
+
+apachecms_api_notifications:
+    resource: "@ApachecmsApiBundle/Resources/config/notifications.yml"
+    prefix:   /notifications
+
+apachecms_api_cron:
+    resource: "@ApachecmsApiBundle/Resources/config/cron.yml"
+    prefix:   /cron
+
+apachecms_api_chatbot:
+    resource: "@ApachecmsApiBundle/Resources/config/chatbot.yml"
+    prefix:   /chatbot
+
+apachecms_api_pay:
+    resource: "@ApachecmsApiBundle/Resources/config/pay.yml"
+    prefix:   /pay
+
+apachecms_api_setting:
+    path:     /setting/get
+    defaults: 
+        _controller: ApachecmsApiBundle:Setting:get
+    methods: [POST]
+
+apachecms_api_admin_customer:
+    path:     /customer
+    defaults: 
+        _controller: ApachecmsApiBundle:Customer:manual
+    methods: [POST]

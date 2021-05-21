@@ -1,0 +1,18 @@
+apachecms_backend_files_upload:
+    path:     /upload
+    defaults: 
+        _controller: ApachecmsBackendBundle:Files:upload
+    methods: [POST]
+    options:
+        breadcrumb:
+            label: Archivos
+            parent_route: apachecms_backend_homepage
+apachecms_backend_files_remove:
+    path:     /remove/{file}
+    defaults: 
+        _controller: ApachecmsBackendBundle:Files:remove
+    methods: [POST]
+    options:
+        breadcrumb:
+            label: Archivos
+            parent_route: apachecms_backend_homepage

@@ -1,0 +1,56 @@
+apachecms_backend_plans:
+    path:     /
+    defaults: 
+        _controller: ApachecmsBackendBundle:Plans:index
+    methods: [GET]
+    options:
+        breadcrumb:
+            label: Planes
+            parent_route: apachecms_backend_homepage
+
+apachecms_backend_plans_load:
+    path:     /load
+    defaults: { _controller: ApachecmsBackendBundle:Plans:load }
+    methods: [GET]
+
+apachecms_backend_plans_add:
+    path:     /nuevo
+    defaults: { _controller: ApachecmsBackendBundle:Plans:add }
+    options:
+        breadcrumb:
+            label: Crear plan
+            parent_route: apachecms_backend_plans
+    methods: [GET]
+
+apachecms_backend_plans_create:
+    path:     /create
+    defaults: { _controller: ApachecmsBackendBundle:Plans:create }
+    methods: POST
+    options:
+        breadcrumb:
+            label: Crear plan
+            parent_route: apachecms_backend_plans
+
+apachecms_backend_plans_edit:
+    path:     /editar/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Plans:edit }
+    methods: [GET]
+    options:
+        breadcrumb:
+            label: Editar plan
+            parent_route: apachecms_backend_plans
+
+apachecms_backend_plans_update:
+    path:     /update/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Plans:update }
+    methods: [PUT]
+    options:
+        breadcrumb:
+            label: Editar plan
+            parent_route: apachecms_backend_plans
+
+apachecms_backend_plans_delete:
+    path:     /delete/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Plans:delete }
+    methods: [POST,DELETE]
+

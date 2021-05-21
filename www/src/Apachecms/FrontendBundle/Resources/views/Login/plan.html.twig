@@ -1,0 +1,59 @@
+{% extends "ApachecmsFrontendBundle::layout_lp.html.twig" %}
+{% block body %}
+{{ include('ApachecmsFrontendBundle::_partials/brand.html.twig') }}
+<div class="container" id="login">
+    <div class="text-center">
+        <h1>{{ entity.firstName }}, {{ 'one.step.more' | trans}}</h1>
+        <h5>{{ 'form.choose.subscription' | trans }}</h5>
+    </div>
+    <div class="row">
+        <div class="col-sm-1">
+        </div>
+        <div class="col-sm-10">
+            <div class="card-deck mb-3 text-center">
+                {% include 'ApachecmsFrontendBundle:Account:_partials/plans.html.twig' with { 'trial' : true } %}
+            </div>
+        </div>
+    </div>
+    {% for plan in plans %}
+        <hr id="{{ plan.id }}" />
+        <h1>{{ attribute(plan, 'name'~(app.request.locale | capitalize )) | raw }}</h1>
+        <h4>U$D {{ (plan.price ) }} <small class="">/m</small> - {{ plan.trialDays }} {{ 'trial.days' | trans}}</h4>
+        {{ plan.descriptionEn | raw}}
+    {% endfor %}
+</div>
+{% endblock body %}
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript">
+    var url='{{ path('security_api_selectPlan_submit',{ 'customer':entity.id,'plan':'__plan__','trial':'__trial__'})}}';
+    function beforeSuccess(data,trial) {
+        loading.show('{{ 'loading' | trans }}');
+        url=url.replace('__plan__',data);
+        url=url.replace('__trial__',trial);
+        $.ajax({
+            url: url,
+            type: 'POST',
+            dataType: "json",
+            success: function(data){
+                if(data.response==true){
+                    location.href=data.data.to;
+                }
+            },
+            error: function(error){
+                $.toast({
+                    heading: "{{ 'error' | trans }}",
+                    text: "{{ 'ups' | trans }}",
+                    position: 'top-right',
+                    icon: 'error',
+                    hideAfter: 2000, 
+                    stack: 6
+                });
+            },
+            complete: function (){
+                
+            }
+        });
+    }
+</script>
+{% endblock javascripts %}

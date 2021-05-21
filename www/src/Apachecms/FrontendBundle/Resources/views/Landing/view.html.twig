@@ -1,0 +1,461 @@
+{% extends "ApachecmsFrontendBundle::layout_lp.html.twig" %}
+{% block stylesheet %} 
+
+    <link href="https://unpkg.com/gijgo@1.9.11/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+{{ parent() }}
+{% endblock %}
+{% block body %}
+{{ include('ApachecmsFrontendBundle::_partials/brand.html.twig') }}
+{% block headerPage %}
+{% include 'ApachecmsFrontendBundle:_partials:breadcrumbs.html.twig' with { 'title_entity': entity.title } %}
+{% endblock %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            {{ include('ApachecmsFrontendBundle::Stats/_partials/menu.html.twig') }}
+        </div>
+        <div class="col-md-9">
+            <div class="card">
+                <h3 class="card-header">
+                    {{ entity.title }} 
+                    {% if entity.isReview == true %}
+                        <span class="pull-right badge badge-pill badge-success"><small><i class="fa fa-check"></i></small></span>
+                    {% endif %}
+                </h3>
+                <div class="card-body">
+                    {% if entity.isReview == false and entity.isReview is not null%}
+                        <div class="alert alert-danger">
+                            {{ 'reason.for.rejection' | trans  }}<br/>
+                            {{ entity.reasonForRejection | default('Sin motivo') | nl2br }}
+                        </div>
+                    {% endif %}
+                    <div class="row">
+                        <div class="form-group col-sm-3">
+                            <label>{{ 'status' | trans }}</label>
+                            <div class="form-group" id="label_status">
+                                {% if entity.status == 'draft' %}
+                                    <h5><span class="badge badge-pill badge-warning">{{ entity.status | trans }} ({{ 'step' | trans }} {{ entity.currentStep }})</span></h5>
+                                {% elseif entity.status == 'ready' %}
+                                    <h5><span class="badge badge-pill badge-primary">{{ entity.status | trans }}</span></h5>
+                                {% elseif entity.status == 'published' %}
+                                    <h5><span class="badge badge-pill badge-success">{{ entity.status | trans }}</span></h5>
+                                {% elseif entity.status == 'program' %}
+                                    <h5><span class="badge badge-pill badge-info">{{ entity.status | trans }}</span></h5>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <label>{{ 'published.from' | trans }}</label>
+                            <div class="form-group" id="label_status">
+                                 {% if entity.publishedFromAt  %}
+                                    <h5>{{ entity.publishedFromAt | date('d/m/Y') }}</h5>
+                                {% else %}
+                                    <h5>--/--/----</h5>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <label>{{ 'published.to' | trans }}</label>
+                            <div class="form-group" id="label_status">
+                                {% if entity.publishedToAt  %}
+                                    <h5>{{ entity.publishedToAt | date('d/m/Y') }}</h5>
+                                {% elseif entity.status == 'program' or entity.status == 'published'%}
+                                    <h5>{{ 'date.undefined' | trans }}</h5>
+                                {% else %}
+                                    <h5>--/--/----</h5>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if entity.status != 'draft'  %}
+                        <div class="form-group col-sm-3">
+                            <label>&nbsp;</label>
+                            <div class="form-group" id="label_status">   
+                                {% if entity.status == 'program' %}
+                                    <a target="_blank" role="button" href="javascript:void(0)" class="btn btn-block btn-sm btn-info published">{{ 'change.date' | trans }}</a>   
+                                {% elseif entity.status == 'published' %}
+                                    <a target="_blank" role="button" href="javascript:void(0)" class="btn btn-block btn-sm btn-warning publishedStop">{{ 'published.stop' | trans }}</a>
+                                {% else %}
+                                    <a target="_blank" role="button" href="javascript:void(0)" class="btn btn-block btn-sm btn-success published">{{ 'publish' | trans }}</a>
+                                {% endif %} 
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-3">
+                            <label>{{ 'business' | trans }}</label>
+                            <div class="form-group" id="label_status">
+                                <h5>{{ entity.business.name }}</h5>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <label>{{ 'industry' | trans }}</label>
+                            <div class="form-group" id="label_status">
+                                <h5>{{ entity.business.industry.name }}</h5>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <label>{{ 'created_at' | trans }}</label>
+                            <div class="form-group" id="label_status">
+                                <h5>{{ entity.createdAt | date('d/m/Y') }}</h5>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <label>{{ 'updated_at' | trans }}</label>
+                            <div class="form-group" id="label_status">
+                                <h5>{{ entity.updatedAt | date('d/m/Y') }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-3">
+                            <label>{{ 'visits' | trans }}</label>
+                            <div class="form-group" id="label_status">
+                                <h5>{{ entity.visits }}</h5>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <label>{{ 'leads' | trans }}</label>
+                            <div class="form-group" id="label_status">
+                                <h5>{{ entity.leads }}</h5>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <label>{{ 'convertions' | trans }}</label>
+                            <div class="form-group" id="label_status">
+                                <h5>{{ entity.convertions |number_format(2, ',', '.') }} %</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="showUrl" style="{% if entity.status == 'published' %}display:block{% else %}display:none{% endif %}">
+                    <label>URL</label>
+                    <div class="input-group mb-3">
+                        <input type="text" readonly="readonly" class="form-control" id="url" value="{{ url('apachecms_frontend_dinamic_'~ entity.customer.usernameUrl,{ slug: entity.slug }) }}">
+                        <div class="input-group-addon" style="border-right: #ccc 1px solid;border-radius: 0 4px 4px 0;">
+                            <span class="input-group-text">
+                            <a href="javascript:void(0)" class="clipboard" data-clipboard-target="#url">
+                                <i class="fa fa-copy" id="result-fail"></i>
+                            </a>    
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-center">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a role="button" href="#" class="btn btn-danger delete"><i class="fa fa-trash"></i> {{ 'delete' | trans }}</a>
+                    {% if entity.status == 'draft' %}
+                        <a role="button" href="{{ path('apachecms_frontend_landing_add_step'~ entity.currentStep,{ id: entity.id })}}" class="btn btn-info"><i class="fa fa-pencil"></i> {{ 'continue' | trans }}</a>
+                    {% else %}
+                        <a role="button" href="{{ path('apachecms_frontend_landing_add_step5',{ id: entity.id })}}" class="btn btn-warning"><i class="fa fa-pencil"></i> {{ 'edit' | trans }}</a>
+                    {% endif %}
+                    {% if entity.status != 'draft' %}
+                        <a target="_blank" role="button" href="{{ url('apachecms_frontend_dinamic_'~ entity.customer.usernameUrl,{ slug: entity.slug }) }}" class="btn btn-primary"><i class="fa fa-eye"></i> {{ 'preview' | trans }}</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div id="ia">
+            {% if entity.isPublished and entity.isActiveAi and tests %}
+            <br/>
+            <br/>
+            {# <h5 class="pull-right">
+                <a href="" title="{{ 'ai.start' | trans }}"><span class="badge badge-pill badge-info">
+                {{ 'ai.start' | trans }}
+                </span>
+                </a>
+            </h5> #}
+            <h2>{{ 'ai' | trans }}</h2>
+            {% for test in tests %}
+            <div class="card" >
+                <div class="card-header">
+                    <h5 class="pull-right">
+                        {% if test.isComplete %}
+                            <span class="badge badge-pill badge-success">
+                            {{ 'ai.complete' | trans }}
+                            </span>
+                        {% else %}
+                            <span class="badge badge-pill badge-primary">
+                            {{ 'ai.inProgress' | trans }}
+                            </span>
+                        {% endif %}
+                    </h5>
+                    <h5>{{ 'ai.period' | trans }} ({{ test.fromAt | date('d/m/Y') }} - {{ test.toAt | date('d/m/Y') }})</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-stripped">
+                        <thead>
+                            <tr>
+                                <th>{{ 'title' | trans }}</th>
+                                <th class="text-center">{{ 'visits' | trans }}</th>
+                                <th class="text-center">{{ 'leads' | trans }}</th>
+                                <th class="text-center">{{ 'convertions' | trans }}</th>
+                            </th>
+                        </thead>
+                        <tbody>
+                            {% for option in test.options %}
+                            <tr {% if loop.index == 1 %} class="bg-success text-white bold" {% endif %}>
+                                <td>{{ attribute(entity, 'description'~ option.optionNumber) }}</td>
+                                <td class="text-center">{{ option.visits }}</td>
+                                <td class="text-center">{{ option.leads }}</td>
+                                <td class="text-center">{{ option.convertions | number_format(2, ',', '.') }} %</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>    
+                </div>
+            </div>
+            {% endfor %}
+            <div class="card-footer text-center">
+                {{ 'description.ai' | trans }}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalPublished" tabindex="-1" role="dialog" aria-labelledby="modalPublishedLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-center modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalPublishedLabel">{{ 'publish' | trans }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        
+                        {# <div class="form-check col-lg-6" style="margin-left: 0;">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1">Desde ahora</label>
+                        </div> #}
+
+                        <div class="form-group col-lg-6">
+                            <label>{{ 'date.from' | trans }}</label>
+                            <select class="form-control" name="dateFrom" id="dateFrom" style="margin-bottom:15px;">
+                                <option value="now" >{{ 'now' | trans }}</option>
+                                <option value="date" {% if entity.status == 'program' %}selected="selected"{% endif %}>{{ 'date.specific' | trans }}</option>
+                            </select>
+                            {% if entity.status == 'program' %}
+                                <input type="text" id="datePublishedFrom" readonly="readonly" class="form-control" value="{{ entity.publishedFromAt | date("d/m/Y") }}">
+                            {% else %}
+                                <input style="display:none" type="text" id="datePublishedFrom" readonly="readonly" class="form-control" value="{{ "now"|date("d/m/Y") }}">
+                            {% endif %}
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label>{{ 'date.to' | trans }}</label>
+                            <select class="form-control" name="dateTo" id="dateTo" style="margin-bottom:15px;">
+                                <option value="undefined" {% if entity.status == 'program' and entity.publishedToAt is null %}selected="selected"{% endif %} >{{ 'date.undefined' | trans }}</option>
+                                <option value="date" {% if entity.status == 'program' and entity.publishedToAt is not null %}selected="selected"{% endif %} >{{ 'date.specific' | trans }}</option>
+                            </select>
+                             {% if entity.status == 'program' and entity.publishedToAt is null %}
+                                <input style="display:none" type="text" id="datePublishedTo" readonly="readonly" class="form-control" value="">
+                             {% elseif entity.status == 'program' and entity.publishedToAt is not null%}
+                                <input type="text" id="datePublishedTo" readonly="readonly" class="form-control" value="{{ entity.publishedToAt | date("d/m/Y") }}">
+                             {% else %}
+                                <input style="display:none" type="text" id="datePublishedTo" readonly="readonly" class="form-control" value="">
+                             {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info confirmPublished">{{ 'save' | trans }}</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{ form_start(formDelete, {'attr': {'id':id|default('formDelete')}}) }}
+{{ form_widget(formDelete) }}
+{{ form_end(formDelete) }}
+{% endblock %}
+{% block javascripts %} 
+{{ parent() }}
+<script src="{{ asset('bundles/apachecmsbackend/clipboard.js-master/dist/clipboard.min.js') }}"></script>
+<script src="https://unpkg.com/gijgo@1.9.11/js/gijgo.min.js" type="text/javascript"></script>
+{% if app.request.getLocale() == 'es'%}
+<script src="https://unpkg.com/gijgo@1.9.11/js/messages/messages.es-es.js" type="text/javascript"></script>
+{% endif %}
+<script>
+    $(function () {
+        {% if entity.status == 'program' and entity.publishedToAt is not null %}
+            $('#datePublishedTo').slideDown('fast').datepicker({
+                uiLibrary: 'bootstrap4',
+                {% if app.request.getLocale() == 'es'%}
+                locale:'es-es',
+                {% endif %}
+                format: 'dd/mm/yyyy',
+                iconsLibrary: 'fontawesome',
+                minDate: function () {
+                    return $('#datePublishedFrom').val();
+                }
+            });
+        {% endif %}
+        {% if entity.status == 'program' %}
+            $('#datePublishedFrom').slideDown('fast').datepicker({
+                uiLibrary: 'bootstrap4',
+                {% if app.request.getLocale() == 'es'%}
+                locale:'es-es',
+                {% endif %}
+                iconsLibrary: 'fontawesome',
+                format: 'dd/mm/yyyy',
+                change: function(dateText) {
+                    {# $('#datePublishedTo').val($('#datePublishedFrom').val()) #}
+                    {# console.log("Selected date: " + dateText + "; input's current value: " + this.value); #}
+                },
+                minDate: today,
+                maxDate: function () {
+                    return $('#datePublishedTo').val();
+                }
+            });
+        {% endif %}
+        var today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+        $('#dateFrom').on('change',function (){
+            if($(this).val()=='now'){
+                $('#datePublishedFrom').slideUp('fast').datepicker('destroy');
+            }else{
+                $('#datePublishedFrom').slideDown('fast').datepicker({
+                    uiLibrary: 'bootstrap4',
+                    {% if app.request.getLocale() == 'es'%}
+                    locale:'es-es',
+                    {% endif %}
+                    iconsLibrary: 'fontawesome',
+                    format: 'dd/mm/yyyy',
+                    change: function(dateText) {
+                        {# $('#datePublishedTo').val($('#datePublishedFrom').val()) #}
+                        {# console.log("Selected date: " + dateText + "; input's current value: " + this.value); #}
+                    },
+                    minDate: today,
+                    maxDate: function () {
+                        return $('#datePublishedTo').val();
+                    }
+                });
+            }
+        });
+
+        $('#dateTo').on('change',function (){
+            if($(this).val()=='undefined'){
+                $('#datePublishedTo').slideUp('fast').datepicker('destroy');
+            }else{
+                $('#datePublishedTo').slideDown('fast').datepicker({
+                    uiLibrary: 'bootstrap4',
+                    {% if app.request.getLocale() == 'es'%}
+                    locale:'es-es',
+                    {% endif %}
+                    format: 'dd/mm/yyyy',
+                    iconsLibrary: 'fontawesome',
+                    minDate: function () {
+                        return $('#datePublishedFrom').val();
+                    }
+                });
+            }
+        });
+        var clipboard=new ClipboardJS('.clipboard');
+        clipboard.on('success', function(e) {
+             $.toast({
+                heading: '{{ 'url.copy' | trans  }}',
+                position: 'top-right',
+                icon: 'success',
+                hideAfter: 2000, 
+                stack: 6
+            });
+            e.clearSelection();
+        });
+        $('a.published').on('click',function () {
+            $('#modalPublished').modal('show');
+        });
+        $('button.confirmPublished').on('click',function () {
+            loading.show('{{ 'loading' | trans }}');
+            
+            var data={
+                dateFrom:$('#dateFrom').val(),
+                dateTo:$('#dateTo').val(),
+                datePublishedFrom:$('#datePublishedFrom').val(),
+                datePublishedTo:$('#datePublishedTo').val()
+            }
+            $.post('{{ path('apachecms_api_landing_publish_submit',{ 'id': entity.id })}}', data , function (result) {
+                
+                if (result.response == true) {
+                    $('#modalPublished').modal('hide');
+                    location.reload();
+                }else{
+                    loading.hide('{{ 'loading' | trans }}');
+                    $.toast({
+                        heading: '{{ messages.result.error.title }}',
+                        text: result.errors,
+                        position: 'top-right',
+                        icon: '{{ messages.result.error.icon }}',
+                        hideAfter: 2000, 
+                        stack: 6
+                    });
+                }
+            });
+            {# loading.show('{{ 'loading' | trans }}') #}
+        });
+        $('a.delete').on('click',function () {
+            var form = $("#formDelete");
+            var url = form.attr("action").replace(':ENTITY_ID', '{{ entity.id }}');
+            var dataForm = form.serialize();
+            swal({   
+                title: "{{ messages.delete.title }}",   
+                text: "{{ 'delete.landing' | trans }}",   
+                type: "{{ messages.delete.type }}",   
+                showCancelButton: true,   
+                confirmButtonColor: "#DD6B55",   
+                confirmButtonText: "{{ messages.delete.confirmButtonText }}",   
+                cancelButtonText: "{{ messages.delete.confirmCancelText }}",   
+                closeOnConfirm: true 
+            }, function(){
+                loading.show();
+                $.post(url, dataForm, function (result) {
+                    if (result.response == true) {
+                        location.href='{{ path('apachecms_frontend_dashboard') }}';
+                    }else{
+                        loading.hide();
+                        $.toast({
+                            heading: '{{ messages.result.error.title }}',
+                            text: '{{ messages.result.error.text }}',
+                            position: 'top-right',
+                            icon: '{{ messages.result.error.icon }}',
+                            hideAfter: 2000, 
+                            stack: 6
+                        });
+                    }
+                });
+            });
+        });
+        $('a.publishedStop').on('click',function () {
+            
+            swal({   
+               title: "{{ messages.delete.title }}",   
+                text: "{{ 'stop.landing' | trans }}",   
+                type: "{{ messages.delete.type }}",   
+                showCancelButton: true,   
+                confirmButtonColor: "#DD6B55",   
+                confirmButtonText: "{{ 'yes.stop' | trans }}",   
+                cancelButtonText: "{{ messages.delete.confirmCancelText }}",   
+                closeOnConfirm: true 
+            }, function(){
+                loading.show();
+                $.post('{{ path('apachecms_api_landing_publishStop_submit',{ 'id': entity.id })}}', null , function (result) {
+                    console.log(result);
+                    if (result.response == true) {
+                        location.reload();
+                    }else{
+                        loading.hide();
+                        $.toast({
+                            heading: '{{ messages.result.error.title }}',
+                            text: '{{ messages.result.error.text }}',
+                            position: 'top-right',
+                            icon: '{{ messages.result.error.icon }}',
+                            hideAfter: 2000, 
+                            stack: 6
+                        });
+                    }
+                });
+            });
+        });
+    });
+</script>
+{% endblock %}

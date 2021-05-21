@@ -1,0 +1,37 @@
+<div class="container">
+    <header>
+        <div id="logo" style="padding: 40px 0;">
+        <div class="btn-group pull-right">
+            <button class="btn btn-clear btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-globe"></i>
+            </button>
+            <div class="dropdown-menu">
+                <a href="{{ path('apachecms_frontend_change_lang',{ '_locale':'es'})}}" class="dropdown-item" href="#">Español</a>
+                <a href="{{ path('apachecms_frontend_change_lang',{ '_locale':'en'})}}" class="dropdown-item" href="#">English</a>
+            </div>
+        </div>
+            <a href="{{ path('apachecms_frontend_homepage')}}"><img src="{{ asset('bundles/apachecmsfrontend/')}}/img/logo.png" style="max-width: 260px;" alt="" title="" /></img></a>
+        </div>
+    </header>
+    {% if app.user and not app.user.isValidate %}
+        {% set dateInterval = date(app.user.createdAt|date('c')).diff(date('now')) %}
+        {% set days = dateInterval|date('%a') %}
+        {% set upcoming = days_to_validate - dateInterval|date('%a') %} 
+        {% if upcoming <= 0 %}
+            
+        {% elseif (
+        app.request.attributes.get("_route")!='security_frontend_selectPlan' and 
+        app.request.attributes.get("_route")!='security_frontend_username' and 
+        app.request.attributes.get("_route")!='apachecms_frontend_pay' and 
+        app.request.attributes.get("_route")!='apachecms_frontend_pay_pm' and 
+        app.request.attributes.get("_route")!='security_frontend_profile' 
+        )%}
+            <div class="alert alert-warning">
+                {{ 'message.account.not.validated' | trans({'%days%': upcoming}) }} <a href="javascript:resendValidateEmail()">{{ 'resend.email' | trans }}</a>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
+    {% endif %}
+</div>

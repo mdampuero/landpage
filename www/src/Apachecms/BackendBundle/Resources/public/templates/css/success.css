@@ -1,0 +1,21 @@
+body {
+    color: #939293;
+}
+
+.section-heading {
+    margin-top: 0px;
+}
+
+.social {
+    margin-bottom: 25px;
+}
+
+section {
+    padding: 1rem;
+}
+
+hr {
+    max-width: 100%;
+    border-width: 1px;
+    border-color: #CCC !important;
+}

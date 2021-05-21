@@ -1,0 +1,10 @@
+apachecms_api_notifications_getAll:
+    path:     /getAll
+    defaults: 
+        _controller: ApachecmsApiBundle:Notifications:getAll
+    methods: [GET]
+apachecms_api_notifications_make_read:
+    path:     /makeRead/{id}
+    defaults: {_controller: ApachecmsApiBundle:Notifications:makeRead}
+    methods: [POST]
+

@@ -1,0 +1,83 @@
+step: Step
+form.email: 'Your email'
+form.continue: Continue
+language: Language
+form.plan.1: Trial 15 days
+form.plan.2: Basic plan
+form.plan.3: Full plan
+form.choose.subscription: Choose your ideal plan
+back: Back
+form.start: Get started
+form.password.first: Password
+form.password.second: Repeat your password
+form.first.name: First name
+form.last.name: Last name
+form.name: Your name
+form.phone: Your phone
+login: Login
+forgot.password: Forgot password?
+password: Password
+loading: Loading
+ups: Ups! something went wrong
+error: Error
+invalid.credentials: Email or password invalid
+not.account: 'Do not have an account yet?'
+register: Register
+landing_not_found: 'The link is no longer active.'
+have.account: 'Do you already have an account?'
+recovery.password: 'Recover password'
+email.not.found: 'The email does not belong to any active account'
+success: 'Success'
+forgot.password.sending: 'We send an email with the steps to recover your password'
+reset.password: 'Reset password'
+hello: 'Hello'
+forgot.step: 'To reset your password you must click on the following link'
+thank: 'Thank you so much!' 
+welcome: 'Welcome to our platform' 
+login.ready: 'You can enter now' 
+reset.password.success: 'The password was reset correctly, you can enter'
+reset.link.expired: 'This link has already expired'
+account.my.landings: 'My Landings'
+account.profile: 'Profile'
+account.logout: 'Logout'
+home: 'Home'
+add: 'Add'
+save: 'Save'
+save.data: 'The data was saved'
+one.step.more: 'just one more step!'
+sign.on: 'Sign on'
+name.business: 'Name of the company or business'
+step_1: 'Step 1'
+step_2: 'Step 2'
+step_3: 'Step 3'
+step_4: 'Step 4'
+title: 'Page title'
+status: 'Status'
+draft: 'Draft'
+ready: 'Ready to publish'
+published: 'Published'
+publish: 'Publish'
+yes_no: 'YES/NO'
+edit: 'Edit'
+delete: 'Delete'
+published_at: 'Published at '
+created_at: 'Created'
+updated_at: 'Updated'
+name: 'Name'
+email: 'Email'
+queries: 'Queries'
+phone: 'Phone'
+date: 'Date'
+sending.at: 'Sending at'
+cancel: 'Cancel'
+close: 'Close'
+view.more: 'View more'
+query: 'Query'
+browser: 'Browser'
+system.operative: 'Operative System'
+is.mobile: 'Móbile or PC'
+mobile: 'Mobile'
+pc: 'PC'
+location: 'Location'
+is.reply: 'Answered'
+reply.sending: 'Your answer was sent'

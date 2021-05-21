@@ -1,0 +1,11 @@
+<br/>
+<hr class="gray">
+<div class="container text-center">
+    &reg; 2019 - {{ 'all.right.reserved' | trans }} - <a href="javascript:openModalTerms()">{{ 'terms' | trans }}</a> - <a href="javascript:openModalPolicies()">{{ 'policies' | trans }}</a>
+</div>
+<br>
+<div class="d-sm-none">
+&nbsp;<br/>&nbsp;
+</div>
+{{ render(controller('ApachecmsFrontendBundle:Helper:pageStatic', { 'code': 'terms' } )) }}
+{{ render(controller('ApachecmsFrontendBundle:Helper:pageStatic', { 'code': 'policies' } )) }}

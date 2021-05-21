@@ -1,0 +1,5 @@
+apachecms_api_chatbot_send:
+    path:     /send
+    defaults: 
+        _controller: ApachecmsApiBundle:Chatbot:send
+    methods: [POST]

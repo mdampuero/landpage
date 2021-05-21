@@ -1,0 +1,103 @@
+{% extends "ApachecmsFrontendBundle::layout_lp.html.twig" %}
+{% block stylesheet %} 
+{{ parent() }}
+{% endblock %}
+{% block body %}
+{{ include('ApachecmsFrontendBundle::_partials/brand.html.twig') }}
+{% block headerPage %}
+{% include 'ApachecmsFrontendBundle:_partials:breadcrumbs.html.twig' %}
+{% endblock %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            {{ include('ApachecmsFrontendBundle::Account/_partials/menu.html.twig') }}
+        </div>
+        <div class="col-md-9">
+            <div class="card">
+                <h2 class="card-header">
+                    {{ (app.request.attributes.get('_route_params')['_breadcrumbs']|last)['label'] | trans }}
+                </h2>
+                <div class="card-body">
+                    {% set dateInterval = date(app.user.expirationPlan|date('c')).diff(date('now')) %}
+                    {% set days = dateInterval|date('%a') %}
+                    {% set upcoming = dateInterval|date('%a') %}
+                    {% if days <= 5 %}
+                        <div class="alert alert-warning">{{ 'alert.expired.plan' | trans }}</div>
+                    {% endif %}
+                    {# <a role="button" href="{{ path('apachecms_frontend_account_plans_renew') }}" class="btn btn-primary pull-right">{{ 'change.plan' | trans }}</a> #}
+                    <h4>Plan: {{ attribute(app.user.plan, 'name'~(app.request.locale | capitalize )) | raw }}</h4>
+                    <hr>
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <label>{{ 'price' | trans }}</label>
+                            <div class="form-group">
+                                <h5>$ {{ (app.user.plan.price * setting.getData.dolar) | number_format('2',',','.')}}</h5>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label>{{ 'plan.max.business' | trans }}</label>
+                            <div class="form-group">
+                                <h5>{{ app.user.business | length}}/{{ app.user.plan.maxBusiness }}</h5>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label>{{ 'plan.max.landings' | trans }}</label>
+                            <div class="form-group">
+                                <h5>{{ app.user.landings | length}}/{{ app.user.plan.maxLanding }}</h5>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label>{{ 'visits' | trans}}</label>
+                            <div class="form-group">
+                                {% if app.user.plan.maxVisits == 0 %}
+                                    <h5>{{ 'visits.unlimit' | trans}}</h5>
+                                {% else %}
+                                    <h5>{{ app.user.plan.maxVisits }} {{ 'visits' | trans}}</h5>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label>{{ 'leads' | trans}}</label>
+                            <div class="form-group">
+                                {% if app.user.plan.maxLeads == 0 %}
+                                    <h5>{{ 'leads.unlimit' | trans}}</h5>
+                                {% else %}
+                                    <h5>{{ app.user.plan.maxLeads }} {{ 'leads' | trans}}</h5>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label>{{ 'status' | trans }}</label>
+                            <div class="form-group">
+                                {% if app.user.useTrial %}
+                                <h5>Trial</h5>
+                                {% else %}
+                                <h5>{{ 'paid' | trans }}</h5>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label>{{ 'expiredAt' | trans }}</label>
+                            <div class="form-group">
+                                <h5>{{ app.user.expirationPlan | date('d/m/Y')}}</h5>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label>{{ 'days.expired' | trans }}</label>
+                            <div class="form-group">
+                                <h5>{{ days }}</h5>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label>{{ 'renew' | trans }}</label>
+                            <div class="form-group">
+                                <a role="button" href="{{ path('apachecms_frontend_pay',{ plan: app.user.plan.id, back:'renew'})}}" class="btn btn-info btn-block">{{ 'renew' | trans }} plan</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

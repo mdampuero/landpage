@@ -1,0 +1,81 @@
+{% for plan in plans %}
+    {% if plan.price == 0 %}
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header">
+            <h4 class="my-0 font-weight-normal">{{ plan.nameEs | trans }}</h4>
+        </div>
+        <div class="card-body">
+            <h1 class="card-title pricing-card-title">U$D {{ (plan.price) }} <small class="">/m</small></h1>
+            <ul class="list-unstyled mt-3 mb-4">
+                <li>{{ plan.maxBusiness }} {{ 'business' | trans}}</li>
+                <li>{{ plan.maxLanding }} {{ 'landings' | trans}}</li>
+                {% if plan.maxVisits == 0 %}
+                    <li>{{ 'visits.unlimit' | trans}}</li>
+                {% else %}
+                    <li>{{ plan.maxVisits }} {{ 'visits' | trans}}</li>
+                {% endif %}
+                {% if plan.maxLeads == 0 %}
+                    <li>{{ 'leads.unlimit' | trans}}</li>
+                {% else %}
+                    <li>{{ plan.maxLeads }} {{ 'leads' | trans}}</li>
+                {% endif %}
+                {% if plan.supportEmail  %}
+                <li>{{ 'support.email' | trans}}</li>
+                {% endif %}
+                {% if trial  %}
+                <li>{{ plan.trialDays }} {{ 'trial.days' | trans}}</li>
+                {% endif %}
+            </ul>
+            {% if trial  %}
+            <a href="#{{ plan.id }}"><b>{{ 'view.more' | trans }}</b></a>
+            <hr>
+            {% endif %}
+            <a href="{{ path('apachecms_frontend_pay',{ plan: plan.id})}}" role="button" class="btn btn-lg btn-block btn-outline-primary">{{ 'sign.on' | trans }}</a>
+            {% if trial  %}
+            <a href="javascript:beforeSuccess('{{ plan.id }}',1)" role="button" class="btn btn-lg btn-block btn-outline-primary">
+            {{ 'trial' | trans }} {{ plan.trialDays }} {{ 'days' | trans }}
+            </a>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+    <div class="card mb-4 shadow-sm bg-info text-white">
+        <div class="card-header">
+            <h4 class="my-0 font-weight-normal">{{ plan.nameEs | trans }}</h4>
+        </div>
+        <div class="card-body">
+            <h1 class="card-title pricing-card-title">U$D {{ (plan.price) }} <small class="">/m</small></h1>
+            <ul class="list-unstyled mt-3 mb-4">
+                <li>{{ plan.maxBusiness }} {{ 'business' | trans}}</li>
+                <li>{{ plan.maxLanding }} {{ 'landings' | trans}}</li>
+                {% if plan.maxVisits == 0 %}
+                    <li>{{ 'visits.unlimit' | trans}}</li>
+                {% else %}
+                    <li>{{ plan.maxVisits }} {{ 'visits' | trans}}</li>
+                {% endif %}
+                {% if plan.maxLeads == 0 %}
+                    <li>{{ 'leads.unlimit' | trans}}</li>
+                {% else %}
+                    <li>{{ plan.maxLeads }} {{ 'leads' | trans}}</li>
+                {% endif %}
+                {% if plan.supportEmail  %}
+                    <li>{{ 'support.email' | trans}}</li>
+                {% endif %}
+                {% if trial  %}
+                <li>{{ plan.trialDays }} {{ 'trial.days' | trans}}</li>
+                {% endif %}
+            </ul>
+            {% if trial  %}
+            <a href="#{{ plan.id }}" class="text-white"><b>{{ 'view.more' | trans }}</b></a>
+            <hr>
+            {% endif %}
+            <a href="{{ path('apachecms_frontend_pay',{ plan: plan.id})}}" role="button" class="btn btn-lg btn-block btn-primary">{{ 'sign.on' | trans }}</a>
+            {% if trial  %}
+            <a href="javascript:beforeSuccess('{{ plan.id }}',1)" role="button" class="btn btn-lg btn-block btn-outline-light">
+            {{ 'trial' | trans }} {{ plan.trialDays }} {{ 'days' | trans }}
+            </a>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+{% endfor %}

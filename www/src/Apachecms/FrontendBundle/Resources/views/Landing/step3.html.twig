@@ -1,0 +1,33 @@
+
+{% extends "ApachecmsFrontendBundle::layout_lp.html.twig" %}
+{% block body %}
+{{ include('ApachecmsFrontendBundle::_partials/brand.html.twig') }}
+{% block headerPage %}
+{% include 'ApachecmsFrontendBundle:_partials:breadcrumbs.html.twig' %}
+{% endblock %}
+<div class="container">
+    {{ form_start(form, {'attr': {'class': 'sendToApi','id':'registerForm','novalidate':'novalidate'} }) }}
+    <div class="card">
+        <h2 class="card-header">
+            {{ (app.request.attributes.get('_route_params')['_breadcrumbs']|last)['label'] | trans}} / {{ entity.title }}
+        </h2>
+        <div class="card-body">
+            {% include 'ApachecmsFrontendBundle:Landing:_partials/step3.html.twig' with { 'form' : form } %}
+        </div>
+        <div class="card-footer">
+            <a href="{{ path('apachecms_frontend_landing_add_step2',{ id:entity.id }) }}" role="button" class="btn btn-outline-secondary pull-left">{{ 'back' | trans }}</a>
+            {{ form_widget(form.submit,{ 'attr':{'secondary-label':'loading' | trans}}) }}
+        </div>
+    </div>
+    {{ form_end(form) }}
+</div>
+{% endblock %}
+{% block javascripts %} 
+{{ parent() }}
+{% include 'ApachecmsFrontendBundle:Landing:_partials/scriptStep3.html.twig' with { 'form' : form } %}
+<script>
+function beforeSuccess(response){
+    location.href=response.data.to;
+}
+</script>
+{% endblock %}

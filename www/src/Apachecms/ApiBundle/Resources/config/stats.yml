@@ -1,0 +1,15 @@
+apachecms_api_stats_save:
+    path:     /save/{landing}
+    defaults: 
+        _controller: ApachecmsApiBundle:Stats:save
+    methods: [POST,GET]
+apachecms_api_stats_geo:
+    path:     /geo/{id}
+    defaults: 
+        _controller: ApachecmsApiBundle:Stats:geo
+    methods: [POST]
+apachecms_api_stats_marker:
+    path:     /marker/{id}
+    defaults: 
+        _controller: ApachecmsApiBundle:Stats:marker
+    methods: [POST]

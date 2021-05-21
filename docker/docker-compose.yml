@@ -1,0 +1,41 @@
+version: "3"
+services:
+    landpage_apache:
+        build: .
+        image: php:7.4-apache
+        container_name: landpage_apache
+        extra_hosts:
+            - "dev.land.page:127.0.0.1"
+        volumes:
+            - .:/application:cached
+            - .:/app:cached
+            - ../www/:/var/www/html
+            - ./config/php.ini:/usr/local/etc/php/conf.d/php.ini
+            - ./config/dev.land.page.conf:/etc/apache2/sites-enabled/dev.land.page.conf
+            - ../logs:/var/log/apache2
+        expose:
+            - 80
+        ports:
+            - 80:80
+        links: 
+            - landpage_mysql
+            - landpage_memcached
+
+    landpage_mysql:
+        image: mysql:5.7
+        container_name: landpage_mysql
+        ports:
+            - 3306:3306
+        expose:
+            - 3306
+        volumes:
+            - ../db/working:/var/lib/mysql
+            - ../db/backups:/var/db/backups
+        environment:
+            - MYSQL_DATABASE=landpage
+            - MYSQL_ROOT_PASSWORD=Secreta007
+            - MYSQL_USER=root
+            - MYSQL_PASSWORD=Secreta007
+    landpage_memcached:
+        image: memcached:latest
+        container_name: landpage_memcached

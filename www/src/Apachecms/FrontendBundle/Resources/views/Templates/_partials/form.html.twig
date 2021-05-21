@@ -1,0 +1,53 @@
+{{ form_start(formContact, {'attr': {'class': 'sendToApi','id':'1','novalidate':'novalidate'} }) }}
+<div class="form-group">
+    {% if prod %}
+    {{form_widget(formContact.name,{'attr':{'placeholder':entity.labels.contactName}})}}
+    <small class="form-text text-danger"></small>
+    {% else %}
+    <label data-label="edit" data-type="input" id="contactName" style="position:absolute; color:#999; margin-top: 5px; margin-left: 10px;">{{ entity.labels.contactName }}</label>
+    {{form_widget(formContact.name)}}
+    {% endif %}
+</div>
+<div class="form-group">
+    {% if prod %}
+    {{form_widget(formContact.email,{'attr':{'placeholder':entity.labels.contactEmail}})}}
+    <small class="form-text text-danger"></small>
+    {% else %}
+    <label data-label="edit" data-type="input" id="contactEmail" style="position:absolute; color:#999; margin-top: 5px; margin-left: 10px;">{{ entity.labels.contactEmail }}</label>
+    {{form_widget(formContact.email)}}
+    {% endif %}
+</div>
+<div class="form-group">
+    {% if prod %}
+    {{form_widget(formContact.phone,{'attr':{'placeholder':entity.labels.contactPhone}})}}
+    <small class="form-text text-danger"></small>
+    {% else %}
+    <label data-label="edit" data-type="input" id="contactPhone" style="position:absolute; color:#999; margin-top: 5px; margin-left: 10px;">{{ entity.labels.contactPhone }}</label>
+    {{form_widget(formContact.phone)}}
+    {% endif %}
+</div>
+{% if entity.isProductService and entity.services | length %}
+<div class="form-group">
+    {# <label style="position:absolute; color:#999; margin-top: 5px; margin-left: 10px;">{{ entity.labels.productOrServiceTitle }}</label> #}
+    <select name="contactService" id="contactService" class="form-control">
+        <option value="{{ 'none' | trans  }}">{{ 'interested.in' | trans  }}</option>
+        {% for service in entity.services %}
+            <option value="{{ service.title }}">{{ service.title }}</option>
+        {% endfor %}
+        <option value="{{ 'none' | trans  }}">{{ 'other' | trans  }}</option>
+    </select>
+</div>
+{% endif %}
+<div class="form-group">
+    {% if prod %}
+    {{form_widget(formContact.query,{'attr':{'placeholder':entity.labels.contactQuery}})}}
+    <small class="form-text text-danger"></small>
+    {% else %}
+    <label data-label="edit" data-type="input" id="contactQuery" style="position:absolute; color:#999 {% if colorClass %}!Important{% endif %}; margin-top: 5px; margin-left: 10px;">{{ entity.labels.contactQuery }}</label>
+    {{form_widget(formContact.query)}}
+    {% endif %}
+    
+</div>
+<button class="btn btn-primary btn-lg btn-block" {% if prod %}type="submit"{% else %}type="button"{% endif %} data-label="edit" data-type="input" id="contactBtn" secondary-label="{{ 'loading' | trans }}">{{ entity.labels.contactBtn }}</button>
+{{ form_end(formContact) }}
+<label class="color-text"><i><small data-label="edit" data-type="textarea" id="formLegend" style="font-size:12px;">{{ entity.labels.formLegend }}</small></i></label>

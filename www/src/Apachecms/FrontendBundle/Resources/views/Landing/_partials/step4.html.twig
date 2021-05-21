@@ -1,0 +1,78 @@
+<h5><b>{{ 'use.chatbot' | trans }}</b>
+    <div class="form-group pull-right">
+        <span class="switch">
+            {{form_widget(form.useChatbot)}}
+            {{form_label(form.useChatbot)}}
+        </span>
+    </div>
+</h5>
+<hr>
+<div class="row" id="chatbotConfig" style="{% if not entity.useChatbot %}display:none;{% endif %}">
+    <div class="form-group col-sm-6">
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <label>{{ 'chatbot.title' | trans }}</label>
+                <input class="form-control" id="landing_step4_title" name="apachecms_backendbundle_landingchatbot[title]" type="text" value="{% if entity.chatbot.title %}{{ entity.chatbot.title }} {% else %}{{ entity.name}}{% endif %}">
+                <small class="form-text text-danger"></small>
+            </div>
+            <div class="form-group col-sm-12">
+                <label>{{ 'chatbot.avatar.name' | trans }}</label>
+                <input class="form-control" id="landing_step4_avatarName" name="apachecms_backendbundle_landingchatbot[avatarName]" type="text" value="{{ entity.chatbot.avatarName }}">
+                <small class="form-text text-danger"></small>
+            </div>
+            <div class="form-group col-sm-12">
+                <label>{{ 'chatbot.label.button' | trans }}</label>
+                <input class="form-control" id="landing_step4_labelButton" name="apachecms_backendbundle_landingchatbot[labelButton]" type="text" value="{{ entity.chatbot.labelButton }}">
+                <small class="form-text text-danger"></small>
+            </div>
+            <div class="form-group col-sm-12">
+                <label>{{ 'chatbot.timeout.open' | trans }}</label>
+                <select id="landing_step4_timeoutOpen" name="apachecms_backendbundle_landingchatbot[timeoutOpen]" class="form-control">
+                    {% for i in 1..16 %}
+                        <option value="{{ i }}" {% if i == entity.chatbot.timeoutOpen %}selected="selected"{% endif %}>{{ i }} {{ 'seconds'}}</option>
+                    {% endfor %}
+                </select>
+                <small class="form-text text-danger"></small>
+            </div>
+            <div class="form-group col-sm-12">
+                <label>{{ 'chatbot.welcome' | trans }}</label>
+                <input class="form-control" id="landing_step4_welcome" name="apachecms_backendbundle_landingchatbot[welcome]" type="text" value="{{ entity.chatbot.welcome }}">
+                <small class="form-text text-danger"></small>
+            </div>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <label>{{ 'chatbot.colour' | trans }}</label>
+                {% if entity.colorsSuggested  %}
+                <div class="form-group">
+                    {# <label>{{ 'color.suggested' | trans }}</label> #}
+                    <ul class="list-group" id="palette-colors">
+                        {% for color in entity.colorsSuggested  %}
+                            {% if color != '#FFFFFF'%}
+                                <li class="list-group-item" onclick="sendColor(this)" data-color="{{ color }}" style="cursor:pointer;background-color:{{ color }}">&nbsp;</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+                <div class="form-group">
+                    <div class="input-group colorpicker-component">
+                        <input class="form-control" id="landing_step4_colour" name="apachecms_backendbundle_landingchatbot[colour]" type="text" value="{{ entity.chatbot.colour }}">
+                        <span class="input-group-addon"><i></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-sm-12">
+                <label>{{ 'chatbot.position' | trans }}</label>
+                <select name="apachecms_backendbundle_landingchatbot[position]" id="landing_step4_position" class="form-control">
+                    <option value="bottom-left" {% if 'bottom-left' == entity.chatbot.position %}selected="selected"{% endif %}>{{ 'left' | trans }}</option>
+                    <option value="bottom-center" {% if 'bottom-center' == entity.chatbot.position %}selected="selected"{% endif %}>{{ 'center' | trans }}</option>
+                    <option value="bottom-right" {% if 'bottom-right' == entity.chatbot.position %}selected="selected"{% endif %}>{{ 'right' | trans }}</option>
+                </select>
+                <small class="form-text text-danger"></small>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,109 @@
+<script type="text/javascript">
+    var object=``;
+
+    {% if entity.gridColumns is null %}
+    var currentClass='col-sm-4';
+    {% else %}
+    var currentClass='{{ entity.gridColumns }}';
+    {% endif %}
+    function changeGrill(){
+        var gridClass=$('#landing_step2_gridColumns').val();
+        $('div.cards .form-group').removeClass(currentClass).addClass(gridClass);
+        currentClass=gridClass;
+    }
+    function changeLink(value){
+        if($(value).val()==''){
+            $(value).next('br').next('h6').slideDown('fast');
+        }else{
+            $(value).next('br').next('h6').slideUp('fast');
+        }
+        $(value).next('br').next('h6').find('input').val($(value).val());
+    }
+    function clone(data){
+        var timestamp = uniqid();
+        var object=$('#original').clone().attr('id',timestamp).fadeIn('normal');
+        object.find('a.fa-stack.fa-lg.text-danger').attr('data-id',timestamp);
+        object.find('a.fa-stack.fa-lg.text-danger').attr('href','javascript:removeCard("'+timestamp+'")');
+        object.find('input[name="card[picture][]"]').attr('name','card[picture]['+timestamp+']');
+        object.find('input[name="card[title][]"]').attr('name','card[title]['+timestamp+']');
+        object.find('input[name="card[action][]"]').attr('name','card[action]['+timestamp+']');
+        object.find('input[name="card[label][]"]').attr('name','card[label]['+timestamp+']');
+        object.find('select[name="card[select][]"]').attr('name','card[select]['+timestamp+']');
+        object.find('textarea[name="card[description][]"]').attr('name','card[description]['+timestamp+']');
+        object.find('input[name="card[id][]"]').attr('name','card[id]['+timestamp+']');
+        if(data){
+            if(data.action=='#contacto'){
+                changeLink(object.find('select[name="card[select]['+timestamp+']"]'));
+            }else{
+                object.find('select[name="card[select]['+timestamp+']"]').prop('selectedIndex', 1).next('br').next('h6').slideDown('fast');
+            }
+            object.find('input[name="card[title]['+timestamp+']"]').val(data.title);
+            object.find('input[name="card[action]['+timestamp+']"]').val(data.action);
+            object.find('input[name="card[label]['+timestamp+']"]').val(data.label);
+            object.find('textarea[name="card[description]['+timestamp+']"]').val(data.description);
+            object.find('input[name="card[id]['+timestamp+']"]').val(data.id);
+            if(data.picture){
+                object.find('input[name="card[picture]['+timestamp+']"]').attr('data-default-file','{{ asset('uploads/sm/') }}'+data.picture);
+            }
+        }
+        $("#btn").before($(object));
+        object.find('input[type="file"]').dropify(
+            {
+            messages: {
+                'default': 'Arrastre y suelte el archivo o haga click',
+                'replace': 'Arrastre y suelte o haga click para reemplazar',
+                'remove':  'Eliminar',
+                'error':   'Error, algo salió mal'
+            },
+            error: {
+                'fileSize': 'El tamaño del archivo es muy grande.',
+                'minWidth': 'El ancho de la imagen es muy pequeño.',
+                'maxWidth': 'El ancho de la imagen es muy grande.',
+                'minHeight': 'El ancho de la imagen es muy pequeño.',
+                'maxHeight': 'El ancho de la imagen es muy grande.',
+                'imageFormat': 'El formato de la imagen no es soportado.'
+            }
+            }
+        );
+        
+    }
+    function removeCard(idCard){
+        $('#'+idCard).fadeOut('fast',function (){
+            let idDelete=$('#'+idCard).find('input[name="card[id]['+idCard+']"]').val();
+            if(idDelete){
+                $('#grid').append('<input type="hidden" name="card[deleted][]" value="'+idDelete+'">');
+            }
+            $(this).remove();
+        });
+    }
+
+    $(function (){
+        if($('#landing_step2_isProductService').is(":checked")==true){
+            $('.pos').show();
+        }else{
+            $('.pos').hide();
+        }
+        {% for service in entity.services %}
+            clone({
+                title:'{{ service.title }}',
+                id:'{{ service.id }}',
+                description:`{{ service.description }}`,
+                picture:'{{ service.picture }}',
+                action:'{{ service.action }}',
+                label:'{{ service.label }}'
+            });
+        {% endfor %}
+        $('#landing_step2_isProductService').change(function (){
+            if($(this).is(":checked")==true){
+                $('.pos').show();
+            }else{
+                $('.pos').hide();
+            }
+        });
+        $('#landing_step2_gridColumns').change(function (){
+            changeGrill();
+        });
+        $('#landing_step2_gridColumns').val(currentClass);
+        changeGrill();
+    });
+</script>

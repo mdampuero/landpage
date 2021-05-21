@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="__description__">
+    <meta name="author" content="">
+    <title>{{ entity.title }}</title>
+    <link href="{{ asset('bundles/apachecmsbackend/templates/')}}{{ template }}/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400" rel="stylesheet">
+    <link href="{{ asset('bundles/apachecmsbackend/templates/')}}{{ template }}/css/style.css" rel="stylesheet">
+    <link href="{{ asset('bundles/apachecmsbackend/assets/plugins/toast-master/css/jquery.toast.css') }}" rel="stylesheet">
+    <style>
+    .cards{
+        -webkit-transition: all 0.2s ease;
+        -moz-transition: all 0.2s ease;
+        -o-transition: all 0.2s ease;
+        transition: all 0.2s ease;
+    }
+    .bg-section{
+        background-color:{{ entity.colorPrimary }};
+    }
+    </style>
+    <style>
+    #chatbot{
+        position:absolute;
+        bottom:0;
+    }
+    </style>
+    <script>
+        $(function (){
+            $('#chatbot .card-header button').on('click',function(){
+                
+            })
+        })
+    </script>
+    {% if prod  and entity.plugins %}
+        {% if entity.plugins.googleAnalitycs  %}
+            {{ entity.plugins.googleAnalitycs | raw }}
+        {% endif %}
+    {% endif %}
+
+</head>
+<body id="page-top">
+
+
+    <div id="chatbot">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                <h5 class="">
+                    <button class="btn btn-link">
+                    Chat con la Yeni
+                    </button>
+                </h5>
+                </div>
+                <div class="card-body" id="body" style="display:none;">
+                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="mainNav">
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="navBarTop" style="background-color:{{ entity.navBarTop }};">
+            {{ include('ApachecmsFrontendBundle::Templates/_partials/navBar.html.twig') }}
+        </nav>
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top navbar-shrink" id="navBarFixed" style="display:none;" style="background-color:{{ entity.navBarFixed }};">
+            {{ include('ApachecmsFrontendBundle::Templates/_partials/navBar.html.twig') }}
+        </nav>
+    </div>
+    <header id="contacto" class="masthead text-white d-flex" style='background-color:#000; {% if prod %} background-image:url({{ entity.backgroundImage }}){% endif %}' >
+        <div class="container" style="margin-top:100px; margin-bottom:50px;">
+            <div class="row" style="">
+                <div class="col-lg-7 d-none d-sm-block text-center" style="">
+                    <h1 class="d-none d-lg-block">&nbsp;<br/>&nbsp;</h1>
+                    <h1 class="text-uppercase">
+                        <strong data-label="edit" data-type="textarea" id="headerTitle">{{ entity.labels.headerTitle | nl2br}}</strong>
+                    </h1>
+                    <h1 class="d-none d-sm-block d-md-none d-lg-none">&nbsp;</h1>
+                </div>
+                <div class="col-lg-5" id="form-header" style="background-color:{{ entity.navBarTop }};">
+                    <div style="padding:50px;">
+                        <div class="row" >
+                            <div class="col-lg-12">
+                                {{ include('ApachecmsFrontendBundle::Templates/_partials/form.html.twig') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section class="bg-section" id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="section-heading text-white" data-label="edit" data-type="input" id="aboutTitle">{{ entity.labels.aboutTitle }}</h2>
+                    <hr class="light my-4">
+                    <p class="text-faded mb-4" data-label="edit" data-type="textarea" id="aboutDescription">{{ entity.labels.aboutDescription | nl2br }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% if entity.isProductService and entity.services | length %}
+    <section id="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading" data-label="edit" data-type="input" id="productOrServiceTitle">{{ entity.labels.productOrServiceTitle }}</h2>
+                    <hr class="my-4" id="columns">
+                </div>
+            </div>
+        </div>
+        <div class="container" >
+            <div class="row">
+                {% for service in entity.services %}
+                    <div class="{{ entity.gridColumns }} text-center cards">
+                        <div class="card">
+                            <div style="height:250px; background-image: url('{{ web_image('uploads/or/' ~ service.picture).resize('600') }}'); background-position: center center;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;">
+                                
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title" style="height:48px;">{{ service.title }}</h5>
+                                <p class="card-text" style="height: 200px; overflow-y: auto;">{{ service.description }}</p>
+                                {% if service.action %}
+                                <a href="{% if prod %}{{service.action }}{% else %}javascript:void(0){% endif %}" class="js-scroll-trigger btn btn-primary text-white productOrServiceBtn" data-label="edit" data-type="input" id="productOrServiceBtn">{{ entity.labels.productOrServiceBtn }}</a>
+                                {% else %}
+                                <div style="height:36px">&nbsp;</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+    {% if entity.contactAddressMap and entity.contactAddressLat and entity.contactAddressLng %}
+    <div id="map-canvas" style="width:100%; height: 600px; color: #000;"></div>
+    {% endif %}
+    <section id="contact" >
+        <div class="container text-center">
+            <h2 class="section-heading navbarContact" data-label="edit" data-type="input" id="navbarContact">{{ entity.labels.navbarContact }}</h2>
+            <br/><hr><br/>
+            <div class="row justify-content-md-center">
+                <div class="col col-lg-2 text-center">
+                    {% if entity.contactPhone %}
+                    <i class="fa fa-phone fa-3x mb-3 sr-contact-0 textSecondary"></i>
+                    <p><a data-label="edit" data-type="input" id="landing_step4_contactPhone" href="{% if prod %}tel:{{ entity.contactPhone }}{% else %}javascript:void(0){% endif %}">{{ entity.contactPhone }}</a></p>
+                    {% endif %}
+                </div>
+                <div class="col-md-auto text-center">
+                    <i class="fa fa-envelope fa-3x mb-3 sr-contact-1 textSecondary"></i>
+                    <p><a data-label="edit" data-type="input" id="landing_step4_contactEmail" href="{% if prod %}mailto:{{ entity.contactEmail }}{% else %}javascript:void(0){% endif %}" >{{ entity.contactEmail }}</a></p>
+                </div>
+                <div class="col col-lg-2 text-center">
+                    {% if entity.contactAddress %}
+                    <i class="fa fa-map-marker fa-3x mb-3 sr-contact-2 textSecondary"></i>
+                    <p><a data-label="edit" data-type="input" id="landing_step4_contactAddress" href="javascript:void(0)" >{{ entity.contactAddress }}</a></p>
+                    {% endif %}
+                </div>
+            </div>
+            {% if entity.social %}
+            <br>
+            <div class="social text-center">
+                {% if prod == false or entity.useWhatsapp and entity.contactPhone %}<a id="landing_step4_contactEmail" target="_blank" href="https://api.whatsapp.com/send?phone={{ entity.contactPhone }}&text=Consulta%20desde%20LandPage" title="WhatsApp" class="sr-contact-2 fa bg-section fa-whatsapp"></a>{% endif %}
+                {% if prod == false or entity.socials.web %}<a data-label="edit" data-type="link" id="landing_step3_web"  target="_blank" href="{{ entity.socials.web }}" title="Web" class="sr-contact-3 fa bg-section fa-globe"></a>{% endif %}
+                {% if prod == false or entity.socials.facebook %}<a data-label="edit" data-type="link" id="landing_step3_facebook"  target="_blank" href="{{ entity.socials.facebook }}" title="Facebook" class="sr-contact-4 fa bg-section fa-facebook"></a>{% endif %}
+                {% if prod == false or entity.socials.twitter %}<a data-label="edit" data-type="link" id="landing_step3_twitter"  target="_blank" href="{{ entity.socials.twitter }}" title="Twitter" class="sr-contact-5 fa bg-section fa-twitter"></a>{% endif %}
+                {% if prod == false or entity.socials.googlePlus %}<a data-label="edit" data-type="link" id="landing_step3_googlePlus"  target="_blank" href="{{ entity.socials.googlePlus }}" title="Google" class="sr-contact-6 fa bg-section fa-google"></a>{% endif %}
+                {% if prod == false or entity.socials.linkedin %}<a data-label="edit" data-type="link" id="landing_step3_instagram"  target="_blank" href="{{ entity.socials.linkedin }}" title="Linkedin" class="sr-contact-7 fa bg-section fa-linkedin"></a>{% endif %}
+                {% if prod == false or entity.socials.youtube %}<a data-label="edit" data-type="link" id="landing_step3_youtube"  target="_blank" href="{{ entity.socials.youtube }}" title="Youtube" class="sr-contact-8 fa bg-section fa-youtube"></a>{% endif %}
+                {% if prod == false or entity.socials.instagram %}<a data-label="edit" data-type="link" id="landing_step3_linkedin"  target="_blank" href="{{ entity.socials.instagram }}" title="Instagram" class="sr-contact-9 fa bg-section fa-instagram"></a>{% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </section>
+    <footer id="footer" style="padding-top: 24px; border-top: #ccc solid 1px;">
+        {{ include('ApachecmsFrontendBundle::Templates/_partials/powered.html.twig') }}
+    </footer>
+    <script src="{{ asset('bundles/apachecmsbackend/templates/')}}{{ template }}/assets/jquery/jquery.min.js"></script>
+    <script src="{{ asset('bundles/apachecmsbackend/templates/')}}{{ template }}/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('bundles/apachecmsbackend/templates/')}}{{ template }}/assets/jquery-easing/jquery.easing.min.js"></script>
+    <script src="{{ asset('bundles/apachecmsbackend/templates/')}}{{ template }}/assets/scrollreveal/scrollreveal.min.js"></script>
+    {% if prod  %}
+        {{ include('ApachecmsFrontendBundle::Templates/_partials/scriptProd.html.twig') }}
+    {% else %}
+        {{ include('ApachecmsFrontendBundle::Templates/_partials/scriptDev.html.twig') }}
+    {% endif %}
+    {% if entity.contactAddressMap and entity.contactAddressLat and entity.contactAddressLng %}
+    <script type="text/javascript" async defer>
+        function initialize() {
+            var mapDiv = document.getElementById('map-canvas');
+            var map = new google.maps.Map(mapDiv, {
+                center: new google.maps.LatLng({{ entity.contactAddressLat }}, {{ entity.contactAddressLng }}),
+                zoom: {{ entity.contactAddressZoom }},
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+            var marker = new google.maps.Marker({
+                map: map,
+                position: new google.maps.LatLng({{ entity.contactAddressLat }}, {{ entity.contactAddressLng }}),
+                draggable: false
+            });
+            var infoWindow = new google.maps.InfoWindow({
+                position: new google.maps.LatLng({{ entity.contactAddressLat }}, {{ entity.contactAddressLng }}),
+                Padding: 10,
+                minWidth: 200,
+                content: '<div >'
+                + '<table>'
+                + '    <tr>'
+                + '      <td><h4>{{ entity.name }}</h4></td>'
+                + '    </tr>'
+                + '<table>'
+                + '</div>'
+            });
+            infoWindow.open(map);
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ setting.getData.googleMapsId }}&libraries=places&callback=initialize"
+async defer></script>
+    {% endif %}
+</body>
+
+</html>

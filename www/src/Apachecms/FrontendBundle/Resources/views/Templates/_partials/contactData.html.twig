@@ -1,0 +1,22 @@
+<section id="contact" >
+    <div class="container text-center">
+        <div class="row justify-content-md-center">
+            <div class="col col-lg-2 text-center">
+                {% if entity.contactPhone %}
+                <i class="fa fa-phone fa-3x mb-3 sr-contact-0 textSecondary"></i>
+                <p><a data-label="edit" data-type="input" id="landing_step4_contactPhone" href="{% if prod %}tel:{{ entity.contactPhone }}{% else %}javascript:void(0){% endif %}">{{ entity.contactPhone }}</a></p>
+                {% endif %}
+            </div>
+            <div class="col-md-auto text-center">
+                <i class="fa fa-envelope fa-3x mb-3 sr-contact-1 textSecondary"></i>
+                <p><a data-label="edit" data-type="input" class="js-scroll-trigger" id="landing_step4_contactEmail" href="{% if prod %}#contacto{% else %}javascript:void(0){% endif %}" >{{ entity.contactEmail }}</a></p>
+            </div>
+            <div class="col col-lg-2 text-center">
+                {% if entity.contactAddress %}
+                <i class="fa fa-map-marker fa-3x mb-3 sr-contact-2 textSecondary"></i>
+                <p><a data-label="edit" data-type="input" class="js-scroll-trigger" id="landing_step4_contactAddress" href="#map-canvas" >{{ entity.contactAddress }}</a></p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>

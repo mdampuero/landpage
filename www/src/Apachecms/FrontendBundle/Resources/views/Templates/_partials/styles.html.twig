@@ -1,0 +1,21 @@
+<style>
+    .bg-section{
+        background-color:{{ entity.colorPrimary }};
+    }
+</style>
+{% if entity.useChatbot and entity.chatbot %}
+<link href="https://land.page{{ asset('bundles/apachecmsbackend/templates/')}}css/chatbot.css" rel="stylesheet">
+<style>
+    .card-footer button.btn {
+        background: {{ entity.chatbot.colour }};
+    }
+
+    .top-bar {
+        line-height: 30px;
+        font-weight: bold;
+        cursor: pointer;
+        background: {{ entity.chatbot.colour }};
+        color: white;
+    }
+</style>
+{% endif %}

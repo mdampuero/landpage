@@ -1,0 +1,55 @@
+apachecms_backend_users:
+    path:     /
+    defaults: 
+        _controller: ApachecmsBackendBundle:Users:index
+    methods: [GET]
+    options:
+        breadcrumb:
+            label: Usuarios
+            parent_route: apachecms_backend_homepage
+
+apachecms_backend_users_load:
+    path:     /load
+    defaults: { _controller: ApachecmsBackendBundle:Users:load }
+    methods: [GET]
+
+apachecms_backend_users_add:
+    path:     /nuevo
+    defaults: { _controller: ApachecmsBackendBundle:Users:add }
+    options:
+        breadcrumb:
+            label: Crear usuario
+            parent_route: apachecms_backend_users
+    methods: [GET]
+
+apachecms_backend_users_create:
+    path:     /create
+    defaults: { _controller: ApachecmsBackendBundle:Users:create }
+    methods: POST
+    options:
+        breadcrumb:
+            label: Crear usuario
+            parent_route: apachecms_backend_users
+
+apachecms_backend_users_edit:
+    path:     /editar/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Users:edit }
+    methods: [GET]
+    options:
+        breadcrumb:
+            label: Editar usuario
+            parent_route: apachecms_backend_users
+
+apachecms_backend_users_update:
+    path:     /update/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Users:update }
+    methods: [PUT]
+    options:
+        breadcrumb:
+            label: Editar usuario
+            parent_route: apachecms_backend_users
+
+apachecms_backend_users_delete:
+    path:     /delete/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Users:delete }
+    methods: [POST,DELETE]

@@ -1,0 +1,26 @@
+<div class="container">
+    {% if entity.business.brand %}
+        <a class="navbar-brand js-scroll-trigger" href="#page-top"><img src="https://land.page{{web_image('uploads/or/' ~ entity.business.brand).resize('400')}}" style="max-height: 85px;"></a>
+    {% else %}
+        <a class="navbar-brand js-scroll-trigger" href="#page-top" ><h1>{{ entity.business.name }}</h1></a>
+    {% endif %}
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link js-scroll-trigger navbarAbout" href="{% if prod %}#about{% else %}#empty{% endif %}" data-label="edit" data-type="input" id="navbarAbout" >{{ entity.labels.navbarAbout }}</a>
+            </li>
+            {% if entity.isProductService and entity.services | length %}
+            <li class="nav-item">
+                <a class="nav-link js-scroll-trigger navbarProductOrService" href="{% if prod %}#services{% else %}#empty{% endif %}" data-label="edit" data-type="input" id="navbarProductOrService" >{{ entity.labels.navbarProductOrService }}</a>
+            </li>
+            {% endif %}
+            <li class="nav-item">
+                <a class="nav-link js-scroll-trigger navbarContact" href="{% if prod %}#contact{% else %}#empty{% endif %}" data-label="edit" data-type="input" id="navbarContact" >{{ entity.labels.navbarContact }}</a>
+            </li>
+        </ul>
+    </div>
+</div>

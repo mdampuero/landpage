@@ -1,0 +1,117 @@
+apachecms_frontend_landing_add_step1:
+    path:     /step1/{id}/{business}
+    defaults:  
+        {_controller: ApachecmsFrontendBundle:Landing:step1, id: null,business: null}
+    options:
+        breadcrumb:
+            label: step_1
+            parent_route: apachecms_frontend_dashboard
+
+apachecms_frontend_landing_add_step2:
+    path:     /step2/{id}
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Landing:step2
+    options:
+        breadcrumb:
+            label: step_2
+            parent_route: apachecms_frontend_dashboard
+
+apachecms_frontend_landing_add_step3:
+    path:     /step3/{id}
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Landing:step3
+    options:
+        breadcrumb:
+            label: step_3
+            parent_route: apachecms_frontend_dashboard
+
+apachecms_frontend_landing_add_step4:
+    path:     /step4/{id}
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Landing:step4
+    options:
+        breadcrumb:
+            label: step_4
+            parent_route: apachecms_frontend_dashboard
+
+apachecms_frontend_landing_add_step5:
+    path:     /edit/{id}
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Landing:step5
+    options:
+        breadcrumb:
+            label: edit
+            parent_route: apachecms_frontend_dashboard
+
+
+apachecms_frontend_landing_preview:
+    path:     /preview/{id}/{template}
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Landing:preview
+    options:
+        breadcrumb:
+            label: step_4
+            parent_route: apachecms_frontend_dashboard
+
+apachecms_frontend_landing_view:
+    path:     /view/{id}
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Landing:view
+    options:
+        breadcrumb:
+            label: view
+            parent_route: apachecms_frontend_dashboard
+
+apachecms_frontend_landing_edit3:
+    path:     /edit3/{id}
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Landing:edit3
+    options:
+        breadcrumb:
+            label: contact.data
+            parent_route: apachecms_frontend_dashboard
+
+apachecms_frontend_landing_edit4:
+    path:     /edit4/{id}
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Landing:edit4
+    options:
+        breadcrumb:
+            label: chatbot
+            parent_route: apachecms_frontend_dashboard
+
+apachecms_frontend_landing_edit2:
+    path:     /edit2/{id}
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Landing:edit2
+    options:
+        breadcrumb:
+            label: product.or.service
+            parent_route: apachecms_frontend_dashboard
+
+apachecms_frontend_landing_edit1:
+    path:     /edit1/{id}
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Landing:edit1
+    options:
+        breadcrumb:
+            label: general.data
+            parent_route: apachecms_frontend_dashboard
+
+apachecms_frontend_landing_plugins:
+    path:     /plugins/{id}
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Landing:plugins
+    options:
+        breadcrumb:
+            label: plugins
+            parent_route: apachecms_frontend_dashboard
+
+apachecms_frontend_landing_add_step:
+    path:     /add/step
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Landing:step
+    options:
+        breadcrumb:
+            label: Create landing
+            parent_route: apachecms_frontend_dashboard

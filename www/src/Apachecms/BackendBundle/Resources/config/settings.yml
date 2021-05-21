@@ -1,0 +1,44 @@
+apachecms_backend_settings:
+    path:     /
+    defaults: 
+        _controller: ApachecmsBackendBundle:Settings:edit
+    methods: [GET]
+    options:
+        breadcrumb:
+            label: Configuraciones
+            parent_route: apachecms_backend_homepage
+
+apachecms_backend_settings_load:
+    path:     /load
+    defaults: { _controller: ApachecmsBackendBundle:Settings:load }
+    methods: [GET]
+
+apachecms_backend_settings_add:
+    path:     /nuevo
+    defaults: { _controller: ApachecmsBackendBundle:Settings:add }
+    options:
+        breadcrumb:
+            label: Crear demo
+            parent_route: apachecms_backend_settings
+    methods: [GET]
+
+apachecms_backend_settings_create:
+    path:     /create
+    defaults: { _controller: ApachecmsBackendBundle:Settings:create }
+    methods: POST
+    options:
+        breadcrumb:
+            label: Crear demo
+            parent_route: apachecms_backend_settings
+
+
+apachecms_backend_settings_update:
+    path:     /update/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Settings:update }
+    methods: [PUT]
+    options:
+        breadcrumb:
+            label: Editar demo
+            parent_route: apachecms_backend_settings
+
+

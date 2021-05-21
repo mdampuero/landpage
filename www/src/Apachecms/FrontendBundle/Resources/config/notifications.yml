@@ -1,0 +1,8 @@
+apachecms_frontend_notifications:
+    path:     /
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Notifications:index
+    options:
+        breadcrumb:
+            label: my.notifications
+            parent_route: apachecms_frontend_dashboard

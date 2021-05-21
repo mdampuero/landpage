@@ -1,0 +1,35 @@
+<div class="list-group">
+    <a href="{{ path('apachecms_frontend_dashboard') }}" class="list-group-item d-flex justify-content-between align-items-center 
+    {% if 
+        'apachecms_frontend_dashboard' in app.request.get('_route') or 
+        'apachecms_frontend_landing' in app.request.get('_route')
+    %}list-group-item-secondary{% endif %}
+    ">
+        {{ 'account.my.landings' | trans }}
+        <span class="badge badge-info badge-pill">{{ app.user.landings | length }}</span>
+    </a>
+    <a href="{{ path('apachecms_frontend_notifications') }}" class="{% if 'apachecms_frontend_notifications' in app.request.get('_route') %}list-group-item-secondary{% endif %} list-group-item d-flex justify-content-between align-items-center">
+        {{ 'my.notifications' | trans }} <span class="badge badge-danger badge-pill" id="counter-image">{{ app.user.notification | length }}</span>
+    </a>
+    <a href="{{ path('apachecms_frontend_business') }}" class="{% if 'apachecms_frontend_business' in app.request.get('_route') %}list-group-item-secondary{% endif %} list-group-item d-flex justify-content-between align-items-center">
+        {{ 'my.business' | trans }} <span class="badge badge-info badge-pill" id="counter-image">{{ app.user.business | length }}</span>
+    </a>
+    {# <a href="{{ path('apachecms_frontend_account_contacts') }}" class="{% if 'apachecms_frontend_account_contacts' in app.request.get('_route') %}list-group-item-secondary{% endif %} list-group-item d-flex justify-content-between align-items-center">
+        {{ 'account.contacts' | trans }} <span class="badge badge-info badge-pill">{{ app.user.contacts | length }}</span>
+    </a> #}
+    <a href="{{ path('apachecms_frontend_account_files') }}" class="{% if 'apachecms_frontend_account_files' in app.request.get('_route') %}list-group-item-secondary{% endif %} list-group-item d-flex justify-content-between align-items-center">
+        {{ 'my.pictures' | trans }} <span class="badge badge-info badge-pill" id="counter-image">{{ app.user.files | length }}</span>
+    </a>
+    <a href="{{ path('apachecms_frontend_account_plans') }}" class="{% if 'apachecms_frontend_account_plans' in app.request.get('_route') %}list-group-item-secondary{% endif %} list-group-item d-flex justify-content-between align-items-center">
+        {{ 'my.plan' | trans }}
+    </a>
+    <a href="{{ path('apachecms_frontend_account') }}" class="list-group-item d-flex justify-content-between align-items-center 
+    {% if 'apachecms_frontend_account' == app.request.get('_route') %}list-group-item-secondary{% endif %}
+    ">
+        {{ 'account.profile' | trans }}
+    </a>
+    <a href="{{ path('security_logout_frontend') }}" class="list-group-item d-flex justify-content-between align-items-center">
+        {{ 'account.logout' | trans }}
+    </a>
+</div>
+<br/>

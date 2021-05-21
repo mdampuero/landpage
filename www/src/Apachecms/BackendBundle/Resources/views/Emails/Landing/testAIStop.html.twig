@@ -1,0 +1,29 @@
+{% extends "ApachecmsBackendBundle::Emails/layout.html.twig" %}
+{% block body %}
+<h3>{{ h3  }}</h3>
+<h5>{{ 'ai.period' | trans }} ({{ test.fromAt | date('d/m/Y') }} - {{ test.toAt | date('d/m/Y') }})</h5>
+<table style="width:100%;">
+    <thead>
+        <tr>
+            <th align="left">{{ 'title' | trans }}</th>
+            <th align="center">{{ 'visits' | trans }}</th>
+            <th align="center">{{ 'leads' | trans }}</th>
+            <th align="center">{{ 'convertions' | trans }}</th>
+        </th>
+    </thead>
+    <tbody>
+        {% for option in test.options %}
+        <tr>
+            <td align="left">{{ attribute(test.landing, 'description'~ option.optionNumber) }}</td>
+            <td align="center">{{ option.visits }}</td>
+            <td align="center">{{ option.leads }}</td>
+            <td align="center">{{ option.convertions | number_format(2, ',', '.') }} %</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<p>Puedes volver a lanzar otro test modificando las 2 últimas opciones para mejorar las conversiones</p>
+{% if link %}
+<p><a href="{{ app.request.getSchemeAndHttpHost() }}{{ link }}">{{ app.request.getSchemeAndHttpHost() }}{{ link }}</a></p>
+{% endif %} 
+{% endblock %}

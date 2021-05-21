@@ -1,0 +1,5 @@
+{% extends "ApachecmsBackendBundle::Emails/layout.html.twig" %}
+{% block body %}
+<h2>{{ 'hello' | trans }} {{ entity.customer.firstName }}!</h2>
+<p>Se publicó automáticamente tu landing <a href="{{ url('apachecms_frontend_dinamic_'~ entity.customer.usernameUrl,{ slug: entity.slug }) }}">{{ entity.title }}</a>.</p>
+{% endblock %}

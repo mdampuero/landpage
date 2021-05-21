@@ -1,0 +1,77 @@
+apachecms_backend_customers:
+    path:     /
+    defaults: 
+        _controller: ApachecmsBackendBundle:Customers:index
+    methods: [GET]
+    options:
+        breadcrumb:
+            label: Clientes
+            parent_route: apachecms_backend_homepage
+
+apachecms_backend_customers_load:
+    path:     /load
+    defaults: { _controller: ApachecmsBackendBundle:Customers:load }
+    methods: [GET]
+
+apachecms_backend_customers_extend:
+    path:     /extend
+    defaults: { _controller: ApachecmsBackendBundle:Customers:extend }
+    methods: [POST]
+
+apachecms_backend_customers_add:
+    path:     /nuevo
+    defaults: { _controller: ApachecmsBackendBundle:Customers:add }
+    options:
+        breadcrumb:
+            label: Crear cliente
+            parent_route: apachecms_backend_customers
+    methods: [GET]
+
+apachecms_backend_customers_approve:
+    path:     /habilitar/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Customers:approve }
+
+apachecms_backend_customers_reject:
+    path:     /bloquear/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Customers:reject }
+
+apachecms_backend_customers_view:
+    path:     /ver/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Customers:view }
+    methods: [GET]
+    options:
+        breadcrumb:
+            label: Detalle
+            parent_route: apachecms_backend_customers
+
+apachecms_backend_customers_create:
+    path:     /create
+    defaults: { _controller: ApachecmsBackendBundle:Customers:create }
+    methods: POST
+    options:
+        breadcrumb:
+            label: Crear cliente
+            parent_route: apachecms_backend_customers
+
+apachecms_backend_customers_edit:
+    path:     /editar/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Customers:edit }
+    methods: [GET]
+    options:
+        breadcrumb:
+            label: Editar cliente
+            parent_route: apachecms_backend_customers
+
+apachecms_backend_customers_update:
+    path:     /update/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Customers:update }
+    methods: [PUT]
+    options:
+        breadcrumb:
+            label: Editar cliente
+            parent_route: apachecms_backend_customers
+
+apachecms_backend_customers_delete:
+    path:     /delete/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Customers:delete }
+    methods: [POST,DELETE]

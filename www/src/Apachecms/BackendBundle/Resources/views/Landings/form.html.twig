@@ -1,0 +1,576 @@
+{% extends "ApachecmsBackendBundle::layout.html.twig" %}
+{% block body %} 
+{{ parent()}}             
+    <div class="form-body">
+        <h3 class="card-title">Datos generales</h3>
+        <hr>
+        <div class="row p-t-20">
+            <div class="col-md-3">
+                <div class="form-group ">
+                    <label>{{ 'status' | trans }}</label>
+                    {% if entity.status == 'draft' %}
+                        <h5><span class="badge badge-pill badge-warning">{{ entity.status | trans }} ({{ 'step' | trans }} {{ entity.currentStep }})</span></h5>
+                    {% elseif entity.status == 'ready' %}
+                        <h5><span class="badge badge-pill badge-primary">{{ entity.status | trans }}</span></h5>
+                    {% elseif entity.status == 'published' %}
+                        <h5><span class="badge badge-pill badge-success">{{ entity.status | trans }}</span></h5>
+                    {% elseif entity.status == 'program' %}
+                        <h5><span class="badge badge-pill badge-info">{{ entity.status | trans }}</span></h5>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group ">
+                    <label>Publicada desde</label>
+                    {% if entity.publishedFromAt  %}
+                        <h5>{{ entity.publishedFromAt | date('d/m/Y') }}</h5>
+                    {% else %}
+                        <h5>--/--/----</h5>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group ">
+                    <label>Publicada hasta</label>
+                     {% if entity.publishedToAt  %}
+                        <h5>{{ entity.publishedToAt | date('d/m/Y') }}</h5>
+                    {% elseif entity.status == 'program' or entity.status == 'published'%}
+                        <h5>{{ 'date.undefined' | trans }}</h5>
+                    {% else %}
+                        <h5>--/--/----</h5>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group ">
+                    <label>{{ 'review' | trans }}</label>
+                    {% if entity.isReview == true %}
+                        <h5><span class="badge badge-pill badge-success">{{ 'yes' | trans }}</span></h5>
+                    {% elseif entity.isReview is null %}
+                        <h5><span class="badge badge-pill badge-warning">{{ 'pending' | trans }}</span></h5>
+                    {% else %}
+                        <h5><span class="badge badge-pill badge-danger">{{ 'no' | trans }}</span></h5>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group ">
+                    <label>Título</label>
+                    <p>{{ entity.title }}</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group ">
+                    <label>Empresa</label>
+                    <p>{{ entity.business.name }}</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group ">
+                    <label>Industria</label>
+                    <p><a target="_blank" href="{{ path('apachecms_backend_industries_edit',{ id: entity.business.industry.id })}}">{{ entity.business.industry.name }}</a></p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group ">
+                    <label>Cliente</label>
+                    <p><a target="_blank" href="{{ path('apachecms_backend_customers_view',{ id: entity.customer.id })}}">{{ entity.customer.firstName }} {{ entity.customer.lastName }}</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group ">
+                    <label>URL</label>
+                    <p><a target="_blank" href="{{ url('apachecms_frontend_dinamic_'~ entity.customer.usernameUrl,{ slug: entity.slug }) }}">{{ url('apachecms_frontend_dinamic_'~ entity.customer.usernameUrl,{ slug: entity.slug }) }}</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group ">
+                    <label>Creada</label>
+                    <p>{{ entity.createdAt | date('d/m/Y') }}</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group ">
+                    <label>Visitas</label>
+                    <p>{{ entity.visits }}</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group ">
+                    <label>Leads</label>
+                    <p>{{ entity.leads }}</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group ">
+                    <label>Conversiones</label>
+                    <p>{{ entity.convertions |number_format(2, ',', '.') }} %</p>
+                </div>
+            </div>
+        </div>
+        {% if entity.isProductService and entity.services | length %}
+        <h3 class="card-title m-t-20">Productos/Servicios</h3>
+        <hr>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Descripción</th>
+                        <th>Label Botón</th>
+                        <th>Acción Botón</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for service in entity.services %}
+                        <tr>
+                            <td>{{ service.title }}</td>
+                            <td>{{ service.description }}</td>
+                            <td>{{ service.label }}</td>
+                            <td>
+                            {% if service.action == '#contacto'%}
+                                Formulario
+                            {% else %}
+                                <a href="{{ service.action }}" target="_blank">Link externo</a>
+                            {% endif %}
+                            </td>
+                        </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+        <h3 class="card-title m-t-20">Imágenes</h3>
+        <hr>
+        <div id="files" class="files row">
+            <div class="col-sm-3" style="margin-bottom:15px; margin-top:15px;" >
+                <div class=" cover img-thumbnail" style="height:150px; background-image:url('{{ entity.backgroundImage }}')"></div>
+            </div>
+            {% if entity.isProductService and entity.services | length %}
+                 {% for service in entity.services %}
+                    <div class="col-sm-3" style="margin-bottom:15px; margin-top:15px;" >
+                        <div class=" cover img-thumbnail" style="height:150px; background-image:url('{{ web_image('uploads/or/' ~ service.picture).resize('300') }}')"></div>
+                    </div>
+                 {% endfor %}
+            {% endif %}
+        </div>
+        <h3 class="card-title m-t-20">Datos de contacto</h3>
+        <hr>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group ">
+                    <label>Email para mostrar</label>
+                    <p>{{ entity.contactEmail }}</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group ">
+                    <label>Teléfono</label>
+                    <p>{{ entity.contactPhone }}</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group ">
+                    <label>¿Usa Whatsapp con este número?</label>
+                    <p><b>{% if entity.useWhatsapp %}SI{% else %}NO{% endif %}</b></p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group ">
+                    <label>¿Sólo en versión mobile?</label>
+                    <p><b>{% if entity.useWhatsappMobile %}SI{% else %}NO{% endif %}</b></p>
+                </div>
+            </div>
+            
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group ">
+                    <label>Respuesta automática ante una consulta</label>
+                    <p>{{ entity.contactReplyEmail | nl2br }}</p>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="form-group ">
+                    <label>Dirección o ubicación para mostrar</label>
+                    <p>{{ entity.contactAddress }}</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group ">
+                    <label>¿Mostrar mapa?</label>
+                    <p><b>{% if entity.contactAddressMap %}SI{% else %}NO{% endif %}</b></p>
+                </div>
+            </div>
+        </div>
+        <h3 class="card-title m-t-20">Redes sociales</h3>
+        <hr>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group ">
+                    <label>Web</label>
+                    <p>
+                    {% if entity.socials.web %}
+                    <a href="{{ entity.socials.web | default('#' )}}" target="_blank">{{ entity.socials.web}}</a>
+                    {% else %}
+                    <i>Vacío</i>
+                    {% endif %}
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group ">
+                    <label>Facebook</label>
+                    <p>
+                    {% if entity.socials.facebook %}
+                    <a href="{{ entity.socials.facebook | default('#' )}}" target="_blank">{{ entity.socials.facebook}}</a>
+                    {% else %}
+                    <i>Vacío</i>
+                    {% endif %}
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group ">
+                    <label>Twiter</label>
+                    <p>
+                    {% if entity.socials.twitter %}
+                    <a href="{{ entity.socials.twitter | default('#' )}}" target="_blank">{{ entity.socials.twitter}}</a>
+                    {% else %}
+                    <i>Vacío</i>
+                    {% endif %}
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group ">
+                    <label>Google+</label>
+                    <p>
+                    {% if entity.socials.googlePlus %}
+                    <a href="{{ entity.socials.googlePlus | default('#' )}}" target="_blank">{{ entity.socials.googlePlus}}</a>
+                    {% else %}
+                    <i>Vacío</i>
+                    {% endif %}
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group ">
+                    <label>Instagram</label>
+                    <p>
+                    {% if entity.socials.instagram %}
+                    <a href="{{ entity.socials.instagram | default('#' )}}" target="_blank">{{ entity.socials.instagram}}</a>
+                    {% else %}
+                    <i>Vacío</i>
+                    {% endif %}
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group ">
+                    <label>Youtube</label>
+                    <p>
+                    {% if entity.socials.youtube %}
+                    <a href="{{ entity.socials.youtube | default('#' )}}" target="_blank">{{ entity.socials.youtube}}</a>
+                    {% else %}
+                    <i>Vacío</i>
+                    {% endif %}
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group ">
+                    <label>Linkedin</label>
+                    <p>
+                    {% if entity.socials.linkedin %}
+                    <a href="{{ entity.socials.linkedin | default('#' )}}" target="_blank">{{ entity.socials.linkedin}}</a>
+                    {% else %}
+                    <i>Vacío</i>
+                    {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <h3 class="card-title m-t-20">Chatbot</h3>
+        <hr>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group ">
+                    <label>¿Usa chatbot?</label>
+                    <p><b>{% if entity.useChatbot %}SI{% else %}NO{% endif %}</b></p>
+                </div>
+            </div>
+        </div>
+        {% if entity.useChatbot %}
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group ">
+                    <label>Título de la ventana</label>
+                    <p>{{ entity.chatbot.title }}</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group ">
+                    <label>Nombre del agente</label>
+                    <p>{{ entity.chatbot.avatarName }}</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group ">
+                    <label>Texto del llamado a la acción</label>
+                    <p>{{ entity.chatbot.labelButton }}</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group ">
+                    <label>Tiempo en abrirse</label>
+                    <p>{{ entity.chatbot.timeoutOpen }} segundos</p>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group ">
+                    <label>Mensaje de bienvenida</label>
+                    <p>{{ entity.chatbot.welcome | nl2br }}</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <h3 class="card-title m-t-20">Herramientas</h3>
+        <hr>
+        <div class="row">
+            <div class="col-md-9">
+                <div class="form-group ">
+                    <label>Metatags - Descripción</label>
+                    <p>{{ entity.plugins.metaTagsDescription | default('N/E') }}</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group ">
+                    <label>¿Indexeable?</label>
+                    <p><b>{% if entity.plugins.metaIndex %}SI{% else %}NO{% endif %}</b></p>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Google Analytics</label>
+                    <p>{{ entity.plugins.googleAnalitycs | default('N/E') }}</p>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Google ADS - Landing</label>
+                    <p>{{ entity.plugins.googleAdsLanding | default('N/E') }}</p>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Google ADS - Página de éxito</label>
+                    <p>{{ entity.plugins.googleAdsSuccess | default('N/E') }}</p>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Píxel de Facebook</label>
+                    <p>{{ entity.plugins.pixelFacebook | default('N/E') }}</p>
+                </div>
+            </div>
+        </div>
+        <h3 class="card-title m-t-20">Contactos obtenidos</h3>
+        <hr>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Origen</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for contact in contacts %}
+                    <tr>
+                        <td>{{ contact.type }}</td>
+                        <td>{{ contact.name }}</td>
+                        <td>{{ contact.email }}</td>
+                        <td>{{ contact.phone }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <h3 class="card-title m-t-20">Consultas</h3>
+        <hr>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Contacto</th>
+                        <th>Consulta</th>
+                        <th>Respondida</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for query in queries %}
+                    <tr>
+                        <td>{{ query.contact.name }} ({{ query.contact.email }})</td>
+                        <td>{{ query.query }}</td>
+                        <td>{% if query.isreply %}SI{% else %}NO{% endif %}</td>
+                        <td>{{ query.createdAt | date ('d/m/Y H:i') }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <h3 class="card-title m-t-20">Chats</h3>
+        <hr>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Contacto</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for chat in chats %}
+                    <tr style="cursor:pointer;" onclick="openChats('{{ chat.id }}')">
+                        <td>{{ chat.contact.name }} ({{ chat.contact.email }})</td>
+                        <td>{{ chat.createdAt | date ('d/m/Y H:i') }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <hr>
+    <div class="form-actions btn-group">
+        <button type="button" class="btn btn-inverse" onclick="javascript:history.back(-1)">Volver</button>
+        {% if entity.isPublished == true %}
+            {% if entity.isReview == true %}
+                <button type="button" class="btn btn-danger btn-refuse"> <i class="fa fa-remove"></i> Rechazar</button>
+            {% elseif entity.isReview is null %}
+                <button type="button" class="btn btn-success btn-approve"> <i class="fa fa-check"></i> Aprobar</button>
+                <button type="button" class="btn btn-danger btn-refuse"> <i class="fa fa-remove"></i> Rechazar</button>
+            {% else %}
+                <button type="button" class="btn btn-success btn-approve"> <i class="fa fa-check"></i> Aprobar</button>
+            {% endif %}
+        {% endif %}
+    </div>
+    <div class="modal fade" id="modalChats" tabindex="-1" role="dialog" aria-labelledby="modalChatsLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg " role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h5 class="modal-title text-center" id="modalChatsLabel">Chat</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid" id="result">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalReject" tabindex="-1" role="dialog" aria-labelledby="modalChatsLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h5 class="modal-title text-center" >Rechazar publicación</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="">
+                        <textarea id="reason_for_rejection" class="form-control" style="height:150px;" placeholder="Ingrese el motivo del rechazo"></textarea>
+                        <small>Se le enviará un email al usuario indicando el motivo del rechazo y dejará de estar publiada.</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-success" onclick="sendReject()" data-dismiss="modal" >Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+{% block javascripts %} 
+{{ parent() }}
+<script>
+    $(function(){
+        $('button.btn-approve').on('click',function (){
+            swal({   
+                title: "Atención",   
+                text: "¿Está seguro que desea aprobar esta Landing?",   
+                type: "warning",   
+                showCancelButton: true,   
+                confirmButtonColor: "#DD6B55",   
+                confirmButtonText: "Sí, aprobar",   
+                cancelButtonText: "{{ messages.delete.confirmCancelText }}",   
+                closeOnConfirm: true 
+            }, function(){
+                $(".preloader").fadeIn();
+                $.post("{{ path('apachecms_backend_landings_approve',{ landing: entity.id })}}", {}, function (result) {
+                    if (result.response == true) {
+                        location.reload();
+                    }else{
+                        $(".preloader").fadeOut();
+                        $.toast({
+                            heading: '{{ messages.result.error.title }}',
+                            text: '{{ messages.result.error.text }}',
+                            position: 'top-right',
+                            icon: '{{ messages.result.error.icon }}',
+                            hideAfter: 1000, 
+                            stack: 6
+                        });
+                    }
+                }); 
+            });
+        });
+        $('button.btn-refuse').on('click',function (){
+           $('#modalReject').modal('show');
+        });
+    });
+    function sendReject(){
+        $(".preloader").fadeIn();
+        $.post("{{ path('apachecms_backend_landings_reject',{ landing: entity.id })}}", {
+                'reason_for_rejection':$('#reason_for_rejection').val()
+            }, function (result) {
+            if (result.response == true) {
+                location.reload();
+            }else{
+                $(".preloader").fadeOut();
+                $.toast({
+                    heading: '{{ messages.result.error.title }}',
+                    text: '{{ messages.result.error.text }}',
+                    position: 'top-right',
+                    icon: '{{ messages.result.error.icon }}',
+                    hideAfter: 1000, 
+                    stack: 6
+                });
+            }
+        });
+        
+    }
+    function openChats(id){
+        $('#result').html('');
+        var url='{{ path('apachecms_backend_landings_load_chats',{ id: 'ENTITY_ID'})}}';
+        $.post(url.replace('ENTITY_ID',id), {}, function (result) {
+            $('#result').html(result);
+        });
+        $('#modalChats').modal('show');
+    }
+</script>
+{% endblock javascripts %}

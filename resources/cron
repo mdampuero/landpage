@@ -1,0 +1,23 @@
+# TEST
+#0 9 * * * curl https://land.page/api/cron/test >/dev/null 2>&1
+# BLOQUEO POR NO VALIDAR EMAIL
+0 9 * * * curl https://land.page/api/cron/lockValidateEmail >/dev/null 2>&1
+# ALERTA DE VENCIMIENTO DE TRIAL 7 DIAS ANTES
+0 10 * * * curl https://land.page/api/cron/alertTrial/7 >/dev/null 2>&1
+# ALERTA DE VENCIMIENTO DE TRIAL 1 DIAS ANTES
+0 11 * * * curl https://land.page/api/cron/alertTrial/1 >/dev/null 2>&1
+# BLOQUEO DE TRIAL
+0 15 * * * curl https://land.page/api/cron/blockTrial >/dev/null 2>&1
+# ALERTA DE VENCIMIENTO DE PLAN 7 DIAS ANTES
+30 9 * * * curl https://land.page/api/cron/alertPlan/7 >/dev/null 2>&1
+# ALERTA DE VENCIMIENTO DE PLAN 1 DÍA ANTES
+30 10 * * * curl https://land.page/api/cron/alertPlan/1 >/dev/null 2>&1
+# BLOQUEO DE CUENTA PLAN
+30 14 * * * curl https://land.page/api/cron/blockPlan >/dev/null 2>&1
+# START PUBLICATION
+45 3 * * * curl https://land.page/api/cron/startPublication >/dev/null 2>&1
+# STOP PUBLICACION
+15 3 * * * curl https://land.page/api/cron/stopPublication >/dev/null 2>&1
+# STOP TEST AI
+30 3 * * * curl https://land.page/api/cron/stopTestAI >/dev/null 2>&1
+

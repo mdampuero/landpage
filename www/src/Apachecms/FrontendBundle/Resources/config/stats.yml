@@ -1,0 +1,52 @@
+
+apachecms_frontend_landing_stats_byDate:
+    path:     /{id}
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Stats:index
+    options:
+        breadcrumb:
+            label: views
+            parent_route: apachecms_frontend_dashboard
+apachecms_frontend_landing_stats_byGeo:
+    path:     /byGeo/{id}
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Stats:byGeo
+    options:
+        breadcrumb:
+            label: Visitas por geolocalización
+            parent_route: apachecms_frontend_dashboard
+
+apachecms_frontend_landing_stats_byBrowser:
+    path:     /byBrowser/{id}
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Stats:byBrowser
+    options:
+        breadcrumb:
+            label: Visitas por navegadores
+            parent_route: apachecms_frontend_dashboard
+apachecms_frontend_landing_stats_byDevice:
+    path:     /byDevice/{id}
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Stats:byDevice
+    options:
+        breadcrumb:
+            label: Visitas por dispositivos
+            parent_route: apachecms_frontend_dashboard
+
+apachecms_frontend_landing_stats_byOS:
+    path:     /byOS/{id}
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Stats:byOS
+    options:
+        breadcrumb:
+            label: Visitas por sistema operativo
+            parent_route: apachecms_frontend_dashboard
+
+apachecms_frontend_landing_stats_byLanguage:
+    path:     /byLanguage/{id}
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Stats:byLanguage
+    options:
+        breadcrumb:
+            label: Visitas por idioma
+            parent_route: apachecms_frontend_dashboard

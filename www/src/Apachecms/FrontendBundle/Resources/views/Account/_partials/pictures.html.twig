@@ -1,0 +1,22 @@
+<div class="pull-right">
+    <label for="fileupload" class="btn btn-success">
+        <i class="fa fa-cloud-upload"></i> {{ 'uploads' | trans }}
+    </label>
+    <input id="fileupload" type="file" name="files[]" style="display:none;" multiple>
+</div>
+<div class="clearfix"></div>
+<div id="files" class="files row">
+    {% if app.user.files | length %}
+        {% for file in app.user.files %}
+            <div class="col-sm-3" id="{{ file.id }}" style="margin-bottom:15px; margin-top:15px; cursor:pointer;" data-scroll="page-top" onclick="sendBackground(this)" data-src='{{ app.request.scheme }}://{{ app.request.httpHost }}{{ asset('uploads/or/') ~ file.name }}'>
+                <a href="javascript:deleteFile('{{ file.id }}')" data-id="{{ file.id }}" class="fa-stack fa-sm text-danger" style="position: absolute;right: -10px;top: -20px;z-index: 5;">
+                    <i class="fa fa-circle-thin fa-stack-2x"></i>
+                    <i class="fa fa-remove fa-stack-1x"></i>
+                </a>
+                <div class="cover img-thumbnail" style="height:100px; background-image:url('{{ asset('uploads/sm/') ~ file.name }}')"></div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <h5 class="text-secondary">{{ 'no.results' | trans }}</h5>
+    {% endif %}
+</div>

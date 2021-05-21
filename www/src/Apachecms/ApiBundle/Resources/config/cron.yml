@@ -1,0 +1,53 @@
+apachecms_api_cron_lockValidateEmail:
+    path:     /lockValidateEmail
+    defaults: 
+        { _controller: ApachecmsApiBundle:Cron:lockValidateEmail}
+    methods: [GET]
+
+apachecms_api_cron_alertTrial:
+    path:     /alertTrial/{days}
+    defaults: 
+        { _controller: ApachecmsApiBundle:Cron:alertTrial, days: 1}
+    methods: [GET]
+
+apachecms_api_cron_blockTrial:
+    path:     /blockTrial
+    defaults: 
+        _controller: ApachecmsApiBundle:Cron:blockTrial
+    methods: [GET]
+
+apachecms_api_cron_alertPlan:
+    path:     /alertPlan/{days}
+    defaults: 
+        { _controller: ApachecmsApiBundle:Cron:alertPlan, days: 1}
+    methods: [GET]
+
+apachecms_api_cron_blockPlan:
+    path:     /blockPlan
+    defaults: 
+        _controller: ApachecmsApiBundle:Cron:blockPlan
+    methods: [GET]
+
+apachecms_api_cron_startPublication:
+    path:     /startPublication
+    defaults: 
+        _controller: ApachecmsApiBundle:Cron:startPublication
+    methods: [GET]
+
+apachecms_api_cron_stoptPublication:
+    path:     /stopPublication
+    defaults: 
+        _controller: ApachecmsApiBundle:Cron:stopPublication
+    methods: [GET]
+
+apachecms_api_cron_stopTestAI:
+    path:     /stopTestAI
+    defaults: 
+        _controller: ApachecmsApiBundle:Cron:stopTestAI
+    methods: [GET]
+
+apachecms_api_cron_test:
+    path:     /test
+    defaults: 
+        _controller: ApachecmsApiBundle:Cron:test
+    methods: [GET]

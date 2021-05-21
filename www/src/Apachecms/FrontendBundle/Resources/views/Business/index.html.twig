@@ -1,0 +1,143 @@
+{% extends "ApachecmsFrontendBundle::layout_lp.html.twig" %}
+{% block body %}
+
+
+{{ include('ApachecmsFrontendBundle::_partials/brand.html.twig') }}
+{% block headerPage %}
+{% include 'ApachecmsFrontendBundle:_partials:breadcrumbs.html.twig' %}
+{% endblock %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            {{ include('ApachecmsFrontendBundle::Account/_partials/menu.html.twig') }}
+        </div>
+        <div class="col-md-9">
+            <div class="card">
+                <h2 class="card-header">
+                    {{ (app.request.attributes.get('_route_params')['_breadcrumbs']|last)['label'] | trans}}
+                    <button type="button" class="btn btn-info pull-right" onclick="createBusiness()">{{ 'add' | trans }}</button>
+                </h2>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="landings_dataTable" class="display nowrap table table-striped table-bordered" cellspacing="0" width="100%"></table>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %} 
+{{ parent() }}
+<script src="{{ asset('bundles/apachecmsbackend/assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js"></script>
+{% if app.request.locale == 'es' %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/locale/es.js"></script>
+{% endif %}
+<script>
+    function createBusiness(){
+        {% if app.user.plan.maxBusiness > app.user.business | length %}
+        location.href='{{ path('apachecms_frontend_business_add') }}';
+        {% else %}
+        swal({   
+                title: "Ups!",   
+                text: "{{ 'max.business' | trans }}",   
+                type: "error",   
+                showCancelButton: false,   
+                confirmButtonColor: "#DD6B55",   
+                confirmButtonText: "{{ 'accept' | trans }}",    
+                closeOnConfirm: true 
+            });
+        {% endif %}
+    }
+    $.extend( true, $.fn.dataTable.defaults, {
+        // "searching": false,
+        // "ordering": false,   
+        dom: 'Bfrtip',
+        ajax: "{{ path('apachecms_api_business_getAll')}}",
+        pageLength: 15,
+        lengthMenu: [15, 25, 50],
+        {% if app.request.locale == 'es' %}
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json'
+        },
+        {% endif %}
+        buttons: [
+           
+        ],
+    });
+    $(function () {
+        $('#landings_dataTable').DataTable({
+            order:  [[ 1, "ASC" ]],
+            columns: [
+                {
+                    title: '{{ 'brand.business' | trans }}',
+                    class:'text-center',
+                    orderable:false,
+                    render: function (data, type, JsonResultRow, meta) {
+                        if(JsonResultRow.brand){
+                            return '<img src="{{ asset('uploads') }}/sm/'+JsonResultRow.brand+'" style="max-height:50px;"> ';
+                        }else{
+                            return '<img src="{{ asset("bundles/apachecmsbackend/assets/images/image_not_found_landscape.jpg") }}" style="max-height:50px;"> ';
+                        }
+                    }
+                },
+                { title:"{{ 'name' | trans }}",data: "name", class:'empresa' },
+                { title:"{{ 'industry' | trans }}",data: "industry.name" },
+				{ title:"{{ 'create.landing' | trans }}", class:'text-center',
+                    orderable:false,data: "id",
+                    render: function (data, type, JsonResultRow, meta) {
+                        if(JsonResultRow.id){
+                            return '<button type="button" class="btn btn-info btn-edit " >{{ 'create.landing' | trans }}</button>';
+                        }else{
+                            return '<img src="{{ asset("bundles/apachecmsbackend/assets/images/image_not_found_landscape.jpg") }}" style="max-height:50px;"> ';
+                        }
+                    }
+                      
+                    } 
+				
+            ]
+        });
+        $('#landings_dataTable').on('click', 'tbody>tr>td.empresa', function () {
+            var data = $('#landings_dataTable').DataTable().row($(this)).data();
+            var url="{{ path('apachecms_frontend_business_edit',{ id: 'ENTITY_ID' })}}";
+            location.href=url.replace('ENTITY_ID',data.id);
+        });
+		
+		  $('#landings_dataTable').on('click', 'button.btn-edit', function () {
+			  
+		 {% if app.user.plan.maxLanding > app.user.landings | length %}
+                 var data = $('#landings_dataTable').DataTable().row($(this).parents('tr')).data();
+            var url="{{ url('apachecms_frontend_landing_add_step1',{ 'business_id': 'ENTITY_ID' }) }}";
+           location.href=url.replace('ENTITY_ID',data.id);
+        {% else %}
+        swal({   
+                title: "Ups!",   
+                text: "{{ 'max.landings' | trans }}",   
+                type: "error",   
+                showCancelButton: false,   
+                confirmButtonColor: "#DD6B55",   
+                confirmButtonText: "{{ 'accept' | trans }}",    
+                closeOnConfirm: true 
+            });
+        {% endif %}
+			  
+           
+        });
+		
+		
+        {# /* $('#landings_dataTable').on('click', 'button.btn-view', function () {
+            var data = $('#landings_dataTable').DataTable().row( $(this).parents('tr') ).data();
+            var url="{{ path('apachecms_frontend_landing_stats',{ id: 'ENTITY_ID' })}}";
+           location.href=url.replace('ENTITY_ID',data.id);
+        });
+        $('#landings_dataTable').on('click', 'button.btn-edit', function () {
+            var data = $('#landings_dataTable').DataTable().row( $(this).parents('tr') ).data();
+            var url="{{ path('apachecms_frontend_landing_add_step4',{ id: 'ENTITY_ID' })}}";
+            location.href=url.replace('ENTITY_ID',data.id);
+        }); */ #}
+    });
+</script>
+{% endblock %}

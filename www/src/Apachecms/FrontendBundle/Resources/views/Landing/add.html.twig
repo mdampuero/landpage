@@ -1,0 +1,51 @@
+{% extends "ApachecmsFrontendBundle::layout_lp.html.twig" %}
+{% block body %}
+{{ include('ApachecmsFrontendBundle::_partials/brand.html.twig') }}
+{% block headerPage %}
+{% include 'ApachecmsFrontendBundle:_partials:breadcrumbs.html.twig' %}
+{% endblock %}
+<div class="container">
+    <div class="card">
+        <h2 class="card-header">
+            {{ (app.request.attributes.get('_route_params')['_breadcrumbs']|last)['label'] | trans}}
+        </h2>
+        <div class="card-body" id="main_content" style="min-height:300px"></div>
+        <div class="card-footer">
+            <a href="javascript:backStep()" role="button" class="btn btn-outline-secondary pull-left">Back</a>
+            <a href="javascript:sendStep()" role="button" class="btn btn-outline-primary pull-right">Continue</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %} 
+{{ parent() }}
+<script type="text/javascript">
+    var currentStep=0;
+    $(function () {
+        loadStep();
+    });
+    function loadStep(){
+        currentStep++;
+        $('#main_content').html(showSpinner());
+        $.get("{{ path('apachecms_frontend_landing_add_step') }}", { step:currentStep }, function (result) {
+            $('#main_content').html(result);
+        });
+    }
+    function backStep(){
+        currentStep-=2;
+        loadStep();
+    }
+    function sendStep(){
+        var form = $("#landing_step"+currentStep);
+        var url = form.attr("action");
+        var dataForm = form.serialize();
+        $.post(url+'?step='+step, dataForm, function (result) {
+            if(result.response==true){
+                loadStep();
+            }else{
+                $('#main_content').html(result.html);
+            }
+        });
+    }
+</script>
+{% endblock %}

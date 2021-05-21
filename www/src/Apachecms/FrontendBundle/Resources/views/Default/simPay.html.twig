@@ -1,0 +1,105 @@
+{% extends "ApachecmsFrontendBundle::layout_lp.html.twig" %}
+{% block body %}
+{{ include('ApachecmsFrontendBundle::_partials/brand.html.twig') }}
+<div class="container">
+    <div class="text-center">
+        <h1 class='login'>Pagar con PayPal</h1>
+        <h3>Plan {{ attribute(plan, 'name'~(app.request.locale | capitalize )) | raw }}</h3>
+        <div class="row">
+            <div class="col-lg-2 col-sm-1">
+            </div>
+            <div class="col-lg-8 col-sm-10">
+                <div class="row">
+                    <div class="col-md-6 col-lg-6">
+                        <label  style="width:100%">
+                            <div class="card card-input ">
+                                <div class="card-header pt-3 pb-0 text-white bg-info">
+                                    <h3><input type="radio" value="1" name="payBy" class="card-input-element" checked="checked" /> 
+                                    U$D {{ ((plan.price * 12 * (1 - (plan.percentDiscount / 100))) / 12) | number_format(2,",",".")  }} / m
+                                    </h3> 
+                                </div>
+                                <div class="card-body">
+                                    <h4 class="card-title">Anualmente (<b>-{{ plan.percentDiscount }}%</b>)</h4>
+                                    <div class="card-text text-left">
+                                        <h5><b>Monto a pagar: U$D {{ ((plan.price * 12 * (1 - (plan.percentDiscount / 100)))) | number_format(2,",",".")  }}</b></h5>
+                                        <h5 class="text-success">Ahorrás: U$D {{ ((plan.price * 12) - (plan.price * 12 * (1 - (plan.percentDiscount / 100)))) | number_format(2,",",".") }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+                        <label  style="width:100%">
+                            <div class="card card-input ">
+                                <div class="card-header pt-3 pb-0 text-white bg-info">
+                                    <h3><input type="radio" value="1" name="payBy" class="card-input-element" /> U$D {{ (plan.price) | number_format(2,",",".")  }} / m</h3> 
+                                </div>
+                                <div class="card-body">
+                                    <h4 class="card-title">Mensualmente</h4>
+                                    <div class="card-text text-left">
+                                        <h5><b>Monto a pagar: U$D {{ ((plan.price )) | number_format(2,",",".")  }}</b></h5>
+                                        <h5 class="text-danger">Ahorrás: U$D 0</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                <h1></h1>
+                <div class="col col-xs-12">
+                  <div id="paypal-button-container"></div>
+                </div>
+                <hr>
+                <h5 class="pull-left"><a href="">&lsaquo; Transferencia Bancaria</a></h5>
+                <h5 class="pull-right"><a href="">Pagar con Mercado Pago &rsaquo;</a></h5>
+                <br/>
+            </div>
+        </div>
+    </div>
+</div>
+{{ form_start(form, {'attr': {'id':'form_return','class': 'sendToApi'}}) }}
+{{ form_widget(form) }}
+{{ form_end(form) }}
+{% endblock body %}
+{% block javascripts %}
+{{ parent() }}
+<script src="https://www.paypal.com/sdk/js?client-id=AWV9cUUB4mn8NIBcq48PVHLmmv8YCNT4ugA3Kvk7cIjwVgvLPGOISS6_PwJIaSkvh0pPD0uJmVqwXGEO"> </script>
+<script>
+  paypal.Buttons({
+  createOrder: function(data, actions) {
+    return actions.order.create({
+      purchase_units: [{
+        amount: {
+          value: '150'
+        }
+      }]
+    });
+  },
+  onApprove: function(data, actions) {
+    return actions.order.capture().then(function(details) {
+      $('#back_data_backUrl').val(data.back_url);
+      $('#back_data_collectionId').val(details.id);
+      $('#back_data_collectionStatus').val('approved');
+      $('#back_data_externalReference').val('{{ transaction.id }}');
+      $('#back_data_paymentType').val('pp');
+      $('#back_data_preferenceId').val(data.payerID);
+      $('#form_return').submit();
+      {# console.log(details.id);
+      console.log(data);
+      return fetch('pp.php', {
+        method: 'post',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          data: data
+        })
+      }); #}
+    });
+  }
+}).render('#paypal-button-container');
+function beforeSuccess(response){
+    location.href=response.data.to;
+}
+</script>
+{% endblock javascripts %}

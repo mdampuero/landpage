@@ -1,0 +1,376 @@
+<script>
+    (function($) {
+  "use strict"; // Start of use strict
+
+  // Smooth scrolling using jQuery easing
+  $('a.js-scroll-trigger[href*="#"]:not([href="#"])').click(function() {
+    if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+      var target = $(this.hash);
+      target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+      if($(this).attr('attr-action')!==undefined){
+        $("#contactService").val($(this).attr('attr-action')).trigger('change');
+      }
+      
+      if (target.length) {
+        $('html, body').animate({
+          scrollTop: (target.offset().top - 56)
+        }, 1000, "easeInOutExpo");
+        return false;
+      }
+    }
+  });
+
+  // Closes responsive menu when a scroll trigger link is clicked
+  $('.js-scroll-trigger').click(function() {
+    $('.navbar-collapse').collapse('hide');
+  });
+
+  // Activate scrollspy to add active class to navbar items on scroll
+  $('body').scrollspy({
+    target: '#mainNav',
+    offset: 57
+  });
+
+  // Collapse Navbar
+  var navbarCollapse = function() {
+    // console.log($("#mainNav").offset().top);
+    if ($("#mainNav").offset().top > 100) {
+      $("#navBarTop").hide();
+      $("#navBarFixed").show();
+    } else {
+      $("#navBarTop").show();
+      $("#navBarFixed").hide();
+    }
+  };
+  // Collapse now if page is not at top
+  navbarCollapse();
+  // Collapse the navbar when page is scrolled
+  $(window).scroll(navbarCollapse);
+
+  // Scroll reveal calls
+  window.sr = ScrollReveal();
+
+  sr.reveal('.sr-icon-1', {
+    delay: 200,
+    scale: 0
+  });
+  sr.reveal('.sr-icon-2', {
+    delay: 400,
+    scale: 0
+  });
+  sr.reveal('.sr-icon-3', {
+    delay: 600,
+    scale: 0
+  });
+  sr.reveal('.sr-icon-4', {
+    delay: 800,
+    scale: 0
+  });
+  sr.reveal('.sr-button', {
+    delay: 200,
+    distance: '15px',
+    origin: 'bottom',
+    scale: 0.8
+  });
+  sr.reveal('.sr-contact-0', {
+    delay: 100,
+    scale: 0
+  });
+  sr.reveal('.sr-contact-1', {
+    delay: 200,
+    scale: 0
+  });
+  sr.reveal('.sr-contact-2', {
+    delay: 300,
+    scale: 0
+  });
+  sr.reveal('.sr-contact-3', {
+    delay: 400,
+    scale: 0
+  });
+  sr.reveal('.sr-contact-4', {
+    delay: 500,
+    scale: 0
+  });
+  sr.reveal('.sr-contact-5', {
+    delay: 600,
+    scale: 0
+  });
+  sr.reveal('.sr-contact-6', {
+    delay: 700,
+    scale: 0
+  });
+  sr.reveal('.sr-contact-7', {
+    delay: 800,
+    scale: 0
+  });
+  sr.reveal('.sr-contact-8', {
+    delay: 900,
+    scale: 0
+  });
+  sr.reveal('.sr-contact-9', {
+    delay: 1000,
+    scale: 0
+  });
+  
+
+  // Magnific popup calls
+
+
+})(jQuery); // End of use strict
+</script>
+<script src="https://land.page{{ asset('bundles/apachecmsbackend/node_modules/clientjs/dist/client.min.js')}}"></script>
+    <script src="https://land.page{{ asset('bundles/apachecmsbackend/assets/plugins/toast-master/js/jquery.toast.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script>
+    <script>
+      var client = new ClientJS();
+      var dataClient={
+        getBrowserData:client.getBrowserData(),
+        getFingerprint:client.getFingerprint(),
+        getUserAgent:client.getUserAgent(),
+        getUserAgentLowerCase:client.getUserAgentLowerCase(),
+        getBrowser:client.getBrowser(),
+        getBrowserVersion:client.getBrowserVersion(),
+        getBrowserMajorVersion:client.getBrowserMajorVersion(),
+        isIE:client.isIE(),
+        isChrome:client.isChrome(),
+        isFirefox:client.isFirefox(),
+        isSafari:client.isSafari(),
+        isOpera:client.isOpera(),
+
+        getEngine:client.getEngine(),
+        getEngineVersion:client.getEngineVersion(),
+
+        getOS:client.getOS(),
+        getOSVersion:client.getOSVersion(),
+        isWindows:client.isWindows(),
+        isMac:client.isMac(),
+        isLinux:client.isLinux(),
+        isUbuntu:client.isUbuntu(),
+        isSolaris:client.isSolaris(),
+
+        getDevice:client.getDevice(),
+        getDeviceType:client.getDeviceType(),
+        getDeviceVendor:client.getDeviceVendor(),
+
+        getCPU:client.getCPU(),
+
+        isMobile:client.isMobile(),
+        isMobileMajor:client.isMobileMajor(),
+        isMobileAndroid:client.isMobileAndroid(),
+        isMobileOpera:client.isMobileOpera(),
+        isMobileWindows:client.isMobileWindows(),
+        isMobileBlackBerry:client.isMobileBlackBerry(),
+
+        isMobileIOS:client.isMobileIOS(),
+        isIphone:client.isIphone(),
+        isIpad:client.isIpad(),
+        isIpod:client.isIpod(),
+
+        getScreenPrint:client.getScreenPrint(),
+        getColorDepth:client.getColorDepth(),
+        getCurrentResolution:client.getCurrentResolution(),
+        getAvailableResolution:client.getAvailableResolution(),
+        getDeviceXDPI:client.getDeviceXDPI(),
+        getDeviceYDPI:client.getDeviceYDPI(),
+
+        getPlugins:client.getPlugins(),
+        isJava:client.isJava(),
+        getJavaVersion:client.getJavaVersion(),
+        isFlash:client.isFlash(),
+        getFlashVersion:client.getFlashVersion(),
+        isSilverlight:client.isSilverlight(),
+        getSilverlightVersion:client.getSilverlightVersion(),
+
+        getMimeTypes:client.getMimeTypes(),
+        isMimeTypes:client.isMimeTypes(),
+
+        isFont:client.isFont(),
+        getFonts:client.getFonts(),
+
+        isLocalStorage:client.isLocalStorage(),
+        isSessionStorage:client.isSessionStorage(),
+        isCookie:client.isCookie(),
+
+        getTimeZone:client.getTimeZone(),
+
+        getLanguage:client.getLanguage(),
+        getSystemLanguage:client.getSystemLanguage(),
+
+        isCanvas:client.isCanvas()
+        {# getCanvasPrin:client.getCanvasPrint() #}
+      };
+
+        
+    </script>
+    <script>
+        
+        var testCase={{ testCase | json_encode | raw }};
+  
+        function getLocation(stat) {
+            var statId=stat;
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position){
+                    var url="{{ path('apachecms_api_stats_geo',{ id:'ENTITY_ID'}) }}"
+                    $.post(url.replace('ENTITY_ID',statId), position ,function (result) {
+                        {# console.log(result); #}
+                    });
+                });
+            }
+        }
+        function showRequest(formData, form, options) { 
+          {% if app.user is null or entity.customer != app.user %}
+            var url = form.attr("action");
+            var method = form.attr("method").toUpperCase();
+            var dataForm = form.serialize();
+            var submitBtn = form.closest('form').find(':submit');
+            var inputs=form.closest('form').find(':input:not(.dropify)');
+            inputs.removeClass('error');
+            inputs.next('small').html('');
+            BtnSecondaryLabel=submitBtn.attr('secondary-label');
+            BtnHtml=submitBtn.html();
+            submitBtn.html('<i class="fa fa-gear fa-spin"></i> '+BtnSecondaryLabel);
+            submitBtn.attr('disabled',true);
+            return true; 
+            {% else %}
+            $.toast({
+                    heading: "Atención!",
+                    text: "Hola! No puedes usar tu mismo el formulario de contacto, debes cerrar tu sesión o abrir esta Landing en otro navegador.",
+                    position: 'top-right',
+                    icon: 'warning',
+                    hideAfter: 6000, 
+                    stack: 6
+                });
+            return false;
+            {% endif %}
+            
+            
+        } 
+
+        function showResponse(data, statusText, xhr, form)  { 
+            
+            var submitBtn = form.closest('form').find(':submit');
+            submitBtn.attr('disabled',false);
+            submitBtn.html(BtnHtml);
+            if(statusText=='success'){
+                if(data.response==false){
+                    $.toast({
+                        heading: "{{ 'error' | trans }}",
+                        text: "{{ 'ups' | trans }}",
+                        position: 'top-right',
+                        icon: 'error',
+                        hideAfter: 2000, 
+                        stack: 6
+                    });
+                    if(data.errors.length > 0){
+                        for (var i=0; i<data.errors.length; i++){
+                            if(data.errors[i].property !=null){
+                                if($('#error_'+form.attr("name")+'_'+data.errors[i].property).length > 0){
+                                    if(form.attr("name")!=undefined){
+                                        
+                                        $('#error_'+form.attr("name")+'_'+data.errors[i].property).html(data.errors[i].message);
+                                    }else{
+                                        $('#error_'+data.errors[i].property).html(data.errors[i].message);
+                                    }
+                                    $('#error_'+data.errors[i].property).html(data.errors[i].message);
+                                }else{
+                                    
+                                    if(form.attr("name")!=undefined){
+                                        var input=$('#'+form.attr("name")+'_'+data.errors[i].property);
+                                    }else{
+                                        var input=form.closest('form').find(':input[name='+data.errors[i].property+']');
+                                    }
+                                    input.addClass('error');
+                                    input.next('small').html(data.errors[i].message);
+                                }
+                            }
+                        }
+                    }
+                }else if(data.response==true){
+                    beforeSuccess(data);
+                }else{
+                    $.toast({
+                        heading: "{{ 'error' | trans }}",
+                        text: "{{ 'ups' | trans }}",
+                        position: 'top-right',
+                        icon: 'error',
+                        hideAfter: 2000, 
+                        stack: 6
+                    });
+                } 
+            }else{
+                $.toast({
+                    heading: "{{ 'error' | trans }}",
+                    text: "{{ 'ups' | trans }}",
+                    position: 'top-right',
+                    icon: 'error',
+                    hideAfter: 2000, 
+                    stack: 6
+                });
+            }
+        }
+        function beforeSuccess(response){
+            {# console.log(response); #}
+            location.href=response.data.to;
+            {# $.toast({
+                heading: "Gracias!",
+                text: "Hemos recibido tu consulta, a la brevedad nos comunicaremos contigo.",
+                position: 'top-right',
+                icon: 'success',
+                hideAfter: 4000, 
+                stack: 6
+            });
+            $('html, body').animate({
+                scrollTop: ($('#page-top').offset().top - 56)
+            }, 1000, "easeInOutExpo"); #}
+        }
+        $(function (){
+            $('#navBarTop a').css('color','{{ entity.navBarTopText }}');
+            {% if template != 'template_2' and template != 'template_4' %}
+            $('#form-header label').css('color','{{ entity.navBarTopText }}');
+            {% endif %}
+            $('#navBarTop a.active').css('color','{{ entity.navBarTopText }}');
+            $('h1.text-uppercase').css('color','{{ entity.navBarTopText }}');
+            $('header').css('filter','brightness({{ entity.brightness }})');
+            $('.bg-section').css('background-color','{{ entity.colorPrimary }}');
+            $('a').not('#navBarFixed a').not('#navBarTop a').css('color','{{ entity.colorPrimary }}');
+            $('a.active').not('#navBarFixed a.active').not('#navBarTop a.active').css('color','{{ entity.colorPrimary }}');
+            $('hr').css('border-color','{{ entity.colorPrimary }}');
+            $('.btn-primary')
+                .css('background-color','{{ entity.colorPrimary }}')
+                .css('border-color','{{ entity.colorPrimary }}');
+            $('#navBarFixed').css('background-color','{{ entity.navBarFixed }}');
+            $('#navBarFixed a').css('color','{{ entity.navBarFixedText }}');
+            $('#navBarFixed a.active').css('color','{{ entity.navBarFixedText }}');
+            {# $('.tooltipoff').focus(function (){
+                $(this).tooltip('hide').tooltip('disable');
+            }); #}
+            
+            var options = { 
+                beforeSubmit:  showRequest,  // pre-submit callback 
+                success:       showResponse  // post-submit callback 
+            };
+            
+            $( "form.sendToApi" ).ajaxForm(options);
+            {% if app.user is null or entity.customer != app.user %}
+            $.post("https://land.page{{ path('apachecms_api_stats_save',{ landing:entity.id}) }}", { 'client':dataClient,'testCase':testCase}, function (result) {
+                stat=result.data.stat;
+                if(result.data.testOption){
+                  $('#template_form_contact_testOptionId').val(result.data.testOption.id);
+                  testOption=result.data.testOption.id;
+                }else{
+                  $('#template_form_contact_testOptionId').val(null);
+                }
+                getLocation(result.data.stat.id);
+                $('#template_form_contact_statsId').val(result.data.stat.id);
+            });
+            {% else %}
+              {# $('#contactBtn').attr('disabled','disabled'); #}
+            {% endif %}
+            $(".preloader").fadeOut();
+            if (document.cookie.indexOf("ModalShownCookies=true")<0) {
+                openModalCookies();
+                document.cookie = "ModalShownCookies=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+            }
+        });
+    </script>

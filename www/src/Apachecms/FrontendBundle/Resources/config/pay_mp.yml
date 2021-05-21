@@ -1,0 +1,11 @@
+apachecms_frontend_pay_mp:
+    path:     /{plan}/{back}/{type}
+    defaults:  
+        { _controller: ApachecmsFrontendBundle:Pay:indexMP, back: null, type: "12" }
+    options:
+        breadcrumb:
+            label: Home
+            parent_route: apachecms_frontend_dashboard
+
+
+

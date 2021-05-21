@@ -1,0 +1,93 @@
+{% extends "ApachecmsFrontendBundle::layout_lp.html.twig" %}
+{% block body %}
+{{ include('ApachecmsFrontendBundle::_partials/brand.html.twig') }}
+<div class="container" >
+    <div class="text-center">
+        <h1>{{ entity.firstName }},</h1>
+        <h5>{{ 'choice.username' | trans }}</h5>
+    </div>
+    {{ form_start(form, {'attr': {'id':'usernameForm','novalidate':'novalidate','class':'sendToApi register'} }) }}
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <div class="input-group mb-3">
+                <div class="input-group-addon">
+                    <span class="input-group-text" id="basic-addon1">{{ app.request.getSchemeAndHttpHost() }}{{ app.request.getBaseURL() }}/</span>
+                </div>
+                {{form_widget(form.usernameUrl)}}
+                <div class="input-group-addon" style="border-right: #ccc 1px solid;border-radius: 0 4px 4px 0;">
+                    <span class="input-group-text">
+                        <i class="fa fa-check text-success" style="display:none;" id="result-ok"></i>
+                        <i class="fa fa-gear fa-spin text-secondary" id="result-loading"></i>
+                        <i class="fa fa-remove text-danger" style="display:none;" id="result-fail"></i>
+                    </span>
+                </div>
+            </div>
+            <h5 class="text-center" id="message"></h5>
+        </div>
+    </div>
+    <hr>
+    <div class="text-center">
+        {{form_widget(form.submit,{ 'attr':{ 'class':'btn btn-info disabled','disabled':'disabled','secondary-label':'loading' | trans}})}}
+    </div>
+    {{ form_end(form) }}
+</div>
+{% endblock body %}
+{% block javascripts %}
+{{ parent() }}
+<script>
+var timeout;
+var result={
+    pending: function (){
+        $('#message').removeClass('text-success').removeClass('text-danger').html('{{'loading' | trans}}...');
+        $('#result-ok').hide();
+        $('#result-fail').hide();
+        $('#result-loading').show();
+        $('button[type="submit"]').addClass('disabled').attr('disabled',true);
+    },
+    fail:function (message){
+        $('#message').addClass('text-danger').removeClass('text-success').html(message);
+        $('#result-ok').hide();
+        $('#result-fail').show();
+        $('#result-loading').hide();
+        $('button[type="submit"]').addClass('disabled').attr('disabled',true);
+    },
+    ok: function (){
+        $('#message').addClass('text-success').removeClass('text-danger').html('{{'username.valid' | trans}}');
+        $('#result-ok').show();
+        $('#result-fail').hide();
+        $('#result-loading').hide();
+        $('button[type="submit"]').removeClass('disabled').attr('disabled',false);
+    }
+}
+$('#apachecms_backendbundle_customer_usernameUrl').keyup(function() {
+    var value = $(this).val().toLowerCase();
+    $(this).val(value);
+    if(timeout) {
+        result.pending();
+        clearTimeout(timeout);
+        timeout = null;
+    }
+
+    timeout = setTimeout(myFunction, 1000)
+});
+function myFunction(){
+    var form = $("#usernameForm");
+    var url = '{{ path('security_api_username_check_submit') }}';
+    var dataForm = form.serialize();
+    $.post(url, dataForm, function (response) {
+        {# console.log(response); #}
+        if (response.response == true) {
+            result.ok();
+        }else{
+            result.fail(response.errors.message);
+        }
+    });
+}
+function beforeSuccess(response){
+    location.href=response.data.to;
+}
+$(function (){
+    $('#apachecms_backendbundle_customer_usernameUrl').trigger('keyup');
+});
+</script>
+{% endblock javascripts %}

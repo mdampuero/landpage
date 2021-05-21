@@ -1,0 +1,56 @@
+apachecms_backend_pays:
+    path:     /
+    defaults: 
+        _controller: ApachecmsBackendBundle:Pays:index
+    methods: [GET]
+    options:
+        breadcrumb:
+            label: Páginas estáticas
+            parent_route: apachecms_backend_homepage
+
+apachecms_backend_pays_load:
+    path:     /load
+    defaults: { _controller: ApachecmsBackendBundle:Pays:load }
+    methods: [GET]
+
+apachecms_backend_pays_add:
+    path:     /nuevo
+    defaults: { _controller: ApachecmsBackendBundle:Pays:add }
+    options:
+        breadcrumb:
+            label: Crear página
+            parent_route: apachecms_backend_pays
+    methods: [GET]
+
+apachecms_backend_pays_create:
+    path:     /create
+    defaults: { _controller: ApachecmsBackendBundle:Pays:create }
+    methods: POST
+    options:
+        breadcrumb:
+            label: Crear página
+            parent_route: apachecms_backend_pays
+
+apachecms_backend_pays_edit:
+    path:     /editar/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Pays:edit }
+    methods: [GET]
+    options:
+        breadcrumb:
+            label: Editar página
+            parent_route: apachecms_backend_pays
+
+apachecms_backend_pays_update:
+    path:     /update/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Pays:update }
+    methods: [PUT]
+    options:
+        breadcrumb:
+            label: Editar página
+            parent_route: apachecms_backend_pays
+
+apachecms_backend_pays_delete:
+    path:     /delete/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Pays:delete }
+    methods: [POST,DELETE]
+

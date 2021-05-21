@@ -1,0 +1,32 @@
+services:
+      Apachecms\BackendBundle\Controller\UsersController:
+            class: Apachecms\BackendBundle\Controller\UsersController
+            autowire: true # or define your controller constructor and configure its arguments explicitly
+            tags: ['controller.service_arguments']
+      Apachecms\BackendBundle\Controller\AccountController:
+            class: Apachecms\BackendBundle\Controller\AccountController
+            autowire: true # or define your controller constructor and configure its arguments explicitly
+            tags: ['controller.service_arguments']
+      Apachecms\BackendBundle\Controller\LoginController:
+            class: Apachecms\BackendBundle\Controller\LoginController
+            autowire: true # or define your controller constructor and configure its arguments explicitly
+            tags: ['controller.service_arguments']
+      Apachecms\BackendBundle\Controller\CustomersController:
+            class: Apachecms\BackendBundle\Controller\CustomersController
+            autowire: true # or define your controller constructor and configure its arguments explicitly
+            tags: ['controller.service_arguments']
+      notifications:
+            class: Apachecms\BackendBundle\Service\Notifications
+            arguments:
+                  - '@doctrine.orm.entity_manager'
+                  - '@mailer'
+                  - '@templating'
+                  - '@service_container'
+      setting:
+            class: Apachecms\BackendBundle\Service\Setting
+            arguments:
+                  - '@doctrine.orm.entity_manager'
+      
+      # Apachecms\BackendBundle\DataFixtures\ORM\UsersFixture:
+      #       tags: ['doctrine.fixture.orm']
+

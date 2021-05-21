@@ -1,0 +1,69 @@
+<nav class="navbar top-navbar navbar-expand-md navbar-light">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="{{ path('apachecms_backend_homepage')}}">
+            <b>
+                {# <img src="{{ asset('bundles/apachecmsbackend/assets/images/logo-icon.png') }}" alt="homepage" class="dark-logo" /> #}
+                {# <img src="{{ asset('bundles/apachecmsbackend/assets/images/apple-icon-40x40.png') }}" alt="homepage" class="dark-logo" /> #}
+                {# <img src="{{ asset('bundles/apachecmsfrontend/')}}/img/logo.png" alt="homepage" class="light-logo" /> #}
+            </b>
+            <span>
+                <img src="{{ asset('bundles/apachecmsbackend/assets/images/logo.png') }}" alt="homepage" class="dark-logo" style="max-width:180px;" />
+                {# <img src="{{ asset('bundles/apachecmsbackend/') }}assets/images/logo-light-text.png" class="light-logo" alt="homepage" /> #}
+            </span>
+        </a>
+    </div>
+    <div class="navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link nav-toggler hidden-md-up waves-effect waves-dark" href="javascript:void(0)">
+                    <i class="ti-menu"></i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link sidebartoggler hidden-sm-down waves-effect waves-dark" href="javascript:void(0)">
+                    <i class="ti-menu"></i>
+                </a>
+            </li>
+            <li class="nav-item hidden-sm-down"></li>
+        </ul>
+        <ul class="navbar-nav my-lg-0">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {% if app.user.picture %}
+                    <img src="{{ asset('uploads/xs/'~ app.user.picture) }}" alt="user" class="profile-pic"/>
+                    {% else %}
+                    <img src="{{ asset("bundles/apachecmsbackend/assets/images/avatar_default.png") }}" alt="user" class="profile-pic"/>
+                    {% endif %}
+                </a>
+                <div class="dropdown-menu dropdown-menu-right animated flipInY">
+                    <ul class="dropdown-user">
+                        <li>
+                            <div class="dw-user-box">
+                                <div class="u-img">
+                                    {% if app.user.picture %}
+                                    <img src="{{ asset('uploads/sm/'~ app.user.picture) }}" alt="user">
+                                    {% else %}
+                                    <img src="{{ asset("bundles/apachecmsbackend/assets/images/avatar_default.png") }}" alt="user" />
+                                    {% endif %}
+                                </div>
+                                <div class="u-text">
+                                    <h4>{{ app.user.name }}</h4>
+                                    <p class="text-muted">{{ app.user.email }}</p>
+                                    <a href="{{ path('apachecms_backend_account')}}" class="btn btn-rounded btn-danger btn-sm">Ver perfil</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        <li>
+                            <a href="{{ path('apachecms_backend_account')}}"><i class="ti-user"></i> Mi perfil</a>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        <li>
+                            <a href="{{ path('security_logout')}}"><i class="fa fa-power-off"></i> Salir</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>

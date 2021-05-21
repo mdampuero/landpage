@@ -1,0 +1,167 @@
+{% extends "ApachecmsFrontendBundle::layout_lp.html.twig" %}
+{% block body %}
+{{ include('ApachecmsFrontendBundle::_partials/brand.html.twig') }}
+<div class="container">
+    <div class="text-center">
+        <h1 class='login'>Pagar con Mercado Pago</h1>
+        <h3>Plan {{ attribute(plan, 'name'~(app.request.locale | capitalize )) | raw }}</h3>
+        <div class="row">
+            <div class="col-lg-2 col-sm-1">
+            </div>
+            <div class="col-lg-8 col-sm-10">
+                <div class="row">
+                    <div class="col-md-6 col-lg-6">
+                        <label  style="width:100%">
+                            <div class="card card-input ">
+                                <div class="card-header pt-3 pb-0 text-white bg-info">
+                                    <h3><input type="radio" value="1" name="payBy" class="card-input-element" checked="checked" /> 
+                                    U$D {{ ((plan.price * 12 * (1 - (plan.percentDiscount / 100))) / 12) | number_format(2,",",".")  }} / m
+                                    </h3> 
+                                </div>
+                                <div class="card-body">
+                                    <h4 class="card-title">Anualmente (<b>-{{ plan.percentDiscount }}%</b>)</h4>
+                                    <div class="card-text text-left">
+                                        <h5><b>Monto a pagar: U$D {{ ((plan.price * 12 * (1 - (plan.percentDiscount / 100)))) | number_format(2,",",".")  }}</b></h5>
+                                        <h5 class="text-success">Ahorrás: U$D {{ ((plan.price * 12) - (plan.price * 12 * (1 - (plan.percentDiscount / 100)))) | number_format(2,",",".") }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+                        <label  style="width:100%">
+                            <div class="card card-input ">
+                                <div class="card-header pt-3 pb-0 text-white bg-info">
+                                    <h3><input type="radio" value="1" name="payBy" class="card-input-element" /> U$D {{ (plan.price) | number_format(2,",",".")  }} / m</h3> 
+                                </div>
+                                <div class="card-body">
+                                    <h4 class="card-title">Mensualmente</h4>
+                                    <div class="card-text text-left">
+                                        <h5><b>Monto a pagar: U$D {{ ((plan.price )) | number_format(2,",",".")  }}</b></h5>
+                                        <h5 class="text-danger">Ahorrás: U$D 0</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                <div class="col col-xs-12">
+                    <button class="btn btn-block btn-info" style="line-height: 46px; font-size: 20px; background-color:#305687" type="button" onclick="pay()" disabled="disabled" id="btn-pay">Pagar con Mercado Pago</button>
+                </div>
+                <hr>
+                <h5 class="pull-left"><a href="">&lsaquo; Transferencia Bancaria</a></h5>
+                <h5 class="pull-right"><a href="">Pagar con PayPal &rsaquo;</a></h5>
+                <br/>
+                {# <div class="btn-group">
+                <button class="btn btn-secondary" type="button" onclick="history.back(-1)">Cancelar</button>
+                <button class="btn btn-primary" type="button" onclick="pay()" disabled="disabled" id="btn-pay">Confirmar pago</button>
+                </div> #}
+            </div>
+        </div>
+    </div>
+</div>
+{{ form_start(form, {'attr': {'id':'form_return','class': 'sendToApi'}}) }}
+{{ form_widget(form) }}
+{{ form_end(form) }}
+{% endblock body %}
+{% block javascripts %}
+{{ parent() }}
+
+<script type="text/javascript">
+(function(){function $MPC_load(){window.$MPC_loaded !== true && (function(){var s = document.createElement("script");s.type = "text/javascript";s.async = true;s.src = document.location.protocol+"//secure.mlstatic.com/mptools/render.js";var x = document.getElementsByTagName('script')[0];x.parentNode.insertBefore(s, x);window.$MPC_loaded = true;})();}window.$MPC_loaded !== true ? (window.attachEvent ?window.attachEvent('onload', $MPC_load) : window.addEventListener('load', $MPC_load, false)) : null;})();
+var mp;
+var urlBase="{{ app.request.basePath }}";
+var init_point="";
+function pay(){
+    $MPC.openCheckout({
+        url: init_point,
+        mode: "modal",
+        onreturn: function (data) {
+            if (data.collection_status=='approved'){
+                $('#back_data_backUrl').val(data.back_url);
+                $('#back_data_collectionId').val(data.collection_id);
+                $('#back_data_collectionStatus').val(data.collection_status);
+                $('#back_data_externalReference').val(data.external_reference);
+                $('#back_data_paymentType').val(data.payment_type);
+                $('#back_data_preferenceId').val(data.preference_id);
+                $('#form_return').submit();
+            } else if(data.collection_status=='pending'){
+                $('#back_data_backUrl').val(data.back_url);
+                $('#back_data_collectionId').val(data.collection_id);
+                $('#back_data_collectionStatus').val(data.collection_status);
+                $('#back_data_externalReference').val(data.external_reference);
+                $('#back_data_paymentType').val(data.payment_type);
+                $('#back_data_preferenceId').val(data.preference_id);
+                $('#form_return').submit();
+            } else if(data.collection_status=='in_process'){    
+                $('#back_data_backUrl').val(data.back_url);
+                $('#back_data_collectionId').val(data.collection_id);
+                $('#back_data_collectionStatus').val(data.collection_status);
+                $('#back_data_externalReference').val(data.external_reference);
+                $('#back_data_paymentType').val(data.payment_type);
+                $('#back_data_preferenceId').val(data.preference_id);
+                $('#form_return').submit();
+            } else if(data.collection_status=='rejected'){
+                $.toast({
+                    heading: "Ups!",
+                    text: "El pago fue rechazado, intenta nuevamente.",
+                    position: 'top-right',
+                    icon: 'error',
+                    hideAfter: 8000, 
+                    stack: 6
+                });
+            } else if(data.collection_status==null){
+                
+            }else{
+                
+            }
+        }
+    });
+}
+$(function(){
+    $('#btn-pay').attr('disabled',true);
+    var data={
+        'id':'{{ plan.id }}',
+        'baseUrl':'{{ app.request.getSchemeAndHttpHost() }}'+urlBase,
+        'urlSetting':'{{ app.request.getSchemeAndHttpHost() }}{{ path('apachecms_api_setting') }}',
+        'picture_url':'{{ app.request.getSchemeAndHttpHost() }}{{ asset('bundles/apachecmsfrontend/')}}img/logo.png',
+        'title':'Land.page - {{ plan.nameEs }}',
+        'description':'Land.page - {{ plan.nameEs }}',
+        'email':'{{ transaction.customer.email }}',
+        'currency_id':'ARS',
+        'quantity':1,
+        'unit_price':"{{ plan.price }}",
+        'external_reference':"{{ transaction.id }}",
+    }
+    $.ajax({
+        url:"{{ app.request.getSchemeAndHttpHost() }}"+urlBase+"/generatePreference.php",
+        type:"POST",
+        data:data,
+        dataType:"json",
+        success: function(result){
+            console.log(result.data.error);
+            if(result.result==true && (result.data.error===null || result.data.error===undefined )){
+                {% if app.environment == 'dev'%}
+                    init_point=result.data.sandbox_init_point;
+                {% else %}
+                    init_point=result.data.init_point;
+                {% endif %}
+                $('#btn-pay').attr('disabled',false);
+            }else{
+                 $.toast({
+                    heading: "Ups!",
+                    text: "Estamos con algunos problemas con la plataforma de pago, te sugerimos que intentes en otro momento.",
+                    position: 'top-right',
+                    icon: 'error',
+                    hideAfter: 8000, 
+                    stack: 6
+                });
+            }
+        }
+    });
+});
+function beforeSuccess(response){
+    location.href=response.data.to;
+}
+</script>
+{% endblock javascripts %}

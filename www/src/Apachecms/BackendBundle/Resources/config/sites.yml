@@ -1,0 +1,56 @@
+apachecms_backend_sites:
+    path:     /
+    defaults: 
+        _controller: ApachecmsBackendBundle:Sites:index
+    methods: [GET]
+    options:
+        breadcrumb:
+            label: Empresas
+            parent_route: apachecms_backend_homepage
+
+apachecms_backend_sites_load:
+    path:     /load
+    defaults: { _controller: ApachecmsBackendBundle:Sites:load }
+    methods: [GET]
+
+apachecms_backend_sites_add:
+    path:     /nuevo
+    defaults: { _controller: ApachecmsBackendBundle:Sites:add }
+    options:
+        breadcrumb:
+            label: Crear empresa
+            parent_route: apachecms_backend_sites
+    methods: [GET]
+
+apachecms_backend_sites_create:
+    path:     /create
+    defaults: { _controller: ApachecmsBackendBundle:Sites:create }
+    methods: POST
+    options:
+        breadcrumb:
+            label: Crear empresa
+            parent_route: apachecms_backend_sites
+
+apachecms_backend_sites_edit:
+    path:     /editar/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Sites:edit }
+    methods: [GET]
+    options:
+        breadcrumb:
+            label: Editar empresa
+            parent_route: apachecms_backend_sites
+
+apachecms_backend_sites_update:
+    path:     /update/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Sites:update }
+    methods: [PUT]
+    options:
+        breadcrumb:
+            label: Editar empresa
+            parent_route: apachecms_backend_sites
+
+apachecms_backend_sites_delete:
+    path:     /delete/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Sites:delete }
+    methods: [POST,DELETE]
+

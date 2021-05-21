@@ -1,0 +1,181 @@
+{% extends "ApachecmsBackendBundle::layout.html.twig" %}
+{% block body %} 
+{{ parent()}}             
+{{ form_start(form, {'attr': {'novalidate':'novalidate'} }) }}
+    <div class="form-body">
+        <h3 class="card-title">Datos generales</h3>
+        <hr>
+        <div class="row p-t-20">
+            <div class="col-md-3">
+                <div class="form-group {% if form_errors(form.dolar) %} has-danger {% endif %}">
+                    {{form_label(form.dolar)}}
+                    {{form_widget(form.dolar)}}
+                    <div class="form-errors">{{ form_errors(form.dolar)}} </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group {% if form_errors(form.googleMapsId) %} has-danger {% endif %}">
+                    {{form_label(form.googleMapsId)}}
+                    {{form_widget(form.googleMapsId)}}
+                    <div class="form-errors">{{ form_errors(form.googleMapsId)}} </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group {% if form_errors(form.loginGoogleClientId) %} has-danger {% endif %}">
+                    {{form_label(form.loginGoogleClientId)}}
+                    {{form_widget(form.loginGoogleClientId)}}
+                    <div class="form-errors">{{ form_errors(form.loginGoogleClientId)}} </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group {% if form_errors(form.loginFacebookAppId) %} has-danger {% endif %}">
+                    {{form_label(form.loginFacebookAppId)}}
+                    {{form_widget(form.loginFacebookAppId)}}
+                    <div class="form-errors">{{ form_errors(form.loginFacebookAppId)}} </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group {% if form_errors(form.metaTags) %} has-danger {% endif %}">
+                    {{form_label(form.metaTags)}}
+                    {{form_widget(form.metaTags)}}
+                    <div class="form-errors">{{ form_errors(form.metaTags)}} </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group {% if form_errors(form.scriptGoogleAnalytics) %} has-danger {% endif %}">
+                    {{form_label(form.scriptGoogleAnalytics)}}
+                    {{form_widget(form.scriptGoogleAnalytics)}}
+                    <div class="form-errors">{{ form_errors(form.scriptGoogleAnalytics)}} </div>
+                </div>
+            </div>
+        </div>
+        <h3 class="card-title">Mercado Pago</h3>
+        <hr>
+        <div class="row p-t-20">
+            <div class="col-md-12">
+                <div class="form-group {% if form_errors(form.mpClientId) %} has-danger {% endif %}">
+                    {{form_label(form.mpClientId)}}
+                    {{form_widget(form.mpClientId)}}
+                    <div class="form-errors">{{ form_errors(form.mpClientId)}} </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group {% if form_errors(form.mpClientSecret) %} has-danger {% endif %}">
+                    {{form_label(form.mpClientSecret)}}
+                    {{form_widget(form.mpClientSecret)}}
+                    <div class="form-errors">{{ form_errors(form.mpClientSecret)}} </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group {% if form_errors(form.mpPublicKey) %} has-danger {% endif %}">
+                    {{form_label(form.mpPublicKey)}}
+                    {{form_widget(form.mpPublicKey)}}
+                    <div class="form-errors">{{ form_errors(form.mpPublicKey)}} </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group {% if form_errors(form.mpAccessToken) %} has-danger {% endif %}">
+                    {{form_label(form.mpAccessToken)}}
+                    {{form_widget(form.mpAccessToken)}}
+                    <div class="form-errors">{{ form_errors(form.mpAccessToken)}} </div>
+                </div>
+            </div>
+        </div>
+        <h3 class="card-title">PayPal</h3>
+        <hr>
+        <div class="row p-t-20">
+            <div class="col-md-12">
+                <div class="form-group {% if form_errors(form.ppClientId) %} has-danger {% endif %}">
+                    {{form_label(form.ppClientId)}}
+                    {{form_widget(form.ppClientId)}}
+                    <div class="form-errors">{{ form_errors(form.ppClientId)}} </div>
+                </div>
+            </div>
+        </div>
+        <h3 class="card-title">Chatbot</h3>
+        <hr>
+        <div class="row p-t-20">
+            <div class="col-md-12">
+                <div class="form-group {% if form_errors(form.greetingSecondTrigger) %} has-danger {% endif %}">
+                    Disparador de saludo
+                    {{form_widget(form.greetingSecondTrigger)}}
+                    <div class="form-errors">{{ form_errors(form.greetingSecondTrigger)}} </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group {% if form_errors(form.greetingSecondResponse) %} has-danger {% endif %}">
+                    Respuesta de saludo
+                    {{form_widget(form.greetingSecondResponse)}}
+                    <div class="form-errors">{{ form_errors(form.greetingSecondResponse)}} </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group {% if form_errors(form.moreInfoTrigger) %} has-danger {% endif %}">
+                    Disparador más info
+                    {{form_widget(form.moreInfoTrigger)}}
+                    <div class="form-errors">{{ form_errors(form.moreInfoTrigger)}} </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group {% if form_errors(form.moreInfoResponse) %} has-danger {% endif %}">
+                    Respuesta de más info y pedido de Teléfono
+                    {{form_widget(form.moreInfoResponse)}}
+                    <div class="form-errors">{{ form_errors(form.moreInfoResponse)}} </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group {% if form_errors(form.morePriceTrigger) %} has-danger {% endif %}">
+                    Disparador precio/cotización
+                    {{form_widget(form.morePriceTrigger)}}
+                    <div class="form-errors">{{ form_errors(form.morePriceTrigger)}} </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group {% if form_errors(form.morePriceResponse) %} has-danger {% endif %}">
+                    Respuesta de precio/cotización y pedido de Teléfono
+                    {{form_widget(form.morePriceResponse)}}
+                    <div class="form-errors">{{ form_errors(form.morePriceResponse)}} </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group {% if form_errors(form.notUsePhoneTrigger) %} has-danger {% endif %}">
+                    Disparador no tengo teléfono
+                    {{form_widget(form.notUsePhoneTrigger)}}
+                    <div class="form-errors">{{ form_errors(form.notUsePhoneTrigger)}} </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group {% if form_errors(form.notUsePhoneResponse) %} has-danger {% endif %}">
+                    Respuesta de no tengo teléfono y pedido de Email
+                    {{form_widget(form.notUsePhoneResponse)}}
+                    <div class="form-errors">{{ form_errors(form.notUsePhoneResponse)}} </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group {% if form_errors(form.phoneNotValid) %} has-danger {% endif %}">
+                    Respuesta de teléfono no válido
+                    {{form_widget(form.phoneNotValid)}}
+                    <div class="form-errors">{{ form_errors(form.phoneNotValid)}} </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group {% if form_errors(form.emailNotValid) %} has-danger {% endif %}">
+                    Respuesta de Email no válido
+                    {{form_widget(form.emailNotValid)}}
+                    <div class="form-errors">{{ form_errors(form.emailNotValid)}} </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group {% if form_errors(form.notUnderstand) %} has-danger {% endif %}">
+                    Respuesta de no entiendo
+                    {{form_widget(form.notUnderstand)}}
+                    <div class="form-errors">{{ form_errors(form.notUnderstand)}} </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Guardar</button>
+    </div>
+{{ form_end(form) }}
+{% endblock body %}

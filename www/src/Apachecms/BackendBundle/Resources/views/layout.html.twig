@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}{{ title }} 
+    {% if app.request.attributes.get('_route_params')._breadcrumbs is defined %}
+    - {{ (app.request.attributes.get('_route_params')['_breadcrumbs']|last)['label']}}
+    {% endif %}
+    {% endblock %}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    {% block stylesheet %}
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('bundles/apachecmsbackend/assets/images/favicon.ico') }}">
+    <link href="{{ asset('bundles/apachecmsbackend/assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/apachecmsbackend/css/style.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/apachecmsbackend/css/colors/default-dark.css') }}" id="theme" rel="stylesheet">
+    <link href="{{ asset('bundles/apachecmsbackend/css/custom.css') }}" id="theme" rel="stylesheet">
+    <link href="{{ asset('bundles/apachecmsbackend/assets/plugins/toast-master/css/jquery.toast.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/apachecmsbackend/assets/plugins/sweetalert/sweetalert.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/apachecmsbackend/assets/plugins/dropify/dist/css/dropify.min.css') }}" rel="stylesheet">
+    {% endblock stylesheet %}
+</head>
+<body class="fix-header card-no-border fix-sidebar">
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">{{ copyright }}</p>
+        </div>
+    </div>
+    <div id="main-wrapper">
+        <header class="topbar">
+            {{ include('ApachecmsBackendBundle::header.html.twig') }}
+        </header>
+        {{ include('ApachecmsBackendBundle::leftMenu.html.twig') }}
+        <div class="page-wrapper">
+            <div class="container-fluid">
+                {% block headerPage %}
+                {% include 'ApachecmsBackendBundle:_partials:headerPage.html.twig' %}
+                {% endblock %}
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                            {% block body %}
+                            {% endblock %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="footer">
+                © {{ copyright }}
+            </footer>
+        </div>
+    </div>
+        {% block javascripts %}
+            <script src="{{ asset('bundles/apachecmsbackend/assets/plugins/jquery/jquery.min.js') }}"></script>
+            <script src="{{ asset('bundles/apachecmsbackend/assets/plugins/bootstrap/js/popper.min.js') }}"></script>
+            <script src="{{ asset('bundles/apachecmsbackend/assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+            <script src="{{ asset('bundles/apachecmsbackend/js/perfect-scrollbar.jquery.min.js') }}"></script>
+            <script src="{{ asset('bundles/apachecmsbackend/js/waves.js') }}"></script>
+            <script src="{{ asset('bundles/apachecmsbackend/js/sidebarmenu.js') }}"></script>
+            <script src="{{ asset('bundles/apachecmsbackend/assets/plugins/sticky-kit-master/dist/sticky-kit.min.js') }}"></script>
+            <script src="{{ asset('bundles/apachecmsbackend/assets/plugins/sparkline/jquery.sparkline.min.js') }}"></script>
+            <script src="{{ asset('bundles/apachecmsbackend/js/custom.js') }}"></script>
+            {# <script src="{{ asset('bundles/apachecmsbackend/js/apachecms.js') }}"></script> #}
+            {# <script src="{{ asset('bundles/apachecmsbackend/js/validate.js') }}"></script> #}
+            <script src="{{ asset('bundles/apachecmsbackend/assets/plugins/sweetalert/sweetalert.min.js') }}"></script>
+            <script src="{{ asset('bundles/apachecmsbackend/assets/plugins/toast-master/js/jquery.toast.js') }}"></script>
+            <script>
+                $(function (){
+                    {% for message in app.session.flashBag.get('success') %}
+                        $.toast({
+                            heading: 'Resultado OK',
+                            text: '{{ message }}',
+                            position: 'top-right',
+                            icon: 'success',
+                            hideAfter: 2000, 
+                            stack: 6
+                        });
+                    {% endfor %}
+                    {% for message in app.session.flashBag.get('warning') %}
+                        $.toast({
+                            heading: 'Atención',
+                            text: '{{ message }}',
+                            position: 'top-right',
+                            icon: 'warning',
+                            hideAfter: 2000, 
+                            stack: 6
+                        });
+                    {% endfor %}
+                    {% for message in app.session.flashBag.get('danger') %}
+                        $.toast({
+                            heading: 'Error',
+                            text: '{{ message }}',
+                            position: 'top-right',
+                            icon: 'error',
+                            hideAfter: 2000, 
+                            stack: 6
+                        });
+                    {% endfor %}
+                });
+            </script>
+        {% endblock %}
+        {# {{ include('FpJsFormValidatorBundle::javascripts.html.twig') }} #}
+    </body>
+</html>

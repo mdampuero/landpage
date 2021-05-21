@@ -1,0 +1,67 @@
+apachecms_backend_homepage:
+    path:     /
+    defaults:  
+        _controller: ApachecmsBackendBundle:Dashboard:index
+    options:
+        breadcrumb:
+            label: Dashboard
+
+apachecms_backend_homepage_pending:
+    path:     /pending
+    defaults:  
+        _controller: ApachecmsBackendBundle:Dashboard:load
+    options:
+        breadcrumb:
+            label: Dashboard
+
+apachecms_backend_users:
+    resource: "@ApachecmsBackendBundle/Resources/config/users.yml"
+    prefix:   /usuarios
+
+apachecms_backend_files:
+    resource: "@ApachecmsBackendBundle/Resources/config/files.yml"
+    prefix:   /files
+
+apachecms_backend_demos:
+    resource: "@ApachecmsBackendBundle/Resources/config/demos.yml"
+    prefix:   /demos
+
+apachecms_backend_plans:
+    resource: "@ApachecmsBackendBundle/Resources/config/plans.yml"
+    prefix:   /plans
+
+apachecms_backend_pages:
+    resource: "@ApachecmsBackendBundle/Resources/config/pages.yml"
+    prefix:   /pages
+
+apachecms_backend_account:
+    resource: "@ApachecmsBackendBundle/Resources/config/account.yml"
+    prefix:   /perfil
+
+security_login:
+    resource: "@ApachecmsBackendBundle/Resources/config/security.yml"
+    prefix:   /login
+
+apachecms_backend_customers:
+    resource: "@ApachecmsBackendBundle/Resources/config/customers.yml"
+    prefix:   /clientes
+
+apachecms_backend_sites:
+    resource: "@ApachecmsBackendBundle/Resources/config/sites.yml"
+    prefix:   /empresas
+
+apachecms_backend_industries:
+    resource: "@ApachecmsBackendBundle/Resources/config/industries.yml"
+    prefix:   /industries
+
+apachecms_backend_landings:
+    resource: "@ApachecmsBackendBundle/Resources/config/landings.yml"
+    prefix:   /landings
+
+apachecms_backend_settings:
+    resource: "@ApachecmsBackendBundle/Resources/config/settings.yml"
+    prefix:   /settings
+
+apachecms_backend_pays:
+    resource: "@ApachecmsBackendBundle/Resources/config/pays.yml"
+    prefix:   /pagos

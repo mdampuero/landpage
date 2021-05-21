@@ -1,0 +1,23 @@
+apachecms_api_account_submit:
+    path:     /profile
+    defaults: 
+        _controller: ApachecmsApiBundle:Account:profile
+    methods: [POST]
+
+apachecms_api_resendEmailValidate_submit:
+    path:     /reSendEmailValidate
+    defaults: 
+        _controller: ApachecmsApiBundle:Account:reSendEmailValidate
+    methods: [POST]
+
+apachecms_api_account_needHelp:
+    path:     /needHelp
+    defaults: 
+        _controller: ApachecmsApiBundle:Account:needHelp
+    methods: [POST]
+
+apachecms_api_account_getContacts:
+    path:     /getContacts/
+    defaults: 
+        _controller: ApachecmsApiBundle:Account:getContacts
+    methods: [GET]

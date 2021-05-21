@@ -1,0 +1,79 @@
+{% extends "ApachecmsBackendBundle::layout.html.twig" %}
+{% block stylesheet %}
+{{ parent() }} 
+<link href="{{ asset('bundles/apachecmsbackend/') }}bootstrap-wysiwyg-master/external/google-code-prettify/prettify.css" rel="stylesheet">
+
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+<link href="{{ asset('bundles/apachecmsbackend/') }}bootstrap-wysiwyg-master/index.css" rel="stylesheet">
+{% endblock stylesheet %}
+{% block body %} 
+{{ parent()}}             
+{{ form_start(form, {'attr': {'novalidate':'novalidate'} }) }}
+    <div class="form-body">
+        <h3 class="card-title">Datos</h3>
+        <hr>
+        <div class="row p-t-20">
+            <div class="col-md-6">
+                <div class="form-group {% if form_errors(form.code) %} has-danger {% endif %}">
+                    {{form_label(form.code)}}
+                    {{form_widget(form.code,{ 'attr':{'placeholder': form.code.vars.label }})}}
+                    <div class="form-errors">{{ form_errors(form.code)}} </div>
+                </div>
+            </div>
+        </div>
+        <div class="row p-t-20">
+            <div class="col-md-6">
+                <div class="form-group {% if form_errors(form.nameEs) %} has-danger {% endif %}">
+                    {{form_label(form.nameEs)}}
+                    {{form_widget(form.nameEs,{ 'attr':{'placeholder': form.nameEs.vars.label }})}}
+                    <div class="form-errors">{{ form_errors(form.nameEs)}} </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group {% if form_errors(form.nameEn) %} has-danger {% endif %}">
+                    {{form_label(form.nameEn)}}
+                    {{form_widget(form.nameEn,{ 'attr':{'placeholder': form.nameEn.vars.label }})}}
+                    <div class="form-errors">{{ form_errors(form.nameEn)}} </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-none">{{form_widget(form.descriptionEs)}}</div>
+        {{form_label(form.descriptionEs)}}
+        {% include 'ApachecmsBackendBundle:_partials:editorTool.html.twig' with { id:form.descriptionEs.vars.id } %}    
+        
+        <div class="d-none">{{form_widget(form.descriptionEn)}}</div>
+        {{form_label(form.descriptionEn)}}
+        {% include 'ApachecmsBackendBundle:_partials:editorTool.html.twig' with { id:form.descriptionEn.vars.id } %}    
+    </div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Guardar</button>
+        <button type="button" class="btn btn-inverse" onclick="location.href='{{ path(pathBase) }}'">Cancelar</button>
+    </div>
+{{ form_end(form) }}
+{% endblock body %}
+{% block javascripts %} 
+{{ parent() }}
+{% include 'ApachecmsBackendBundle:_partials:editorScripts.html.twig' %}
+<script type="text/javascript">
+    $(function() {
+        $('#editor_{{ form.descriptionEs.vars.id }}').html($('#{{ form.descriptionEs.vars.id }}').text());
+        $('form').submit(function (e){
+            $('#{{ form.descriptionEs.vars.id }}').val($('#editor_{{ form.descriptionEs.vars.id }}').html());
+        });
+
+        $('#editor_{{ form.descriptionEs.vars.id }}').wysiwyg({
+            fileUploadError: showErrorAlert
+        });
+        
+        $('#editor_{{ form.descriptionEn.vars.id }}').html($('#{{ form.descriptionEn.vars.id }}').text());
+        $('form').submit(function (e){
+            $('#{{ form.descriptionEn.vars.id }}').val($('#editor_{{ form.descriptionEn.vars.id }}').html());
+        });
+
+        $('#editor_{{ form.descriptionEn.vars.id }}').wysiwyg({
+            fileUploadError: showErrorAlert
+        });
+    });
+</script>
+{% endblock %}

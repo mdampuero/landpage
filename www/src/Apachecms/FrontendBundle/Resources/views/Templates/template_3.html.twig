@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% if prod and entity.plugins and (app.user is null or entity.customer != app.user) %}
+        {% if entity.plugins.metaTagsDescription  %}
+            <meta name="description" content="{{ entity.plugins.metaTagsDescription }}">
+        {% endif %}
+        {% if entity.plugins.metaIndex  %}
+            <meta name="robots" content="index, follow">
+        {% else %}
+            <meta name="robots" content="noindex, nofollow">
+        {% endif %}
+    {% endif %}
+    {{ include('ApachecmsFrontendBundle::Templates/_partials/ogTag.html.twig') }}
+    <meta name="author" content="https://land.page">
+    <title>{{ entity.title }}</title>
+    <link href="{{ asset('bundles/apachecmsfrontend/')}}img/favicon.ico" rel="icon">
+    <link href="{{ asset('bundles/apachecmsfrontend/')}}img/apple-icon.png" rel="apple-icon">
+    <link href="{{ asset('bundles/apachecmsbackend/templates/')}}template_1/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400" rel="stylesheet">
+    <link href="{{ asset('bundles/apachecmsbackend/templates/')}}template_1/css/style.css" rel="stylesheet">
+    <link href="{{ asset('bundles/apachecmsbackend/assets/plugins/toast-master/css/jquery.toast.css') }}" rel="stylesheet">
+    {{ include('ApachecmsFrontendBundle::Templates/_partials/styles.html.twig') }}
+    {% if prod and entity.plugins and (app.user is null or entity.customer != app.user) %}
+        {% if entity.plugins.googleAnalitycs  %}
+            {{ entity.plugins.googleAnalitycs | raw }}
+        {% endif %}
+        {% if entity.plugins.googleAdsLanding  %}
+            {{ entity.plugins.googleAdsLanding | raw }}
+        {% endif %}
+        {% if entity.plugins.pixelFacebook  %}
+            {{ entity.plugins.pixelFacebook | raw }}
+        {% endif %}
+    {% endif %}
+</head>
+<body id="page-top">
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">{{ copyright }}</p>
+        </div>
+    </div>
+    <div id="mainNav">
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="navBarTop" style="background-color:{{ entity.navBarTop }};">
+            {{ include('ApachecmsFrontendBundle::Templates/_partials/navBar.html.twig') }}
+        </nav>
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top navbar-shrink" id="navBarFixed" style="display:none;" style="background-color:{{ entity.navBarFixed }};">
+            {{ include('ApachecmsFrontendBundle::Templates/_partials/navBar.html.twig') }}
+        </nav>
+    </div>
+    <header id="contacto" class="masthead text-white d-flex" style='background-color:#FFF;  {% if prod %} background-image:url({{ entity.backgroundImage }}){% endif %}' >       
+    </header>
+    <div style="position:absolute;top:0; width:100%;">
+        <div class="container masthead">
+            <div class="row ">
+                <div class="col-lg-7 text-center d-xs-none d-sm-block d-lg-none" style="margin-top:2rem;margin-bottom:1rem;"> 
+                    <h1 class="text-uppercase">
+                        {% if testCase.testId %}
+                            <strong >{{ attribute(entity, 'description'~ testCase.option) }}</strong>
+                        {% else %}
+                            <strong >{{ entity.description1 }}</strong>
+                        {% endif %}
+                    </h1>
+                </div>
+                <div class="col-lg-5" id="form-header">
+                    <div class="padding-form">
+                        <div class="row" >
+                            <div class="col-lg-12">
+                                {% include 'ApachecmsFrontendBundle::Templates/_partials/form.html.twig' with { 'colorClass' : null } %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7 text-center d-none d-lg-block "> 
+                    <h1 class="text-uppercase">
+                        {% if testCase.testId %}
+                            <strong >{{ attribute(entity, 'description'~ testCase.option) }}</strong>
+                        {% else %}
+                            <strong >{{ entity.description1 }}</strong>
+                        {% endif %}
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ include('ApachecmsFrontendBundle::Templates/_partials/services.html.twig') }}
+    <div {% if entity.isProductService and entity.services | length %}style="margin-top:-3rem;"{% else %}style="margin-top:2rem;"{% endif %}>
+        {{ include('ApachecmsFrontendBundle::Templates/_partials/social.html.twig') }}
+    </div>
+     <div style="margin-top:4rem;">
+    {{ include('ApachecmsFrontendBundle::Templates/_partials/map.html.twig') }}
+    </div>
+    {{ include('ApachecmsFrontendBundle::Templates/_partials/about.html.twig') }}
+    {{ include('ApachecmsFrontendBundle::Templates/_partials/contactHeader.html.twig') }}
+    <div style="margin-top:-3rem;">
+    {{ include('ApachecmsFrontendBundle::Templates/_partials/contactData.html.twig') }}
+    </div>
+    {{ include('ApachecmsFrontendBundle::Templates/_partials/footer.html.twig') }}
+    {{ include('ApachecmsFrontendBundle::Templates/_partials/chatbot.html.twig') }}
+    <script src="{{ asset('bundles/apachecmsbackend/templates/')}}template_1/assets/jquery/jquery.min.js"></script>
+    <script src="{{ asset('bundles/apachecmsbackend/templates/')}}template_1/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('bundles/apachecmsbackend/templates/')}}template_1/assets/jquery-easing/jquery.easing.min.js"></script>
+    <script src="{{ asset('bundles/apachecmsbackend/templates/')}}template_1/assets/scrollreveal/scrollreveal.min.js"></script>
+    {% if prod  %}
+        {{ include('ApachecmsFrontendBundle::Templates/_partials/scriptProd.html.twig') }}
+    {% else %}
+        {{ include('ApachecmsFrontendBundle::Templates/_partials/scriptDev.html.twig') }}
+    {% endif %}
+    {% if entity.contactAddressMap and entity.contactAddressLat and entity.contactAddressLng %}
+    <script type="text/javascript" async defer>
+        function initialize() {
+            var mapDiv = document.getElementById('map-canvas');
+            var map = new google.maps.Map(mapDiv, {
+                scrollwheel: false,
+                center: new google.maps.LatLng({{ entity.contactAddressLat }}, {{ entity.contactAddressLng }}),
+                zoom: {{ entity.contactAddressZoom }},
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+            var marker = new google.maps.Marker({
+                map: map,
+                position: new google.maps.LatLng({{ entity.contactAddressLat }}, {{ entity.contactAddressLng }}),
+                draggable: false
+            });
+            var infoWindow = new google.maps.InfoWindow({
+                position: new google.maps.LatLng({{ entity.contactAddressLat }}, {{ entity.contactAddressLng }}),
+                Padding: 10,
+                minWidth: 200,
+                content: '<div >'
+                + '<table>'
+                + '    <tr>'
+                + '      <td><h4>{{ entity.business.name }}</h4></td>'
+                + '    </tr>'
+                + '<table>'
+                + '</div>'
+            });
+            infoWindow.open(map);
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ setting.getData.googleMapsId }}&libraries=places&callback=initialize"
+async defer></script>
+    {% endif %}
+    {% if entity.useChatbot and entity.chatbot %}
+    <script>
+        
+        var stat={};
+        var manuallyOpenChat=false;
+        var testOption={};
+        var saludado=false;
+        function openChatbot(){
+            $('#apachechat .card-body').slideDown('fast');
+            $('#apachechat .card-footer').slideDown('fast');
+            $('#apachechat .top-bar').css('border-radius','15px 15px 0 0');
+            $('#apachechat .top-bar span.fa').removeClass('fa-chevron-right');
+            $('#apachechat .top-bar span.fa').addClass('fa-chevron-down');
+            $('#ChatbotTitle').html('{{ entity.chatbot.title }}');
+            {% if app.user is null or entity.customer != app.user %}
+            var timeout=setTimeout(function (){
+                if(!saludado){
+                    saludado=true;
+                    receiveMessage('{{ entity.chatbot.welcome }}');
+                }
+            }, 1000);
+            {% else %}
+            var timeout=setTimeout(function (){
+                if(!saludado){
+                    saludado=true;
+                    receiveMessage('Hola! No puedes usar tu mismo el chatbot, debes cerrar tu sesión o abrir esta Landing en otro navegador.');
+                    $('#chatbot_message').attr('disabled',true);
+                    $('#btn-send').attr('disabled',true);
+                }
+            }, 1000);
+            {% endif %}
+        }
+        function closeChatbot(){
+            $('#apachechat .top-bar').css('border-radius','15px');
+            $('#apachechat .card-body').slideUp('fast');
+            $('#apachechat .card-footer').slideUp('fast');
+            $('#apachechat .top-bar span.fa').removeClass('fa-chevron-down');
+            $('#apachechat .top-bar span.fa').addClass('fa-chevron-right');
+            $('#ChatbotTitle').html('{{ entity.chatbot.labelButton }}');
+        }
+
+        function is_enter(e,objeto) {
+            if (e.keyCode == 13) 
+                $(objeto).next().find("button").click();
+            
+        }
+        function send(obj){
+            var element=$("#chatbot_message");
+            var text=element.val();
+            if(text.length>0){
+                element.val('');
+                sendMessage(text);
+            }
+        }
+
+        function sendMessage(message){
+            var d = new Date();
+            var html='<div class="row msg_container base_sent ">\
+                            <div class="col-md-10 col-xs-10 ">\
+                                <div class="messages msg_sent text-right shadow-sm">\
+                                    <p>'+message+'</p>\
+                                    <time datetime="2009-11-13T20:00">Hoy a las '+d.getHours()+':'+d.getMinutes()+'</time>\
+                                </div>\
+                            </div>\
+                        </div>';
+            addMessage(html);
+            $.post("{{ path('apachecms_api_chatbot_send') }}", 
+            { 
+                'stat':stat,
+                'testOption':testOption,
+                'message': message
+            }, function (result) {
+                if(result.response==true){
+                    var timeout=setTimeout(function (){
+                        receiveMessage(result.data);
+                    }, 2000);
+                }else{
+                    $('#chatbot_message').attr('disabled',true);
+                    $('#btn-send').attr('disabled',true);
+                }
+            });
+        }
+        function receiveMessage(message){
+            var d = new Date();
+            var html='<div class="row msg_container base_send ">\
+                            <div class="col-md-10 col-xs-10 ">\
+                                <div class="messages text-left shadow-sm">\
+                                    <p>'+message+'</p>\
+                                    <time datetime="2009-11-13T20:00">Hoy a las '+d.getHours()+':'+d.getMinutes()+'</time>\
+                                </div>\
+                            </div>\
+                        </div>';
+            addMessage(html);
+        }
+
+        function addMessage(html){
+            $("#chatbot_messages").append(html);
+            $("#chatbot_messages").animate({ scrollTop: $("#chatbot_messages").prop("scrollHeight")}, 500);
+        }
+        
+        $(function (){
+            {% if entity.useChatbot and entity.chatbot and entity.chatbot.timeoutOpen and prod %}
+                var timeout=setTimeout(function (){
+                    if(!manuallyOpenChat)
+                        openChatbot();
+                }, {{entity.chatbot.timeoutOpen}}*1000);
+            {% endif %}
+            $('#apachechat .top-bar').on('click',function(){
+                if($('#apachechat .card-body').css('display')=='none'){
+                    manuallyOpenChat=true;
+                    openChatbot();
+                }else{
+                    closeChatbot();
+                }
+            });
+        })
+    </script>
+    {% endif %}
+</body>
+
+</html>

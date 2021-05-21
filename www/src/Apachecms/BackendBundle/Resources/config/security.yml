@@ -1,0 +1,19 @@
+security_login:
+    path:     /index
+    defaults:  
+        _controller: ApachecmsBackendBundle:Login:index
+security_logout:
+    path:     /logout
+    defaults:  
+        _controller: ApachecmsBackendBundle:Login:logout
+
+security_forgot:
+    path:     /forgot
+    defaults:  
+        _controller: ApachecmsBackendBundle:Login:forgot
+        
+security_reset_password:
+    path:     /restablecer/{id}/{code}
+    defaults: 
+        _controller: ApachecmsBackendBundle:Login:reset
+    methods: [GET,POST]

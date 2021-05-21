@@ -1,0 +1,11 @@
+{% extends "ApachecmsBackendBundle::Emails/layout.html.twig" %}
+{% block body %}
+<h2>El cliente {{ customer.firstName }} necesita ayuda.</h2>
+<ul>
+    <li>Nombre: {{ customer.firstName }}</li>
+    <li>Apellido: {{ customer.lastName }}</li>
+    <li>Email: {{ customer.email }}</li>
+    <li>Teléfono: {{ customer.phone }}</li>
+    <li>Consulta: {{ query | nl2br}}</li>
+</ul>
+{% endblock %}

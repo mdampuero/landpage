@@ -1,0 +1,104 @@
+<h5><b>{{ 'how.contact' | trans }}</b></h5>
+<hr>
+<div class="row">
+    <div class="form-group col-sm-6">
+        {{form_label(form.contactEmail)}} {{form_widget(form.contactEmail)}}
+        <small class="form-text text-danger">{{ form_errors(form.contactEmail)}}</small>
+    </div>
+    <div class="form-group col-sm-12">
+        {{form_label(form.contactReplyEmail)}} {{form_widget(form.contactReplyEmail)}}
+        <small class="form-text text-danger">{{ form_errors(form.contactReplyEmail)}}</small>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-sm-6">
+        {{form_label(form.contactPhone)}} {{form_widget(form.contactPhone)}}
+        <small class="form-text text-danger">{{ form_errors(form.contactPhone)}}</small>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-sm-6">
+        <label class="text-center">{{ 'use.whatsapp' | trans }}</label><br />
+        <span class="switch">
+            {{form_widget(form.useWhatsapp)}}
+            {{form_label(form.useWhatsapp)}}
+        </span>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="text-center">{{ 'useWhatsappMobile' | trans }}</label><br />
+        <span class="switch">
+            {{form_widget(form.useWhatsappMobile)}}
+            {{form_label(form.useWhatsappMobile)}}
+        </span>
+    </div>
+    <div class="form-group col-sm-12">
+        {{form_label(form.contactAddress)}} {{form_widget(form.contactAddress)}}
+        <small class="form-text text-danger">{{ form_errors(form.contactAddress)}}</small>
+    </div>
+</div>
+<h5><b>{{ 'use.map' | trans }}</b>
+    <div class="form-group pull-right">
+        <span class="switch">
+            {{form_widget(form.contactAddressMap)}}
+            {{form_label(form.contactAddressMap)}}
+        </span>
+    </div>
+</h5>
+<hr>
+<input id="pac-input" style="{% if not entity.contactAddressMap %}display:none;{% endif %}" class="controls form-control"
+    autocomplete="new-password" type="text" placeholder="Dirección para el marcador...">
+<div id="map" style="height:400px;{% if not entity.contactAddressMap %}display:none;{% endif %}"></div>
+<br />
+<h5><b>{{ 'social.network' | trans }}</b>
+    <div class="form-group pull-right">
+        <span class="switch">
+            {{form_widget(form.social)}}
+            {{form_label(form.social)}}
+        </span>
+    </div>
+</h5>
+<hr>
+<div class="row" id="social" style="{% if not entity.social %}display:none;{% endif %}">
+    <div class="form-group col-sm-12">
+        <label>{{ 'website' | trans }}</label>
+        <input class="form-control" placeholder="https://..." id="landing_step3_web" name="apachecms_backendbundle_landingsocial[web]"
+            type="text" value="{{ entity.socials.web }}">
+        <small class="form-text text-danger"></small>
+    </div>
+    <div class="form-group col-sm-12">
+        <label>Facebook</label>
+        <input class="form-control" placeholder="https://..." id="landing_step3_facebook" name="apachecms_backendbundle_landingsocial[facebook]"
+            type="text" value="{{ entity.socials.facebook }}">
+        <small class="form-text text-danger"></small>
+    </div>
+    <div class="form-group col-sm-12">
+        <label>Twitter</label>
+        <input class="form-control" placeholder="https://..." id="landing_step3_twitter" name="apachecms_backendbundle_landingsocial[twitter]"
+            type="text" value="{{ entity.socials.twitter }}">
+        <small class="form-text text-danger"></small>
+    </div>
+    <div class="form-group col-sm-12">
+        <label>Google+</label>
+        <input class="form-control" placeholder="https://..." id="landing_step3_googlePlus" name="apachecms_backendbundle_landingsocial[googlePlus]"
+            type="text" value="{{ entity.socials.googlePlus }}">
+        <small class="form-text text-danger"></small>
+    </div>
+    <div class="form-group col-sm-12">
+        <label>Instagram</label>
+        <input class="form-control" placeholder="https://..." id="landing_step3_instagram" name="apachecms_backendbundle_landingsocial[instagram]"
+            type="text" value="{{ entity.socials.instagram }}">
+        <small class="form-text text-danger"></small>
+    </div>
+    <div class="form-group col-sm-12">
+        <label>Youtube</label>
+        <input class="form-control" placeholder="https://..." id="landing_step3_youtube" name="apachecms_backendbundle_landingsocial[youtube]"
+            type="text" value="{{ entity.socials.youtube }}">
+        <small class="form-text text-danger"></small>
+    </div>
+    <div class="form-group col-sm-12">
+        <label>Linkedin</label>
+        <input class="form-control" placeholder="https://..." id="landing_step3_linkedin" name="apachecms_backendbundle_landingsocial[linkedin]"
+            type="text" value="{{ entity.socials.linkedin }}">
+        <small class="form-text text-danger"></small>
+    </div>
+</div>

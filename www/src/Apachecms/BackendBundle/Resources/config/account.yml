@@ -1,0 +1,26 @@
+apachecms_backend_account:
+    path:     /
+    defaults: 
+        _controller: ApachecmsBackendBundle:Account:index
+    methods: [GET]
+    options:
+        breadcrumb:
+            label: Mi perfil
+            parent_route: apachecms_backend_homepage
+apachecms_backend_account_create:
+    path:     /create
+    defaults: { _controller: ApachecmsBackendBundle:Account:create }
+    methods: POST
+    options:
+        breadcrumb:
+            label: Crear usuario
+            parent_route: apachecms_backend_homepage
+
+apachecms_backend_account_update:
+    path:     /update/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Account:update }
+    methods: [PUT]
+    options:
+        breadcrumb:
+            label: Editar usuario
+            parent_route: apachecms_backend_homepage            

@@ -1,0 +1,23 @@
+apachecms_api_users_create:
+    path:     /create
+    defaults: 
+        _controller: ApachecmsApiBundle:Users:create
+    methods: [POST]
+
+apachecms_api_users_forgot_password:
+    path:     /forgotPassword
+    defaults: 
+        _controller: ApachecmsApiBundle:Users:forgotPassword
+    methods: [POST]
+
+apachecms_api_users_login:
+    path:     /login
+    defaults: 
+        _controller: ApachecmsApiBundle:Users:login
+    methods: [POST]
+
+apachecms_api_users_is_login:
+    path:     /isLogin
+    defaults: 
+        _controller: ApachecmsApiBundle:Users:isLogin
+    methods: [POST]

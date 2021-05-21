@@ -1,0 +1,6 @@
+{% extends "ApachecmsBackendBundle::Emails/layout.html.twig" %}
+{% block body %}
+<h2>{{ 'hello' | trans }} {{ query.contact.name }}!</h2>
+<p>{{ query.landing.contactReplyEmail | nl2br }}</p>
+<p><i>Vea la bandeja de entrada de correo no deseado para encontrar su respuesta.</i></p>
+{% endblock %}

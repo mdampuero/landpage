@@ -1,0 +1,53 @@
+
+{% extends "ApachecmsFrontendBundle::layout_lp.html.twig" %}
+{% block stylesheet %}
+{{ parent() }}
+<link href="{{ asset('bundles/apachecmsbackend/assets/plugins/dropify/dist/css/dropify.min.css') }}" rel="stylesheet">   
+{% endblock stylesheet %}
+
+{% block body %}
+{{ include('ApachecmsFrontendBundle::_partials/brand.html.twig') }}
+{% block headerPage %}
+{% include 'ApachecmsFrontendBundle:_partials:breadcrumbs.html.twig' %}
+{% endblock %}
+<div class="container">
+    {{ form_start(form, {'attr': {'class': 'sendToApi','id':'registerForm','novalidate':'novalidate'} }) }}
+    <div class="card">
+        <h2 class="card-header">
+            {{ (app.request.attributes.get('_route_params')['_breadcrumbs']|last)['label'] | trans}}
+        </h2>
+        <div class="card-body">            
+            {% include 'ApachecmsFrontendBundle:Landing:_partials/step1.html.twig' with { 'form' : form } %}
+        </div>
+        <div class="card-footer">
+            {{form_widget(form.submit,{ 'attr':{'secondary-label':'loading' | trans}})}}
+        </div>
+    </div>
+    {{ form_end(form) }}
+</div>
+{% endblock %}
+{% block javascripts %} 
+{{ parent() }}
+{% include 'ApachecmsFrontendBundle:_partials:dropifyScripts.html.twig' %}
+{% include 'ApachecmsFrontendBundle:Landing:_partials/scriptStep1.html.twig' %}
+<script type="text/javascript">
+    function createBusiness(){
+        {% if app.user.plan.maxBusiness > app.user.business | length %}
+        location.href='{{ path('apachecms_frontend_business_add',{ 'back': 1}) }}';
+        {% else %}
+        swal({   
+                title: "Ups!",   
+                text: "{{ 'max.business' | trans }}",   
+                type: "error",   
+                showCancelButton: false,   
+                confirmButtonColor: "#DD6B55",   
+                confirmButtonText: "{{ 'accept' | trans }}",    
+                closeOnConfirm: true 
+            });
+        {% endif %}
+    }
+    function beforeSuccess(response){
+        location.href=response.data.to;
+    }
+</script>
+{% endblock %}

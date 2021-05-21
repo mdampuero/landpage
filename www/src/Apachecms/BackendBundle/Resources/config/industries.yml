@@ -1,0 +1,65 @@
+apachecms_backend_industries:
+    path:     /
+    defaults: 
+        _controller: ApachecmsBackendBundle:Industries:index
+    methods: [GET]
+    options:
+        breadcrumb:
+            label: Industrias
+            parent_route: apachecms_backend_homepage
+
+apachecms_backend_industries_load:
+    path:     /load
+    defaults: { _controller: ApachecmsBackendBundle:Industries:load }
+    methods: [GET]
+
+apachecms_backend_industries_add:
+    path:     /nuevo
+    defaults: { _controller: ApachecmsBackendBundle:Industries:add }
+    options:
+        breadcrumb:
+            label: Crear
+            parent_route: apachecms_backend_industries
+    methods: [GET]
+
+apachecms_backend_industries_create:
+    path:     /create
+    defaults: { _controller: ApachecmsBackendBundle:Industries:create }
+    methods: POST
+    options:
+        breadcrumb:
+            label: Crear
+            parent_route: apachecms_backend_industries
+
+apachecms_backend_industries_edit:
+    path:     /editar/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Industries:edit }
+    methods: [GET]
+    options:
+        breadcrumb:
+            label: Editar
+            parent_route: apachecms_backend_industries
+
+apachecms_backend_industries_gallery:
+    path:     /gallery/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Industries:gallery }
+    methods: [GET]
+    options:
+        breadcrumb:
+            label: Galería
+            parent_route: apachecms_backend_industries
+
+apachecms_backend_industries_update:
+    path:     /update/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Industries:update }
+    methods: [PUT]
+    options:
+        breadcrumb:
+            label: Editar
+            parent_route: apachecms_backend_industries
+
+apachecms_backend_industries_delete:
+    path:     /delete/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Industries:delete }
+    methods: [POST,DELETE]
+

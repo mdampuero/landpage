@@ -1,0 +1,7 @@
+{% extends "ApachecmsBackendBundle::Emails/layout.html.twig" %}
+{% block body %}
+<h2>{{ 'hello' | trans }} {{ entity.firstName }}! {{ 'welcome.title' | trans }}</h2>
+<h3>{{ 'welcome' | trans }}</h3>
+<p>{{ 'login.ready' | trans }}</p>
+<p>{{ 'active.account.more' | trans }}</p>
+{% endblock %}

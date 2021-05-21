@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="{{ asset('bundles/apachecmsbackend/assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/apachecmsbackend/assets/plugins/toast-master/css/jquery.toast.css') }}" rel="stylesheet">    
+    <link href="{{ asset('bundles/apachecmsfrontend/css/style.css') }}" rel="stylesheet">
+    <title>{% block title %}{{ title }} 
+    {% if app.request.attributes.get('_route_params')._breadcrumbs is defined %}
+    - {{ (app.request.attributes.get('_route_params')['_breadcrumbs']|last)['label']}}
+    {% endif %}
+    {% endblock %}</title>
+    <link href="{{ asset('bundles/apachecmsbackend/css/style.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/shopgalleryshopgallery/css/style.css') }}" rel="stylesheet">
+</head>
+<body>
+    {{ include('ApachecmsFrontendBundle::header.html.twig') }}
+    {% block headerPage %}
+    {% include 'ApachecmsFrontendBundle:_partials:breadcrumbs.html.twig' %}
+    {% endblock %}
+    {% block body %}
+    {% endblock %}
+    {{ include('ApachecmsFrontendBundle::footer.html.twig') }}
+    {% block javascripts %}
+    <script src="{{ asset('bundles/apachecmsbackend/assets/plugins/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('bundles/apachecmsbackend/assets/plugins/bootstrap/js/popper.min.js') }}"></script>
+    <script src="{{ asset('bundles/apachecmsbackend/assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('bundles/apachecmsbackend/assets/plugins/toast-master/js/jquery.toast.js') }}"></script>
+    <script>
+        $(function (){
+            {% for message in app.session.flashBag.get('success') %}
+                $.toast({
+                    heading: 'Resultado OK',
+                    text: '{{ message }}',
+                    position: 'top-right',
+                    icon: 'success',
+                    hideAfter: 2000, 
+                    stack: 6
+                });
+            {% endfor %}
+            {% for message in app.session.flashBag.get('warning') %}
+                $.toast({
+                    heading: 'Atención',
+                    text: '{{ message }}',
+                    position: 'top-right',
+                    icon: 'warning',
+                    hideAfter: 2000, 
+                    stack: 6
+                });
+            {% endfor %}
+            {% for message in app.session.flashBag.get('danger') %}
+                $.toast({
+                    heading: 'Error',
+                    text: '{{ message }}',
+                    position: 'top-right',
+                    icon: 'error',
+                    hideAfter: 2000, 
+                    stack: 6
+                });
+            {% endfor %}
+        });
+    </script>
+    {% endblock %}
+    </body>
+</html>

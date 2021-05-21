@@ -1,0 +1,11 @@
+apachecms_api_files_upload:
+    path:     /upload
+    defaults: 
+        _controller: ApachecmsApiBundle:Files:upload
+    methods: [POST]
+
+apachecms_api_files_remove:
+    path:     /remove/{file}
+    defaults: 
+        _controller: ApachecmsApiBundle:Files:remove
+    methods: [POST]

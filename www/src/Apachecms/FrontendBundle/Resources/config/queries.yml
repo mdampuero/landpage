@@ -1,0 +1,44 @@
+apachecms_frontend_landing_queries:
+    path:     /{id}
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Queries:index
+    options:
+        breadcrumb:
+            label: queries
+            parent_route: apachecms_frontend_dashboard
+
+apachecms_frontend_landing_queries_view:
+    path:     /{id}/view/{queryId}
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Queries:view
+    options:
+        breadcrumb:
+            label: queries
+            parent_route: apachecms_frontend_dashboard
+
+apachecms_frontend_landing_contacts:
+    path:     /contacts/{id}
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Queries:contacts
+    options:
+        breadcrumb:
+            label: account.contacts
+            parent_route: apachecms_frontend_dashboard
+
+apachecms_frontend_landing_chats:
+    path:     /chats/{id}
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Queries:chats
+    options:
+        breadcrumb:
+            label: chats
+            parent_route: apachecms_frontend_dashboard
+
+apachecms_frontend_landing_chats_view:
+    path:     /{id}/chat/{queryId}
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Queries:chatView
+    options:
+        breadcrumb:
+            label: chats
+            parent_route: apachecms_frontend_dashboard

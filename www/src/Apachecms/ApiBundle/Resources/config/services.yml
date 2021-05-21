@@ -1,0 +1,5 @@
+services:
+      Apachecms\ApiBundle\Controller\LoginController:
+        class: Apachecms\ApiBundle\Controller\LoginController
+        autowire: true # or define your controller constructor and configure its arguments explicitly
+        tags: ['controller.service_arguments']

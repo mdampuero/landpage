@@ -1,0 +1,28 @@
+{% extends "ApachecmsBackendBundle::layout.html.twig" %}
+{% block body %} 
+{{ parent()}}             
+{{ form_start(form, {'attr': {'novalidate':'novalidate'} }) }}
+    <div class="form-body">
+        <h3 class="card-title">Datos de la industria</h3>
+        <hr>
+        <div class="row p-t-20">
+            <div class="col-md-6">
+                <div class="form-group {% if form_errors(form.name) %} has-danger {% endif %}">
+                    {{form_label(form.name)}}
+                    {{form_widget(form.name)}}
+                    <div class="form-errors">{{ form_errors(form.name)}} </div>
+                </div>
+                <div class="form-group {% if form_errors(form.tagUnsplash) %} has-danger {% endif %}">
+                    {{form_label(form.tagUnsplash)}}
+                    {{form_widget(form.tagUnsplash)}}
+                    <div class="form-errors">{{ form_errors(form.tagUnsplash)}} </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Guardar</button>
+        <button type="button" class="btn btn-inverse" onclick="location.href='{{ path(pathBase) }}'">Cancelar</button>
+    </div>
+{{ form_end(form) }}
+{% endblock body %}

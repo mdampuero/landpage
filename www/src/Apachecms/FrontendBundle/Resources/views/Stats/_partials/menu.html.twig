@@ -1,0 +1,50 @@
+<div class="list-group">
+    {# <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-secondary">
+        Visitas
+    </li> #}
+    <a href="{{ path('apachecms_frontend_landing_view',{ id: entity.id}) }}" class="{% if 'apachecms_frontend_landing_view' in app.request.get('_route') %}list-group-item-secondary{% endif %} list-group-item d-flex justify-content-between align-items-center">
+        Dashboard 
+    </a>
+    <a href="{{ path('apachecms_frontend_landing_edit1',{ id: entity.id}) }}" class="{% if 'apachecms_frontend_landing_edit1' in app.request.get('_route') %}list-group-item-secondary{% endif %} list-group-item d-flex justify-content-between align-items-center">
+        {{ 'general.data' | trans }}
+    </a>
+    <a href="{{ path('apachecms_frontend_landing_edit2',{ id: entity.id}) }}" class="{% if 'apachecms_frontend_landing_edit2' in app.request.get('_route') %}list-group-item-secondary{% endif %} list-group-item d-flex justify-content-between align-items-center">
+        {{ 'product.or.service' | trans }}
+    </a>
+    <a href="{{ path('apachecms_frontend_landing_edit3',{ id: entity.id}) }}" class="{% if 'apachecms_frontend_landing_edit3' in app.request.get('_route') %}list-group-item-secondary{% endif %} list-group-item d-flex justify-content-between align-items-center">
+        {{ 'contact.data' | trans }}
+    </a>
+    <a href="{{ path('apachecms_frontend_landing_edit4',{ id: entity.id}) }}" class="{% if 'apachecms_frontend_landing_edit4' in app.request.get('_route') %}list-group-item-secondary{% endif %} list-group-item d-flex justify-content-between align-items-center">
+        {{ 'chatbot' | trans }}
+    </a>
+    <a href="{{ path('apachecms_frontend_landing_plugins',{ id: entity.id}) }}" class="{% if 'apachecms_frontend_landing_plugins' in app.request.get('_route') %}list-group-item-secondary{% endif %} list-group-item d-flex justify-content-between align-items-center">
+        {{ 'plugins' | trans }}
+    </a>
+    <a href="{{ path('apachecms_frontend_landing_contacts',{ id: entity.id}) }}" class="{% if 'apachecms_frontend_landing_contact' in app.request.get('_route') %}list-group-item-secondary{% endif %} list-group-item d-flex justify-content-between align-items-center">
+        {{ 'account.contacts' | trans }}
+    </a>
+    <a href="{{ path('apachecms_frontend_landing_queries',{ id: entity.id}) }}" class="{% if 'apachecms_frontend_landing_queries' in app.request.get('_route') %}list-group-item-secondary{% endif %} list-group-item d-flex justify-content-between align-items-center">
+        {{ 'queries' | trans }}
+    </a>
+    <a href="{{ path('apachecms_frontend_landing_chats',{ id: entity.id}) }}" class="{% if 'apachecms_frontend_landing_chats' in app.request.get('_route') %}list-group-item-secondary{% endif %} list-group-item d-flex justify-content-between align-items-center">
+        {{ 'chats' | trans }}
+    </a>    
+    <a href="{{ path('apachecms_frontend_landing_stats_byDate',{ id: entity.id}) }}" class="{% if 'apachecms_frontend_landing_stats_byDate' in app.request.get('_route') %}list-group-item-secondary{% endif %} list-group-item d-flex justify-content-between align-items-center">
+        {{ 'views' | trans }}
+    </a>
+    {# <a href="{{ path('apachecms_frontend_landing_stats_byGeo',{ id: entity.id}) }}" class="{% if 'apachecms_frontend_landing_stats_byGeo' in app.request.get('_route') %}list-group-item-secondary{% endif %} list-group-item d-flex justify-content-between align-items-center">
+        Visitas por geolocalización
+    </a>
+    <a href="{{ path('apachecms_frontend_landing_stats_byBrowser',{ id: entity.id}) }}" class="{% if 'apachecms_frontend_landing_stats_byBrowser' in app.request.get('_route') %}list-group-item-secondary{% endif %} list-group-item d-flex justify-content-between align-items-center">
+        Visitas por navegadores
+    </a>
+    <a href="{{ path('apachecms_frontend_landing_stats_byDevice',{ id: entity.id}) }}" class="{% if 'apachecms_frontend_landing_stats_byDevice' in app.request.get('_route') %}list-group-item-secondary{% endif %} list-group-item d-flex justify-content-between align-items-center">
+        Visitas por dispositivos
+    </a>
+    <a href="{{ path('apachecms_frontend_landing_stats_byOS',{ id: entity.id}) }}" class="{% if 'apachecms_frontend_landing_stats_byOS' in app.request.get('_route') %}list-group-item-secondary{% endif %} list-group-item d-flex justify-content-between align-items-center">
+        Visitas por sistema operativo
+    </a>
+    <a href="{{ path('apachecms_frontend_landing_stats_byLanguage',{ id: entity.id}) }}" class="{% if 'apachecms_frontend_landing_stats_byLanguage' in app.request.get('_route') %}list-group-item-secondary{% endif %} list-group-item d-flex justify-content-between align-items-center">
+        Visitas por idioma
+    </a> #}
+</div>

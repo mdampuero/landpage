@@ -1,0 +1,11 @@
+{% for reply in chats %}
+    <div class="{% if reply.userFrom == 'Bot' %}text-right{% else %}text-left{% endif %}">
+        {% if reply.userFrom == 'Bot' %}
+        <p class="mb-0">{{ reply.userFrom }}</p>
+        {% else %}
+        <p class="mb-0">Usuario</p>
+        {% endif %}
+        <small class="blockquote-footer">{{ reply.message | raw }}<br/>{{ reply.createdAt | date('d/m/Y H:i') }}</small>
+    </div>
+    <hr>
+{% endfor %}

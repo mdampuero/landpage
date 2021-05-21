@@ -1,0 +1,74 @@
+apachecms_api_login_submit:
+    path:     /login
+    defaults: 
+        _controller: ApachecmsApiBundle:Login:login
+    methods: [POST]
+
+apachecms_api_login_create_submit:
+    path:     /register
+    defaults: 
+        _controller: ApachecmsApiBundle:Login:register
+    methods: [POST]
+
+apachecms_api_login_byFacebook_submit:
+    path:     /loginByFacebook
+    defaults: 
+        _controller: ApachecmsApiBundle:Login:loginByFacebook
+    methods: [POST]
+
+apachecms_api_login_byGoogle_submit:
+    path:     /loginByGoogle
+    defaults: 
+        _controller: ApachecmsApiBundle:Login:loginByGoogle
+    methods: [POST]
+
+apachecms_api_login_recovery_submit:
+    path:     /recovery
+    defaults: 
+        _controller: ApachecmsApiBundle:Login:recovery
+    methods: [POST]
+
+security_reset_password_frontend_submit:
+    path:     /reset/{id}/{code}
+    defaults: 
+        _controller: ApachecmsApiBundle:Login:reset
+    methods: [POST]
+
+security_api_selectPlan_submit:
+    path:     /selectPlan/{customer}/{plan}/{trial}
+    defaults: 
+        _controller: ApachecmsApiBundle:Login:selectPlan
+    methods: [POST]
+
+security_api_profile_submit:
+    path:     /profile
+    defaults: { _controller: ApachecmsApiBundle:Login:profile }
+    methods: [POST]
+
+security_api_username_submit:
+    path:     /username
+    defaults: { _controller: ApachecmsApiBundle:Login:username }
+    methods: [POST]
+
+security_api_username_check_submit:
+    path:     /usernameCheck
+    defaults: { _controller: ApachecmsApiBundle:Login:usernameCheck }
+    methods: [POST]
+
+apachecms_api_login_forgot_password:
+    path:     /forgotPassword
+    defaults: 
+        _controller: ApachecmsApiBundle:Users:forgotPassword
+    methods: [POST]
+
+apachecms_api_login_login:
+    path:     /login
+    defaults: 
+        _controller: ApachecmsApiBundle:Users:login
+    methods: [POST]
+
+apachecms_api_login_is_login:
+    path:     /isLogin
+    defaults: 
+        _controller: ApachecmsApiBundle:Users:isLogin
+    methods: [POST]

@@ -1,0 +1,8 @@
+{% extends "ApachecmsBackendBundle::Emails/layout.html.twig" %}
+{% block body %}
+<h2>{{ 'hello' | trans }} {{ entity.firstName }}! {{ 'welcome.title' | trans }}</h2>
+<h3>{{ 'welcome' | trans }}</h3>
+<p>{{ 'active.account' | trans }} <a href="{{ url('apachecms_frontend_validate',{ id : entity.id, code : entity.codeActive}) }}">{{ 'click.here' | trans }}
+    </a></p>
+<p>{{ 'active.account.more' | trans }}</p>
+{% endblock %}

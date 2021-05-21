@@ -1,0 +1,5 @@
+{% extends "ApachecmsBackendBundle::Emails/layout.html.twig" %}
+{% block body %}
+<h2>{{ 'hello' | trans }} {{ entity.customer.firstName }}!</h2>
+<p>Se detuvo automáticamente la publicación de tu landing <b>'{{ entity.title }}'</b></p>
+{% endblock %}

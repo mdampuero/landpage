@@ -1,0 +1,23 @@
+
+apachecms_frontend:
+    resource: "@ApachecmsFrontendBundle/Resources/config/routing.yml"
+    prefix:   /
+
+apachecms_api:
+    resource: "@ApachecmsApiBundle/Resources/config/routing.yml"
+    prefix:   /api
+    defaults:
+        _format: json
+
+fp_js_form_validator:
+    resource: "@FpJsFormValidatorBundle/Resources/config/routing.xml"
+    prefix: /fp_js_form_validator
+    
+apachecms_backend:
+    resource: "@ApachecmsBackendBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
+# security_login:
+#     resource: "@ApachecmsBackendBundle/Resources/config/security.yml"
+#     prefix:   /
+

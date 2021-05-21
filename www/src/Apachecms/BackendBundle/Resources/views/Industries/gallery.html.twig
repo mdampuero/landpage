@@ -1,0 +1,125 @@
+{% extends "ApachecmsBackendBundle::layout.html.twig" %}
+{% block stylesheet %}
+{{ parent() }}
+<link href="{{ asset('bundles/apachecmsbackend/fileUpload/css/jquery.fileupload.css') }}" rel="stylesheet">   
+{% endblock stylesheet %}
+{% block body %} 
+{{ parent()}}             
+    <div class="form-body">
+        <h3 class="card-title">Industria: {{ entity.name }}
+            <div class="pull-right">
+                <label for="fileupload" class="btn btn-success">
+            <i class="fa fa-cloud-upload"></i> Agregar fotos
+        </label>
+        <input id="fileupload" type="file" name="files[]" style="display:none;" multiple>
+            </div>
+        </h3>
+        <hr>
+        <br>
+        <div id="progress" class="progress">
+            <div class="progress-bar progress-bar-info"></div>
+        </div>
+        <br>
+        <div id="files" class="files row">
+            {% for file in files %}
+                <div class="col-sm-3" style="margin-bottom:15px; margin-top:15px;" id="{{ file.id }}">
+                    <a href="javascript:deleteFile('{{ file.id }}')" data-id="{{ file.id }}" class="fa-stack fa-sm text-danger" style="position: absolute;right: -10px;top: -20px;z-index: 5;">
+                        <i class="fa fa-circle-thin fa-stack-2x"></i>
+                        <i class="fa fa-remove fa-stack-1x"></i>
+                    </a>
+                    <div class=" cover img-thumbnail" style="height:150px; background-image:url('{{ asset('uploads/sm/') }}{{ file.name }}')"></div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="form-actions">
+        <button type="button" class="btn btn-inverse" onclick="location.href='{{ path(pathBase) }}'">Cancelar</button>
+    </div>
+{% endblock body %}
+{% block javascripts %} 
+{{ parent() }}
+<script src="{{ asset('bundles/apachecmsbackend/fileUpload/js/jquery.ui.widget.js') }}"></script>
+<script src="{{ asset('bundles/apachecmsbackend/fileUpload/js/jquery.iframe-transport.js') }}"></script>
+<script src="{{ asset('bundles/apachecmsbackend/fileUpload/js/jquery.fileupload.js') }}"></script>
+<script type="text/javascript">
+    
+    function deleteFile(id){
+        var file=id;
+        swal({   
+            title: "{{ messages.delete.title }}",   
+            text: "{{ messages.delete.text }}",   
+            type: "{{ messages.delete.type }}",   
+            showCancelButton: true,   
+            confirmButtonColor: "#DD6B55",   
+            confirmButtonText: "{{ messages.delete.confirmButtonText }}",   
+            cancelButtonText: "{{ messages.delete.confirmCancelText }}",   
+            closeOnConfirm: true 
+        }, function(){
+            var url="{{ path('apachecms_backend_files_remove',{ file: 'ENTITY_ID' })}}";
+            $.post(url.replace('ENTITY_ID',file), {}, function (result) {
+                if (result.response == true) {
+                    $('#'+file).remove();
+                    $.toast({
+                        heading: '{{ messages.result.success.title }}',
+                        text: '{{ messages.delete.success }}',
+                        position: 'top-right',
+                        icon: '{{ messages.result.success.icon }}',
+                        hideAfter: 1000, 
+                        stack: 6
+                    });
+                }else{
+                    $.toast({
+                        heading: '{{ messages.result.error.title }}',
+                        text: '{{ messages.result.error.text }}',
+                        position: 'top-right',
+                        icon: '{{ messages.result.error.icon }}',
+                        hideAfter: 1000, 
+                        stack: 6
+                    });
+                }
+            });
+        });
+    }
+    $(function () {
+    'use strict';
+    $('#fileupload').fileupload({
+        url: '{{ path('apachecms_backend_files_upload',{ industry: app.request.get('id') }) }}',
+        dataType: 'json',
+        done: function (e, data) {
+            if(data.result.response==true){
+                $.each(data.result.data, function (index, file) {
+                    $(`<div class="col-sm-3" style="margin-bottom:15px; margin-top:15px;" id="${file.id}">
+                    <a href="javascript:deleteFile('${file.id}')" data-id="${file.id}" class="fa-stack fa-sm text-danger" style="position: absolute;right: -10px;top: -20px;z-index: 5;">
+                        <i class="fa fa-circle-thin fa-stack-2x"></i>
+                        <i class="fa fa-remove fa-stack-1x"></i>
+                    </a>
+                    <div class=" cover img-thumbnail" style="height:150px; background-image:url('{{ asset('uploads/sm/') }}${file.name}')"></div>
+                </div>`).appendTo('#files');
+                });
+            }else{
+                $.toast({
+                        heading: '{{ messages.result.error.title }}',
+                        text: data.result.error.message,
+                        position: 'top-right',
+                        icon: '{{ messages.result.error.icon }}',
+                        hideAfter: 1000, 
+                        stack: 6
+                    });
+            }
+        },
+        progressall: function (e, data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $('#progress .progress-bar').css(
+                'width',
+                progress + '%'
+            );
+            if(data.loaded==data.total){
+                $('#progress .progress-bar').css(
+                    'width','0%'
+                );
+            }
+        }
+    }).prop('disabled', !$.support.fileInput).parent().addClass($.support.fileInput ? undefined : 'disabled');
+});
+</script>
+{% endblock %}

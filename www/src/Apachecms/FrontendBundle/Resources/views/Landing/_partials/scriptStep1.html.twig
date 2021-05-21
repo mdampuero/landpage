@@ -1,0 +1,25 @@
+<script type="text/javascript">
+    $(function (){
+        {% if entity is defined and entity.isPublished and entity.isActiveAi %}
+            $('#landing_step1_description_1').attr('readonly',true);
+            $('#landing_step1_description_2').attr('readonly',true);
+            $('#landing_step1_description_3').attr('readonly',true);
+            $('#landing_step1_description_4').attr('readonly',true);
+
+        {% endif %}
+        if($('#landing_step1_isActiveAi').is(":checked")==true){
+            $('.options').slideDown('fast');
+        }else{
+            $('.options').slideUp('fast');
+        }
+        
+        $('#landing_step1_isActiveAi').change(function (){
+            if($(this).is(":checked")==true){
+                $('.options').slideDown('fast');
+            }else{
+                $('.options').slideUp('fast');
+            }
+        });
+    });
+	
+</script>

@@ -1,0 +1,9 @@
+apachecms_frontend_lock:
+    path:     /
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Lock:index
+    options:
+        breadcrumb:
+            label: lock
+            parent_route: apachecms_frontend_dashboard
+

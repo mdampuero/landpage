@@ -1,0 +1,169 @@
+<script>
+    (function($) {
+  "use strict"; // Start of use strict
+
+  // Closes responsive menu when a scroll trigger link is clicked
+  $('.js-scroll-trigger').click(function() {
+    $('.navbar-collapse').collapse('hide');
+  });
+
+  // Activate scrollspy to add active class to navbar items on scroll
+  $('body').scrollspy({
+    target: '#mainNav',
+    offset: 57
+  });
+
+  // Collapse Navbar
+  var navbarCollapse = function() {
+    // console.log($("#mainNav").offset().top);
+    if ($("#mainNav").offset().top > 100) {
+      $("#navBarTop").hide();
+      $("#navBarFixed").show();
+    } else {
+      $("#navBarTop").show();
+      $("#navBarFixed").hide();
+    }
+  };
+  // Collapse now if page is not at top
+  navbarCollapse();
+  $(window).scroll(navbarCollapse);
+})(jQuery); // End of use strict
+</script>
+<script>
+    var testCase=null;
+    {% if entity.gridColumns is null %}
+    var currentClass='col-sm-4';
+    {% else %}
+    var currentClass='{{ entity.gridColumns }}';
+    {% endif %}
+    function sendToParent(section){
+        switch(section) {
+            case 'apachecms_frontend_landing_add_step2':
+                    window.parent.location.href = '{{ path('apachecms_frontend_landing_add_step2',{ id : entity.id }) }}';
+                break;
+            case 'apachecms_frontend_landing_add_step1':
+                    window.parent.location.href = '{{ path('apachecms_frontend_landing_add_step1',{ id : entity.id }) }}';
+                break;
+            
+            default:
+                // code block
+            }
+    }
+    function nl2br (str, is_xhtml) {
+        if (typeof str === 'undefined' || str === null) {
+            return '';
+        }
+        var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
+        return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
+    }
+    function messageReceive(message) {
+        switch(message.section) {
+            case 'background':
+                $('header').animate({opacity: 0.4}, 'fast', function() {
+                    $(this)
+                        .css('background-image','url('+message.src+')')
+                        .animate({opacity: 1});
+                });
+                break;
+            case 'brightness':
+                $('header').css('filter','brightness('+message.val+')');
+                break;
+            case 'navBarTop':
+                $('#navBarTop').css('background-color',message.color);
+                {# $('#form-header').css('background-color',message.color); #}
+                break;
+            case 'labels':
+                if(message.src.attr('data-type')=='link'){
+                    $('#'+message.src.attr('id')).attr('data-href',nl2br(message.value));
+                    socialLinks();
+                }else{
+                    $('#'+message.src.attr('id')).html(nl2br(message.value));
+                    $('.'+message.src.attr('id')).html(nl2br(message.value));
+                }
+                break;
+            case 'navBarTopText':
+                $('#navBarTop a').css('color',message.color);
+                $('.color-text').css('color',message.color);
+                {# $('#form-header label').css('color',message.color); #}
+                $('#navBarTop a.active').css('color',message.color);
+                 $('h1.text-uppercase').css('color',message.color);
+                break;
+            case 'navBarFixed':
+                $('#navBarFixed').css('background-color',message.color);
+                break;
+            case 'navBarFixedText':
+                $('#navBarFixed a').css('color',message.color);
+                $('#navBarFixed a.active').css('color',message.color);
+                break;
+            case 'grid':
+                $('#services .cards').removeClass(currentClass).addClass(message.class);
+                currentClass=message.class;
+                break;
+            case 'colorPrimary':
+                $('.bg-section').css('background-color',message.color);
+                $('a').not('#navBarFixed a').not('#navBarTop a').css('color',message.color);
+                $('a.active').not('#navBarFixed a.active').not('#navBarTop a.active').css('color',message.color);
+                $('hr').css('border-color',message.color);
+                $('.btn-primary')
+                    .css('background-color',message.color)
+                    .css('border-color',message.color);
+                break;
+            default:
+                // code block
+            }
+        if(message.scroll!='null'){
+            $('html, body').animate({
+                scrollTop: ($('#'+message.scroll).offset().top - 56)
+            }, 1000, "easeInOutExpo");
+        }else if(message.scrollToPixel){
+            $('html, body').animate({
+                scrollTop: (message.scrollToPixel)
+            }, 1000, "easeInOutExpo");
+        }
+    }
+    
+    function socialLinks(){
+        $('.social a').each(function( index, value ) {
+            $(this).css('width','74px');
+            if(!$(this).attr('data-href')){
+                $(this).css('opacity','0.5');
+            }
+        });
+    }
+    
+    $(function () {
+        $(".preloader").fadeOut();
+        $('#form-header input').attr('disabled',true);
+        $('#form-header select').attr('disabled',true);
+        $('a').each(function( index, value ) {
+            $(this).attr('data-href',$(this).attr('href')).attr('href',"#");
+        });
+
+        socialLinks();
+        $('[data-label="edit"]')
+        .attr('data-html','true')
+        .attr('data-toggle','tooltip')
+        .attr('data-placement','bottom')
+        .attr('title','<b>{{ 'doble.click.to.edit' | trans }}</b>')
+        .css('cursor','pointer')
+        .css('border','#CCC dashed 2px')
+        .css('min-height','25px')
+        .css('min-width','25px')
+        .css('border-color','#CCCCCC')
+        .hover(function (){
+            $(this).css('border-color','#17a2b8')
+            $(this).css('border','#17a2b8 dashed 2px')
+        },function (){
+            $(this).css('border-color','#CCCCCC')
+            $(this).css('border','#CCCCCC dashed 2px')
+        })
+        .tooltip();
+        $("a").on('click',function(event){
+            event.preventDefault();
+        });
+        $('[data-label="edit"]').on('dblclick',function(event){
+            window.parent.editLabel($(this));
+            event.preventDefault();
+        });
+    });
+</script>

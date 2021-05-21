@@ -1,0 +1,236 @@
+{% extends "ApachecmsFrontendBundle::layout_lp.html.twig" %}
+{% block body %}
+{{ include('ApachecmsFrontendBundle::_partials/brand.html.twig') }}
+<div class="container" id="login">
+    <div class="text-center">
+        <h1 class='login'>{{ 'login' | trans }}</h1>
+        <h1 class='register'>{{ 'register' | trans }}</h1>
+        <h1 class='recovery'>{{ 'recovery.password' | trans }}</h1>
+        <h3 class='login'>{{ 'not.account' | trans }} <b><a href="javascript:changeForm('register')"> {{ 'register' | trans }}</a></b></h5>
+        <h5 class='register'>{{ 'have.account' | trans }}<a href="javascript:changeForm('login')"> {{ 'login' | trans }}</a></h5>
+        <h5 class='recovery'>{{ 'not.account' | trans }}<a href="javascript:changeForm('register')"> {{ 'register' | trans }}</a></h5>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+        </div>
+        <div class="col-sm-8">
+            <div class="row">
+                <div class="col-sm-6 " style="padding: 40px 20px;">
+                    {{ form_start(formLogin, {'attr': {'id':'loginform','novalidate':'novalidate','class':'sendToApi login'} }) }}
+                    <div class="form-group">
+                        {{form_widget(formLogin._username)}}
+                        <small class="text-danger error">{{ form_errors(formLogin._username)}}</small>
+                    </div>
+                    <div class="form-group">
+                        {{form_widget(formLogin._password)}}
+                        <small class="text-danger error">{{ form_errors(formLogin._password)}}</small>
+                        <div class="text-right">
+                            <a href="javascript:changeForm('recovery')" id="to-recover">{{ 'forgot.password' | trans }}</a>
+                        </div>
+                    </div>
+                    <div class="form-group text-center">
+                        <div class="col-xs-12">
+                            {{form_widget(formLogin.submit,{ 'attr':{ 'class':'btn btn-info','secondary-label':'loading' | trans}})}}
+                        </div>
+                    </div>
+                    {{ form_end(formLogin) }}
+                    {{ form_start(formRegister, {'attr': {'id':'registerForm','novalidate':'novalidate','class':'sendToApi register'} }) }}
+                        <div class="row">
+                            <div class="pr-1 col-sm-6 form-group">
+                                {{form_widget(formRegister.firstName)}}
+                                <small class="form-text text-danger">{{ form_errors(formRegister.firstName)}}</small>
+                            </div>
+                            <div class="pl-1 col-sm-6 form-group">
+                                {{form_widget(formRegister.lastName)}}
+                                <small class="form-text text-danger">{{ form_errors(formRegister.lastName)}}</small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{form_widget(formRegister.email)}}
+                            <small class="form-text text-danger">{{ form_errors(formRegister.email)}}</small>
+                        </div>
+                        <div class="form-group">
+                           {{form_widget(formRegister.plainPassword.first)}}
+                            <small class="form-text text-danger">{{ form_errors(formRegister.plainPassword.first)}}</small>
+                        </div>
+                        <div class="form-group">
+                           {{form_widget(formRegister.plainPassword.second)}}
+                            <small class="form-text text-danger">{{ form_errors(formRegister.plainPassword.second)}}</small>
+                        </div>
+                        <div class="form-group text-center">
+                            {{form_widget(formRegister.submit,{ 'attr':{ 'class':'btn btn-info','secondary-label':'loading' | trans}})}}
+                        </div>
+                    {{ form_end(formRegister) }}
+                    {{ form_start(formRecovery, {'attr': {'class': 'form-horizontal','id':'loginrecovery','novalidate':'novalidate','class':'sendToApi recovery'} }) }}
+                        <div class="form-group">
+                            {{form_widget(formRecovery.email)}}
+                            <small class="form-text text-danger">{{ form_errors(formRecovery.email)}}</small>
+                        </div>
+                        <div class="form-group text-center">
+                            {{form_widget(formRecovery.submit,{ 'attr':{ 'class':'btn btn-info','secondary-label':'loading' | trans}})}}
+                        </div>
+                    {{ form_end(formRecovery) }}
+
+                </div>
+                
+                <div class="col-sm-6" style="border-left:#CCC solid 1px; padding: 40px">
+                    <a class="btn btn-lg btn-social btn-facebook" href="javascript:loginByFacebook()">
+                        <i class="fa fa-facebook fa-fw"></i> {{ 'continue.with' | trans}} Facebook
+                    </a>
+                    <a id="googleSignIn" class="btn btn-lg btn-social btn-google" >
+                        <i class="fa fa-google fa-fw"></i> {{ 'continue.with' | trans}} Google
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{ form_start(formRegisterFacebook, {'attr': {'id':'loginFormFacebook','novalidate':'novalidate','class':'sendToApi d-none'} }) }}
+{{ form_end(formRegisterFacebook) }}
+{{ form_start(formRegisterGoogle, {'attr': {'id':'loginFormGoogle','novalidate':'novalidate','class':'sendToApi d-none'} }) }}
+{{ form_end(formRegisterGoogle) }}
+{% endblock body %}
+{% block javascripts %} 
+{{ parent() }}
+<script src="https://connect.facebook.net/en_US/sdk.js"></script>
+<script>
+    function onLoadGoogleCallback(){
+    gapi.load('auth2', function() {
+        auth2 = gapi.auth2.init({
+        client_id: '{{ setting.getData.loginGoogleClientId }}',
+        cookiepolicy: 'single_host_origin',
+        scope: 'profile'
+        });
+
+    auth2.attachClickHandler(element, {},
+        function(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            $('#apachecms_backendbundle_customer_login_by_google_firstName').val(profile.getGivenName());
+            $('#apachecms_backendbundle_customer_login_by_google_lastName').val(profile.getFamilyName());
+            $('#apachecms_backendbundle_customer_login_by_google_email').val(profile.getEmail());
+            $('#apachecms_backendbundle_customer_login_by_google_googleId').val(profile.getId());
+            $('#loginFormGoogle').submit();
+        }, function(error) {
+            console.log(error);
+            $.toast({
+                heading: 'Error',
+                text: '{{ 'ups' | trans  }}',
+                position: 'top-right',
+                icon: 'error',
+                hideAfter: 6000, 
+                stack: 6
+            });
+        }
+        );
+    });
+
+    element = document.getElementById('googleSignIn');
+}
+
+    function onSuccess(googleUser) {
+        var profile = googleUser.getBasicProfile();
+        $('#apachecms_backendbundle_customer_login_by_google_firstName').val(profile.getGivenName());
+        $('#apachecms_backendbundle_customer_login_by_google_lastName').val(profile.getFamilyName());
+        $('#apachecms_backendbundle_customer_login_by_google_email').val(profile.getEmail());
+        $('#apachecms_backendbundle_customer_login_by_google_googleId').val(profile.getId());
+        $('#loginFormGoogle').submit();
+    }
+    function onFailure(error) {
+        $.toast({
+            heading: 'Error',
+            text: '{{ 'ups' | trans  }}',
+            position: 'top-right',
+            icon: 'error',
+            hideAfter: 6000, 
+            stack: 6
+        });
+        console.log(error);
+    }
+    function renderButton() {
+      gapi.signin2.render('my-signin2', {
+        'scope': 'profile email',
+        'width': 300,
+        'height': 50,
+        'longtitle': true,
+        'theme': 'dark',
+        'onsuccess': onSuccess,
+        'onfailure': onFailure
+      });
+    }
+
+    function loginByFacebook(){
+        FB.login(function(response){
+            if(response.status=="connected"){
+                FB.api('/me?fields=id,name,first_name,last_name,email,picture',function(userData){
+                    $('#apachecms_backendbundle_customer_login_by_facebook_firstName').val(userData.first_name);
+                    $('#apachecms_backendbundle_customer_login_by_facebook_lastName').val(userData.last_name);
+                    $('#apachecms_backendbundle_customer_login_by_facebook_email').val(userData.email);
+                    $('#apachecms_backendbundle_customer_login_by_facebook_facebookId').val(userData.id);
+                    $('#loginFormFacebook').submit();
+                }); 
+            }else{
+                $.toast({
+                    heading: 'Error',
+                    text: response.message,
+                    position: 'top-right',
+                    icon: 'error',
+                    hideAfter: 6000, 
+                    stack: 6
+                });
+            }
+        },{scope:'public_profile,email'});
+    }
+    window.fbAsyncInit = function() {
+        FB.init({
+        appId            : '{{ setting.getData.loginFacebookAppId }}',
+        autoLogAppEvents : true,
+        xfbml            : true,
+        version          : 'v3.2'
+        });
+    };
+    $(function (){
+        FB.getLoginStatus(function(response) {
+        
+        }, true);
+    });
+</script>
+<script src="https://apis.google.com/js/platform.js?onload=onLoadGoogleCallback" async defer></script>
+<script type="text/javascript">
+    function changeForm(current){
+        if(current=='login'){
+            $('.recovery').hide('fast');
+            $('.register').hide('fast',function(){
+                $('.login').show('fast');
+            });
+        }else if(current=='register'){
+            $('.recovery').hide('fast');
+            $('.login').hide('fast',function(){
+                $('.register').show('fast');
+            });
+        }else if(current=='recovery'){
+            $('.login').hide('fast',function(){
+                $('.recovery').show('fast');
+            });
+        }
+    }
+    function beforeSuccess(data){
+        if(data.data.from=='apachecms_api_login_recovery_submit'){
+            loading.hide();
+            $.toast({
+                heading: "{{ 'success' | trans }}",
+                text: "{{ 'forgot.password.sending' | trans }}",
+                position: 'top-right',
+                icon: 'success',
+                hideAfter: 5000, 
+                stack: 10
+            });
+            changeForm('login')
+        }else if(data.data.from=='apachecms_api_login_submit'){
+            location.href=data.data.to;
+        }else if(data.data.from=='apachecms_api_login_create_submit'){
+            location.href=data.data.to;
+        }
+    }
+    </script>
+{% endblock javascripts %}

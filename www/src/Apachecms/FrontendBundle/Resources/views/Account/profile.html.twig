@@ -1,0 +1,93 @@
+{% extends "ApachecmsFrontendBundle::layout_lp.html.twig" %}
+{% block body %}
+{{ include('ApachecmsFrontendBundle::_partials/brand.html.twig') }}
+{% block headerPage %}
+{% include 'ApachecmsFrontendBundle:_partials:breadcrumbs.html.twig' %}
+{% endblock %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            {{ include('ApachecmsFrontendBundle::Account/_partials/menu.html.twig') }}
+        </div>
+        <div class="col-md-9">
+            <div class="card">
+                <h2 class="card-header">
+                    {{ (app.request.attributes.get('_route_params')['_breadcrumbs']|last)['label'] | trans }}
+                </h2>
+                <div class="card-body">
+                    {{ form_start(form, {'attr': {'class': 'sendToApi','id':'registerForm','novalidate':'novalidate'} }) }}
+                    <h5><b>{{ 'personal.information' | trans }}</b></h5>
+                    <hr>
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            {{form_label(form.firstName)}} {{form_widget(form.firstName)}}
+                            <small class="form-text text-danger">{{ form_errors(form.firstName)}}</small>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            {{form_label(form.lastName)}} {{form_widget(form.lastName)}}
+                            <small class="form-text text-danger">{{ form_errors(form.lastName)}}</small>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            {{form_label(form.phone)}} {{form_widget(form.phone)}}
+                            <small class="form-text text-danger">{{ form_errors(form.phone)}}</small>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            {{form_label(form.document)}} {{form_widget(form.document)}}
+                            <small class="form-text text-danger">{{ form_errors(form.document)}}</small>
+                        </div>
+                    </div>
+                    <h5><b>{{ 'access.information' | trans }}</b></h5>
+                    <hr>
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            {{form_label(form.email)}} {{form_widget(form.email)}}
+                            <small class="form-text text-danger">{{ form_errors(form.email)}}</small>
+                        </div>
+                    </div>
+                    <h5><b>{{ 'business.information' | trans }}</b></h5>
+                    <hr>
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            {{form_label(form.businessName)}} {{form_widget(form.businessName)}}
+                            <small class="form-text text-danger">{{ form_errors(form.businessName)}}</small>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            {{form_label(form.businessCuit)}} {{form_widget(form.businessCuit)}}
+                            <small class="form-text text-danger">{{ form_errors(form.businessCuit)}}</small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12">
+                            {{form_label(form.businessAddress)}} {{form_widget(form.businessAddress)}}
+                            <small class="form-text text-danger">{{ form_errors(form.businessAddress)}}</small>
+                        </div>
+                    </div>
+                    <div class="form-group text-center">
+                        {{form_widget(form.submit,{ 'attr':{'secondary-label':'loading' | trans}})}}
+                    </div>
+                    <div class="d-none">
+                    {{form_widget(form.acceptTermsAndConditions)}}
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}
+{% block javascripts %} 
+{{ parent() }}
+<script type="text/javascript">
+    function beforeSuccess(data){
+        loading.hide();
+        $.toast({
+            heading: "{{ 'success' | trans }}",
+            text: "{{ 'save.data' | trans }}",
+            position: 'top-right',
+            icon: 'success',
+            hideAfter: 2000, 
+            stack: 10
+        });
+    }
+    </script>
+{% endblock javascripts %}

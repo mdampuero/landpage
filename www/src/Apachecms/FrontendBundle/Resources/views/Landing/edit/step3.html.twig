@@ -1,0 +1,55 @@
+{% extends "ApachecmsFrontendBundle::layout_lp.html.twig" %}
+{% block stylesheet %} 
+{{ parent() }}
+{% endblock %}
+{% block body %}
+{{ include('ApachecmsFrontendBundle::_partials/brand.html.twig') }}
+{% block headerPage %}
+{% include 'ApachecmsFrontendBundle:_partials:breadcrumbs.html.twig' with { 'title_entity': entity.title } %}
+{% endblock %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            {{ include('ApachecmsFrontendBundle::Stats/_partials/menu.html.twig') }}
+        </div>
+        <div class="col-md-9">
+            <div class="card">
+                <h2 class="card-header">
+                    {{ (app.request.attributes.get('_route_params')['_breadcrumbs']|last)['label'] | trans}}
+                </h2>
+                {{ form_start(form, {'attr': {'class': 'sendToApi','id':'registerForm','novalidate':'novalidate'} }) }}
+                <div class="card-body">
+                    {% include 'ApachecmsFrontendBundle:Landing:_partials/step3.html.twig' with { 'form' : form } %}
+                </div>
+                <div class="card-footer text-right">
+                    {{form_widget(form.submit,{ 
+                        'attr':{
+                            'secondary-label':'loading' | trans,
+                            'class':'btn btn-info'
+                            },
+                        'label':'save' | trans
+                        })}}
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %} 
+{{ parent() }}
+{% include 'ApachecmsFrontendBundle:Landing:_partials/scriptStep3.html.twig' %}
+<script>
+function beforeSuccess(response){
+    loading.hide();
+    $.toast({
+        heading: 'Resultado OK',
+        text: 'Los datos se guardaron correctamente',
+        position: 'top-right',
+        icon: 'success',
+        hideAfter: 4000, 
+        stack: 6
+    });
+}
+</script>
+{% endblock %}

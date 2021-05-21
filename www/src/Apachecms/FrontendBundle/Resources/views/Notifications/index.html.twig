@@ -1,0 +1,129 @@
+{% extends "ApachecmsFrontendBundle::layout_lp.html.twig" %}
+{% block body %}
+{{ include('ApachecmsFrontendBundle::_partials/brand.html.twig') }}
+{% block headerPage %}
+{% include 'ApachecmsFrontendBundle:_partials:breadcrumbs.html.twig' %}
+{% endblock %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            {{ include('ApachecmsFrontendBundle::Account/_partials/menu.html.twig') }}
+        </div>
+        <div class="col-md-9">
+            <div class="card">
+                <h2 class="card-header">
+                    {{ (app.request.attributes.get('_route_params')['_breadcrumbs']|last)['label'] | trans}}    
+                </h2>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="notifications_dataTable" class="display nowrap table table-striped table-bordered" cellspacing="0" width="100%"></table>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %} 
+{{ parent() }}
+<script src="{{ asset('bundles/apachecmsbackend/assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js"></script>
+{% if app.request.locale == 'es' %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/locale/es.js"></script>
+{% endif %}
+<script>
+    function createBusiness(){
+        {% if app.user.plan.maxBusiness > app.user.business | length %}
+        location.href='{{ path('apachecms_frontend_business_add') }}';
+        {% else %}
+        swal({   
+                title: "Ups!",   
+                text: "{{ 'max.business' | trans }}",   
+                type: "error",   
+                showCancelButton: false,   
+                confirmButtonColor: "#DD6B55",   
+                confirmButtonText: "{{ 'accept' | trans }}",    
+                closeOnConfirm: true 
+            });
+        {% endif %}
+    }
+    $.extend( true, $.fn.dataTable.defaults, {
+        // "searching": false,
+        // "ordering": false,   
+        dom: 'Bfrtip',
+        ajax: "{{ path('apachecms_api_notifications_getAll')}}",
+        pageLength: 15,
+        lengthMenu: [15, 25, 50],
+        {% if app.request.locale == 'es' %}
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json'
+        },
+        {% endif %}
+        buttons: [
+           
+        ],
+        "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+            if ( aData.is_read == false ){  
+                $('td', nRow).css('font-weight', 'bold');
+            }
+        }
+    });
+    $(function () {
+        $('#notifications_dataTable').DataTable({
+            order:  [[ 1, "ASC" ]],
+            columns: [
+                { title:"{{ 'title.notification' | trans }}",data: "title" },
+                { 
+                    data: 'created_at', 
+                    title: '{{ 'date' | trans }}',
+                    render: function (data, type, row) 
+                    {
+                        var dateMonthAsWord = moment(data).format('DD MMM YYYY HH:mm');
+                        if(dateMonthAsWord!='Invalid date'){
+                            return dateMonthAsWord;
+                        }else{
+                            return 'N/A';
+                        }
+                    }
+                },
+                {
+                    data: 'is_read',
+                    title: '{{ 'is.read' | trans }}',
+                    className: "text-center",
+                    render: function (data, type, row) 
+                    {
+                        if(data==true){
+                            return '<i class="fa fa-lg fa-check text-success"></i>';
+                        }else{
+                            return '<i class="fa fa-lg fa-times text-muted"></i>';
+                        }
+                    }
+                }
+            ]
+        });
+        $('#notifications_dataTable').on('click', 'tbody>tr', function () {
+            var data = $('#notifications_dataTable').DataTable().row($(this)).data();
+            var url="{{ path('apachecms_api_notifications_make_read',{ id: 'ENTITY_ID' })}}";
+            loading.show();
+            $.post(url.replace('ENTITY_ID',data.id), null , function (result) {
+                if (result.response == true) {
+                    location.href=data.path;
+                }else{
+                    loading.hide();
+                    $.toast({
+                        heading: '{{ messages.result.error.title }}',
+                        text: '{{ messages.result.error.text }}',
+                        position: 'top-right',
+                        icon: '{{ messages.result.error.icon }}',
+                        hideAfter: 2000, 
+                        stack: 6
+                    });
+                }
+            });
+            
+        });
+    });
+</script>
+{% endblock %}

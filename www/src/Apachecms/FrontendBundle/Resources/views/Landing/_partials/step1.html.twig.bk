@@ -1,0 +1,54 @@
+<div class="row">
+    <div class="form-group col-sm-6">
+        {{form_label(form.name)}} {{form_widget(form.name)}}
+        <small class="form-text text-danger">{{ form_errors(form.name)}}</small>
+    </div>
+    <div class="form-group col-sm-6">
+        {{form_label(form.business)}} {{form_widget(form.business)}}
+        <small class="form-text text-danger">{{ form_errors(form.business)}}</small>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-sm-6">
+        {{form_label(form.title)}} {{form_widget(form.title)}}
+        <small class="form-text text-danger">{{ form_errors(form.title)}}</small>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-sm-12">
+        {{form_label(form.description)}} {{form_widget(form.description)}}
+        <small class="form-text text-danger">{{ form_errors(form.description)}}</small>
+    </div>
+</div>
+<div class="row hidden">
+    <div class="form-group col-sm-6">
+        {{form_label(form.title_1)}} {{form_widget(form.title_1)}}
+        <small class="form-text text-danger">{{ form_errors(form.title_1)}}</small>
+    </div>
+    <div class="form-group col-sm-6">
+        {{form_label(form.description_1)}} {{form_widget(form.description_1)}}
+        <small class="form-text text-danger">{{ form_errors(form.description_1)}}</small>
+    </div>
+</div>
+<div class="row hidden">
+    <div class="form-group col-sm-6">
+        {{form_label(form.title_2)}} {{form_widget(form.title_2)}}
+        <small class="form-text text-danger">{{ form_errors(form.title_2)}}</small>
+    </div>
+    <div class="form-group col-sm-6">
+        {{form_label(form.description_2)}} {{form_widget(form.description_2)}}
+        <small class="form-text text-danger">{{ form_errors(form.description_2)}}</small>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-sm-6">
+        {{form_label(form.brand)}}
+        {% if entity is defined and entity.brand %}
+        {{form_widget(form.brand,{ attr: { 'data-default-file': web_image('uploads/or/' ~
+        entity.brand).resize('600','300') }})}}
+        {% else %}
+        {{form_widget(form.brand)}}
+        {% endif %}
+        <small class="form-text text-danger">{{ form_errors(form.brand)}}</small>
+    </div>
+</div>

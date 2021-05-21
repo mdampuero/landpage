@@ -1,0 +1,66 @@
+services:
+    Apachecms\FrontendBundle\Controller\LoginController:
+        class: Apachecms\FrontendBundle\Controller\LoginController
+        autowire: true # or define your controller constructor and configure its arguments explicitly
+        tags: ['controller.service_arguments']
+    Apachecms\FrontendBundle\Controller\AccountController:
+        class: Apachecms\FrontendBundle\Controller\AccountController
+        autowire: true # or define your controller constructor and configure its arguments explicitly
+        tags: ['controller.service_arguments']
+        arguments:
+            - '@security.token_storage'
+            - '@router'
+    Apachecms\FrontendBundle\Controller\LandingController:
+        class: Apachecms\FrontendBundle\Controller\LandingController
+        autowire: true # or define your controller constructor and configure its arguments explicitly
+        tags: ['controller.service_arguments']
+        arguments:
+            - '@security.token_storage'
+            - '@router'
+    Apachecms\FrontendBundle\Controller\QueriesController:
+        class: Apachecms\FrontendBundle\Controller\QueriesController
+        autowire: true # or define your controller constructor and configure its arguments explicitly
+        tags: ['controller.service_arguments']
+        arguments:
+            - '@security.token_storage'
+            - '@router'
+    Apachecms\FrontendBundle\Controller\StatsController:
+        class: Apachecms\FrontendBundle\Controller\StatsController
+        autowire: true # or define your controller constructor and configure its arguments explicitly
+        tags: ['controller.service_arguments']
+        arguments:
+            - '@security.token_storage'
+            - '@router'
+    
+    Apachecms\FrontendBundle\Controller\BusinessController:
+        class: Apachecms\FrontendBundle\Controller\BusinessController
+        autowire: true # or define your controller constructor and configure its arguments explicitly
+        tags: ['controller.service_arguments']
+        arguments:
+            - '@security.token_storage'
+            - '@router'
+    Apachecms\FrontendBundle\Controller\NotificationsController:
+        class: Apachecms\FrontendBundle\Controller\NotificationsController
+        autowire: true # or define your controller constructor and configure its arguments explicitly
+        tags: ['controller.service_arguments']
+        arguments:
+            - '@security.token_storage'
+            - '@router'
+    Apachecms\FrontendBundle\Controller\LockController:
+        class: Apachecms\FrontendBundle\Controller\LockController
+        autowire: true # or define your controller constructor and configure its arguments explicitly
+        tags: ['controller.service_arguments']
+        arguments:
+            - '@security.token_storage'
+            - '@router'
+   
+    Apachecms\FrontendBundle\EventSubscriber\LocaleSubscriber:
+        arguments: ['%kernel.default_locale%']
+        # redundant if you're using autoconfigure
+        tags: [kernel.event_subscriber]
+    app.validator.manual_password:
+        class: Apachecms\FrontendBundle\Service\ManualPasswordValidator
+        arguments:
+            - '@security.token_storage'
+            - '@security.encoder_factory'
+    

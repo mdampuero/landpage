@@ -1,0 +1,169 @@
+{% extends "ApachecmsFrontendBundle::layout_lp.html.twig" %}
+{% block body %}
+{{ include('ApachecmsFrontendBundle::_partials/brand.html.twig') }}
+{% block headerPage %}
+{% include 'ApachecmsFrontendBundle:_partials:breadcrumbs.html.twig' %}
+{% endblock %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            {{ include('ApachecmsFrontendBundle::Account/_partials/menu.html.twig') }}
+        </div>
+        <div class="col-md-9">
+            <div class="card">
+                <h2 class="card-header">
+                    {{ (app.request.attributes.get('_route_params')['_breadcrumbs']|last)['label'] | trans}}
+                    <button type="button" class="btn btn-info pull-right" onclick="createLanding()">{{ 'create.landing' | trans }}</button>
+                </h2>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="landings_dataTable" class="display nowrap table table-striped table-bordered" cellspacing="0" width="100%"></table>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %} 
+{{ parent() }}
+<script src="{{ asset('bundles/apachecmsbackend/assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js"></script>
+{% if app.request.locale == 'es' %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/locale/es.js"></script>
+{% endif %}
+<script>
+    {# function reload(){
+        var table=$('#landings_dataTable').DataTable();
+        table.ajax.url( '{{ path('apachecms_api_business_getAll')}}' ).load();
+    } #}
+    function createLanding(){
+
+        {% if app.user.plan.maxLanding > app.user.landings | length %}
+            {% if app.user.business | length == 0 %}
+               
+                    swal({   
+                        title: "{{ 'warning' | trans }}",   
+                        text: "{{ 'first.create.business' | trans }}",   
+                        type: "warning",   
+                        showCancelButton: true,   
+                        confirmButtonColor: "#DD6B55",   
+                        confirmButtonText: "{{ 'yes.create' | trans }}",   
+                        cancelButtonText: "{{ 'cancel' | trans }}",   
+                        closeOnConfirm: true 
+                    }, function(){
+                        loading.show();
+                        location.href='{{ path('apachecms_frontend_business_add',{ 'back': 1}) }}';
+                    });
+            {% else %}
+                location.href='{{ path('apachecms_frontend_landing_add_step1') }}';
+            {% endif %}
+        {% else %}
+        swal({   
+                title: "Ups!",   
+                text: "{{ 'max.landings' | trans }}",   
+                type: "error",   
+                showCancelButton: false,   
+                confirmButtonColor: "#DD6B55",   
+                confirmButtonText: "{{ 'accept' | trans }}",    
+                closeOnConfirm: true 
+            });
+        {% endif %}
+    }
+   $.extend( true, $.fn.dataTable.defaults, {
+        // "searching": false,
+        // "ordering": false,
+        dom: 'Bfrtip',
+        ajax: "{{ path('apachecms_api_landing_getAll')}}",
+        pageLength: 15,
+        lengthMenu: [15, 25, 50],
+        {% if app.request.locale == 'es' %}
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json'
+        },
+        {% endif %}
+        buttons: [
+            { "extend": 'excel', "text":'{{ 'download.excel' | trans }}',"className": 'btn btn-info btn-sm' }
+        ],
+    });
+    $(function () {
+        
+        $('#landings_dataTable').DataTable({
+            order: [],
+            columns: [
+                { 
+                    data: "business.name",
+                    targets: 0,
+                    title: "{{ 'landing.business' | trans }}",
+                    searchable: true,
+                    visible: false
+                },
+                { 
+                    data: "business.industry.name",
+                    targets: 0,
+                    searchable: true,
+                    title: "{{ 'industry' | trans }}",
+                    visible: false
+                },
+                { title:"{{ 'title' | trans }}",data: "title" },
+                { title:"{{ 'visits' | trans }}",data: "visits" , className:"text-center"},
+                { title:"{{ 'leads' | trans }}",data: "leads", className:"text-center" },
+                { 
+                    title:"{{ 'convertions' | trans }}",
+                    data: "convertions",
+                     className:"text-center",
+                    render: function (data, type, row) 
+                    {
+                        if(row.convertions){
+                            return row.convertions.toFixed(2)+' %'
+                        }else{
+                            return '0 %';
+                        }
+                    }
+                },
+                { 
+                    data: 'status', 
+                    className:"text-center",
+                    title: '{{ 'status' | trans }}',
+                    render: function (data, type, row) 
+                    {
+                        {# console.log(row); #}
+                        switch (data){
+                            case 'draft':
+                                return '<span class="badge badge-pill badge-warning">{{ 'draft' | trans }} ({{ 'step' | trans }} '+row.current_step+')</span>';
+                                break;
+                            case 'published':
+                                return '<span class="badge badge-pill badge-success">{{ 'published' | trans }}</span>';
+                                break;
+                            case 'ready':
+                                return '<span class="badge badge-pill badge-primary">{{ 'ready' | trans }}</span>';
+                                break;
+                        }
+                    }
+                }
+            ]
+        });
+ 
+       
+        $('#landings_dataTable').on('click', 'tbody>tr', function () {
+            var data = $('#landings_dataTable').DataTable().row($(this)).data();
+            var url="{{ path('apachecms_frontend_landing_view',{ id: 'ENTITY_ID' })}}";
+            location.href=url.replace('ENTITY_ID',data.id);
+        });
+        {# /* $('#landings_dataTable').on('click', 'button.btn-view', function () {
+            var data = $('#landings_dataTable').DataTable().row( $(this).parents('tr') ).data();
+            var url="{{ path('apachecms_frontend_landing_stats',{ id: 'ENTITY_ID' })}}";
+           location.href=url.replace('ENTITY_ID',data.id);
+        });
+        $('#landings_dataTable').on('click', 'button.btn-edit', function () {
+            var data = $('#landings_dataTable').DataTable().row( $(this).parents('tr') ).data();
+            var url="{{ path('apachecms_frontend_landing_add_step4',{ id: 'ENTITY_ID' })}}";
+            location.href=url.replace('ENTITY_ID',data.id);
+        }); */ #}
+    });
+</script>
+{% endblock %}

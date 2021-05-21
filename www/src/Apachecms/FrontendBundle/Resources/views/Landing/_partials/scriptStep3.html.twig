@@ -1,0 +1,123 @@
+<script type="text/javascript">
+    
+    $(function (){
+
+        $('#landing_step3_useWhatsapp').change(function (){
+            if($(this).is(":checked")==true){
+                $('#landing_step3_useWhatsappMobile').attr('disabled',false);
+            }else{
+                $('#landing_step3_useWhatsappMobile').attr('disabled',true);
+                
+
+            }
+        });
+        $('#landing_step3_contactAddressMap').change(function (){
+            if($(this).is(":checked")==true){
+                $('#map').slideDown('fast');
+                $('#pac-input').show();
+            }else{
+                $('#pac-input').hide();
+                $('#map').slideUp('fast');
+
+            }
+        });
+        $('#landing_step3_social').change(function (){
+            if($(this).is(":checked")==true){
+                $('#social').slideDown('fast');
+            }else{
+                $('#social').slideUp('fast');
+
+            }
+        });
+    });
+</script>
+
+<script>
+    var markers = null;
+    function initAutocomplete() {
+        {% if entity.contactAddressLat is not null and entity.contactAddressLng is not null %}
+        var myLatlng = new google.maps.LatLng({{ entity.contactAddressLat }}, {{ entity.contactAddressLng }});
+        {% else %}
+        var myLatlng = new google.maps.LatLng(-32.0062296, -62.083145);
+        {% endif %}
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: myLatlng,
+            zoom: {% if entity.contactAddressZoom %} {{ entity.contactAddressZoom }} {% else %} 10 {% endif %},
+            mapTypeId: 'roadmap'
+        });
+        if($("#landing_step3_contactAddressLat").val() && $("#landing_step3_contactAddressLng").val()){
+            markers = new google.maps.Marker({
+                position: myLatlng,
+                draggable: true,
+                map: map,
+                title: 'Arrastre el ícono hasta la ubicación deseada'
+            });
+
+        }
+        var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        map.addListener('bounds_changed', function() {
+            searchBox.setBounds(map.getBounds());
+        });
+        map.addListener('zoom_changed', function() {
+            $("#landing_step3_contactAddressZoom").val(map.getZoom());
+        });
+        
+        
+        searchBox.addListener('places_changed', function() {
+            var places = searchBox.getPlaces();
+            var place=places[0];
+            if (places.length == 0) {
+                return;
+            }
+
+            // markers.forEach(function(marker) {
+            //     marker.setMap(null);
+            // });
+            if(markers)
+                markers.setMap(null);
+            markers = null;
+            var bounds = new google.maps.LatLngBounds();
+            // places.forEach(function(place) {
+                if (!place.geometry) {
+                    console.log("Returned place contains no geometry");
+                    return;
+                }
+
+                markers=new google.maps.Marker({
+                    map: map,
+                    draggable:true,
+                    title: place.name,
+                    position: place.geometry.location
+                });
+                $("#landing_step3_contactAddressLat").val(markers.getPosition().lat());
+                $("#landing_step3_contactAddressLng").val(markers.getPosition().lng());
+                if (place.geometry.viewport) {
+                    bounds.union(place.geometry.viewport);
+                } else {
+                    bounds.extend(place.geometry.location);
+                }
+            // });
+            map.fitBounds(bounds);
+           
+            google.maps.event.addListener(markers, "dragend", function(e) {
+                var lat, lng, address;
+                $("#landing_step3_contactAddressLat").val(markers.getPosition().lat());
+                $("#landing_step3_contactAddressLng").val(markers.getPosition().lng());
+            });
+        });
+        if(markers){
+            google.maps.event.addListener(markers, "dragend", function(e) {
+                var lat, lng, address;
+                $("#landing_step3_contactAddressLat").val(markers.getPosition().lat());
+                $("#landing_step3_contactAddressLng").val(markers.getPosition().lng());
+            });
+        }
+    }
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ setting.getData.googleMapsId }}&libraries=places&callback=initAutocomplete" async defer>
+</script>

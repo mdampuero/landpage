@@ -1,0 +1,63 @@
+apachecms_api_landing_getAll:
+    path:     /getAll
+    defaults: 
+        _controller: ApachecmsApiBundle:Landing:getAll
+    methods: [GET]
+
+apachecms_api_landing_step1_submit:
+    path:     /step1/{id}
+    defaults: 
+        {_controller: ApachecmsApiBundle:Landing:step1,id: null}
+    methods: [POST]
+
+apachecms_api_landing_delete_submit:
+    path:     /delete/{id}
+    defaults: {_controller: ApachecmsApiBundle:Landing:delete}
+    methods: [POST,DELETE]
+
+apachecms_api_landing_step2_submit:
+    path:     /step2/{id}
+    defaults: 
+        _controller: ApachecmsApiBundle:Landing:step2
+    methods: [POST]
+
+apachecms_api_landing_step3_submit:
+    path:     /step3/{id}
+    defaults: 
+        _controller: ApachecmsApiBundle:Landing:step3
+    methods: [POST]
+
+apachecms_api_landing_step4_submit:
+    path:     /step4/{id}
+    defaults: 
+        _controller: ApachecmsApiBundle:Landing:step4
+    methods: [POST]
+
+apachecms_api_landing_step5_submit:
+    path:     /step5/{id}
+    defaults: 
+        _controller: ApachecmsApiBundle:Landing:step5
+    methods: [POST]
+
+apachecms_api_landing_publish_submit:
+    path:     /publish/{id}
+    defaults: 
+        _controller: ApachecmsApiBundle:Landing:publish
+    methods: [POST]
+apachecms_api_landing_publishStop_submit:
+    path:     /publishStop/{id}
+    defaults: 
+        _controller: ApachecmsApiBundle:Landing:publishStop
+    methods: [POST]
+
+apachecms_api_landing_plugins_submit:
+    path:     /plugins/{id}
+    defaults: 
+        _controller: ApachecmsApiBundle:Landing:plugins
+    methods: [POST]
+
+apachecms_api_landing_contact_submit:
+    path:     /contact/{id}
+    defaults: 
+        _controller: ApachecmsApiBundle:Landing:contact
+    methods: [POST]

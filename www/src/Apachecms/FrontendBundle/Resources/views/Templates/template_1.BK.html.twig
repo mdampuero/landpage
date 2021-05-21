@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="__description__">
+    <meta name="author" content="">
+    <title>{{ entity.title }}</title>
+    <link href="{{ asset('bundles/apachecmsbackend/templates/')}}{{ entity.template }}/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('bundles/apachecmsbackend/templates/')}}{{ entity.template }}/assets/fontawesome-free/css/all.min.css" rel="stylesheet"
+        type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400" rel="stylesheet">
+    <link href="{{ asset('bundles/apachecmsbackend/templates/')}}{{ entity.template }}/css/blue-light.css" rel="stylesheet">
+    <link href="{{ asset('bundles/apachecmsbackend/assets/plugins/toast-master/css/jquery.toast.css') }}" rel="stylesheet">    
+
+    <style>
+    .cards{
+        -webkit-transition: all 0.2s ease;
+        -moz-transition: all 0.2s ease;
+        -o-transition: all 0.2s ease;
+        transition: all 0.2s ease;
+    }
+    </style>
+</head>
+
+<body id="page-top">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand js-scroll-trigger" href="#page-top"><img src="{{web_image('uploads/or/' ~ entity.brand).resize('250')}}" style="max-height: 50px;"></a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="#about">{{ entity.labels.navbarAbout }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="#services">{{ 'product.or.service' | trans }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="#contact">{{ 'contact' | trans }}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <header class="masthead text-center text-white d-flex" style='background-color:#000; background-image:url({{ asset('uploads/or/')}}{{ entity.backgroundImage }})'>
+        <div class="container my-auto">
+            <div class="row">
+                <div class="col-lg-10 mx-auto">
+                    <h1 class="text-uppercase">
+                        <strong>{{ entity.name }}</strong>
+                    </h1>
+                    <hr>
+                </div>
+                <div class="col-lg-8 mx-auto">
+                    <p class="text-faded mb-5">{{ entity.description }}</p>
+                    {# <a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">__</a> #}
+                </div>
+            </div>
+        </div>
+    </header>
+    <section class="bg-section" id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="section-heading text-white">{{ entity.title }}</h2>
+                    <hr class="light my-4">
+                    <p class="text-faded mb-4">{{ entity.description }}</p>
+                    <a class="btn btn-light btn-xl js-scroll-trigger" href="#contact">{{ 'contact' | trans }}</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">{{ 'product.or.service' | trans }}</h2>
+                    <hr class="my-4" id="columns">
+                </div>
+            </div>
+        </div>
+        <div class="container" >
+            <div class="row">
+                {% for service in entity.services %}
+                    {# <div class="{{ entity.gridColumns }} text-center cards"> #}
+                    <div class="{{ entity.gridColumns }} text-center cards">
+                        <div class="card">
+                            <div style="height:250px; background-image: url('{{ web_image('uploads/or/' ~ service.picture).resize('600') }}'); background-position: center center;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;">
+                                
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title" style="height:48px;">{{ service.title }}</h5>
+                                <p class="card-text" style="height: 200px; overflow-y: auto;">{{ service.description }}</p>
+                                <a href="#" class="btn btn-primary text-white">Go somewhere</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {{ form_start(formContact, {'attr': {'class': 'sendToApi','id':'registerForm','novalidate':'novalidate'} }) }}
+    <section class="bg-section text-white" id="contact">
+        <div class="container text-center">
+            <h2 class="mb-4">{{ 'contact' | trans }}</h2>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 offset-md-3 offset-lg-4 form-group">
+                    {{form_label(formContact.name)}} {{form_widget(formContact.name)}}
+                </div>
+                <div class="col-lg-4 col-md-6 offset-md-3 offset-lg-4 form-group">
+                    {{form_label(formContact.email)}} {{form_widget(formContact.email)}}
+                </div>
+                <div class="col-lg-4 col-md-6 offset-md-3 offset-lg-4 form-group">
+                    {{form_label(formContact.phone)}} {{form_widget(formContact.phone)}}
+                </div>
+                <div class="col-lg-4 col-md-6 offset-md-3 offset-lg-4 form-group">
+                    {{form_label(formContact.query)}} {{form_widget(formContact.query)}}
+                </div>
+            </div>
+            <br/>
+            <button class="btn btn-light btn-xl sr-button" type="submit" secondary-label="{{ 'loading' | trans }}">{{ 'send' | trans }}</button>
+        </div>
+    </section>
+    {{ form_end(formContact) }}
+    <section id="contact" >
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 ml-auto text-center">
+                    <i class="fas fa-phone fa-3x mb-3 sr-contact-1 textSecondary"></i>
+                    <p><a href="tel:{{ entity.contactPhone }}">{{ entity.contactPhone }}</a></p>
+                </div>
+                <div class="col-lg-3 ml-auto text-center">
+                    <i class="fas fa-map-marker fa-3x mb-3 sr-contact-1 textSecondary"></i>
+                    <p><a href="javascript:void(0)">{{ entity.contactAddress }}</a></p>
+                </div>
+                <div class="col-lg-3 mr-auto text-center">
+                    <i class="fas fa-envelope fa-3x mb-3 sr-contact-2 textSecondary"></i>
+                    <p>
+                        <a href="mailto:{{ entity.contactEmail }}">{{ entity.contactEmail }}</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer id="footer" style="padding-top: 24px; border-top: #ccc solid 1px;">
+        <div class="container text-center">
+            <div class="copyright text-secondary">
+                &copy; <a href="{{ path('apachecms_frontend_homepage') }}">{{ copyright }} - {{ referer }}
+            </div>
+            <br/>
+        </div>
+    </footer>
+    <script src="{{ asset('bundles/apachecmsbackend/templates/')}}{{ entity.template }}/assets/jquery/jquery.min.js"></script>
+    <script src="{{ asset('bundles/apachecmsbackend/templates/')}}{{ entity.template }}/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('bundles/apachecmsbackend/templates/')}}{{ entity.template }}/assets/jquery-easing/jquery.easing.min.js"></script>
+    <script src="{{ asset('bundles/apachecmsbackend/templates/')}}{{ entity.template }}/assets/scrollreveal/scrollreveal.min.js"></script>
+    <script src="{{ asset('bundles/apachecmsbackend/templates/')}}{{ entity.template }}/js/creative.js"></script>
+    <script src="{{ asset('bundles/apachecmsbackend/node_modules/clientjs/dist/client.min.js')}}"></script>
+    <script src="{{ asset('bundles/apachecmsbackend/assets/plugins/toast-master/js/jquery.toast.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script>
+    <script>
+      var client = new ClientJS();
+      var dataClient={
+        getBrowserData:client.getBrowserData(),
+        getFingerprint:client.getFingerprint(),
+        getUserAgent:client.getUserAgent(),
+        getUserAgentLowerCase:client.getUserAgentLowerCase(),
+        getBrowser:client.getBrowser(),
+        getBrowserVersion:client.getBrowserVersion(),
+        getBrowserMajorVersion:client.getBrowserMajorVersion(),
+        isIE:client.isIE(),
+        isChrome:client.isChrome(),
+        isFirefox:client.isFirefox(),
+        isSafari:client.isSafari(),
+        isOpera:client.isOpera(),
+
+        getEngine:client.getEngine(),
+        getEngineVersion:client.getEngineVersion(),
+
+        getOS:client.getOS(),
+        getOSVersion:client.getOSVersion(),
+        isWindows:client.isWindows(),
+        isMac:client.isMac(),
+        isLinux:client.isLinux(),
+        isUbuntu:client.isUbuntu(),
+        isSolaris:client.isSolaris(),
+
+        getDevice:client.getDevice(),
+        getDeviceType:client.getDeviceType(),
+        getDeviceVendor:client.getDeviceVendor(),
+
+        getCPU:client.getCPU(),
+
+        isMobile:client.isMobile(),
+        isMobileMajor:client.isMobileMajor(),
+        isMobileAndroid:client.isMobileAndroid(),
+        isMobileOpera:client.isMobileOpera(),
+        isMobileWindows:client.isMobileWindows(),
+        isMobileBlackBerry:client.isMobileBlackBerry(),
+
+        isMobileIOS:client.isMobileIOS(),
+        isIphone:client.isIphone(),
+        isIpad:client.isIpad(),
+        isIpod:client.isIpod(),
+
+        getScreenPrint:client.getScreenPrint(),
+        getColorDepth:client.getColorDepth(),
+        getCurrentResolution:client.getCurrentResolution(),
+        getAvailableResolution:client.getAvailableResolution(),
+        getDeviceXDPI:client.getDeviceXDPI(),
+        getDeviceYDPI:client.getDeviceYDPI(),
+
+        getPlugins:client.getPlugins(),
+        isJava:client.isJava(),
+        getJavaVersion:client.getJavaVersion(),
+        isFlash:client.isFlash(),
+        getFlashVersion:client.getFlashVersion(),
+        isSilverlight:client.isSilverlight(),
+        getSilverlightVersion:client.getSilverlightVersion(),
+
+        getMimeTypes:client.getMimeTypes(),
+        isMimeTypes:client.isMimeTypes(),
+
+        isFont:client.isFont(),
+        getFonts:client.getFonts(),
+
+        isLocalStorage:client.isLocalStorage(),
+        isSessionStorage:client.isSessionStorage(),
+        isCookie:client.isCookie(),
+
+        getTimeZone:client.getTimeZone(),
+
+        getLanguage:client.getLanguage(),
+        getSystemLanguage:client.getSystemLanguage(),
+
+        isCanvas:client.isCanvas()
+        {# getCanvasPrin:client.getCanvasPrint() #}
+      };
+
+        
+    </script>
+    <script>
+        function getLocation(stat) {
+            var statId=stat;
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position){
+                    var url="{{ path('apachecms_api_stats_geo',{ id:'ENTITY_ID'}) }}"
+                    $.post(url.replace('ENTITY_ID',statId), position ,function (result) {
+                        {# console.log(result); #}
+                    });
+                });
+            }
+        }
+        function showRequest(formData, form, options) { 
+            var url = form.attr("action");
+            var method = form.attr("method").toUpperCase();
+            var dataForm = form.serialize();
+            var submitBtn = form.closest('form').find(':submit');
+            var inputs=form.closest('form').find(':input:not(.dropify)');
+            inputs.removeClass('error');
+            inputs.next('small').html('');
+            BtnSecondaryLabel=submitBtn.attr('secondary-label');
+            BtnHtml=submitBtn.html();
+            submitBtn.html('<i class="fa fa-gear fa-spin"></i> '+BtnSecondaryLabel);
+            submitBtn.attr('disabled',true);
+            return true; 
+        } 
+
+        function showResponse(data, statusText, xhr, form)  { 
+            
+            var submitBtn = form.closest('form').find(':submit');
+            submitBtn.attr('disabled',false);
+            submitBtn.html(BtnHtml);
+            if(statusText=='success'){
+                if(data.response==false){
+                    $.toast({
+                        heading: "{{ 'error' | trans }}",
+                        text: "{{ 'ups' | trans }}",
+                        position: 'top-right',
+                        icon: 'error',
+                        hideAfter: 2000, 
+                        stack: 6
+                    });
+                    if(data.errors.length > 0){
+                        for (var i=0; i<data.errors.length; i++){
+                            if(data.errors[i].property !=null){
+                                if(form.attr("name")!=undefined){
+                                    var input=$('#'+form.attr("name")+'_'+data.errors[i].property);
+                                }else{
+                                    var input=form.closest('form').find(':input[name='+data.errors[i].property+']');
+                                }
+                                input.attr('title',data.errors[i].message);
+                                input.tooltip('enable').tooltip('show');
+                            }
+                        }
+                    }
+                }else if(data.response==true){
+                    beforeSuccess(data);
+                }else{
+                    $.toast({
+                        heading: "{{ 'error' | trans }}",
+                        text: "{{ 'ups' | trans }}",
+                        position: 'top-right',
+                        icon: 'error',
+                        hideAfter: 2000, 
+                        stack: 6
+                    });
+                } 
+            }else{
+                $.toast({
+                    heading: "{{ 'error' | trans }}",
+                    text: "{{ 'ups' | trans }}",
+                    position: 'top-right',
+                    icon: 'error',
+                    hideAfter: 2000, 
+                    stack: 6
+                });
+            }
+        }
+        function beforeSuccess(response){
+            $.toast({
+                heading: "Gracias!",
+                text: "Hemos recibido tu consulta, a la brevedad nos comunicaremos contigo.",
+                position: 'top-right',
+                icon: 'success',
+                hideAfter: 4000, 
+                stack: 6
+            });
+            $('html, body').animate({
+                scrollTop: ($('#page-top').offset().top - 56)
+            }, 1000, "easeInOutExpo");
+        }
+        $(function (){
+            $('.tooltipoff').focus(function (){
+                $(this).tooltip('hide').tooltip('disable');
+            });
+            var options = { 
+                beforeSubmit:  showRequest,  // pre-submit callback 
+                success:       showResponse  // post-submit callback 
+            };
+            $( "form.sendToApi" ).ajaxForm(options);
+            var colorPrimary='{{ entity.colorPrimary }}';
+            $('.bg-section').css('background-color',colorPrimary);
+            $('a').css('color',colorPrimary);
+            $('a.active').css('color',colorPrimary);
+            $('hr').css('border-color',colorPrimary);
+            $('.btn-primary')
+                .css('background-color',colorPrimary)
+                .css('border-color',colorPrimary);
+            $.post("{{ path('apachecms_api_stats_save',{ landing:entity.id}) }}", { 'client':dataClient}, function (result) {
+                getLocation(result.data.id);
+                $('#template_form_contact_statsId').val(result.data.id);
+            });
+        });
+    </script>
+</body>
+
+</html>

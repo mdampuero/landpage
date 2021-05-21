@@ -1,0 +1,26 @@
+apachecms_frontend_business:
+    path:     /
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Business:index
+    options:
+        breadcrumb:
+            label: my.business
+            parent_route: apachecms_frontend_dashboard
+
+apachecms_frontend_business_add:
+    path:     /add/{back}
+    defaults:  
+        { _controller: ApachecmsFrontendBundle:Business:add, back: null }
+    options:
+        breadcrumb:
+            label: new.business
+            parent_route: apachecms_frontend_business
+
+apachecms_frontend_business_edit:
+    path:     /{id}
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Business:edit
+    options:
+        breadcrumb:
+            label: edit.business
+            parent_route: apachecms_frontend_business

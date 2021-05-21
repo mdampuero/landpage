@@ -1,0 +1,56 @@
+apachecms_backend_demos:
+    path:     /
+    defaults: 
+        _controller: ApachecmsBackendBundle:Demos:index
+    methods: [GET]
+    options:
+        breadcrumb:
+            label: Demos
+            parent_route: apachecms_backend_homepage
+
+apachecms_backend_demos_load:
+    path:     /load
+    defaults: { _controller: ApachecmsBackendBundle:Demos:load }
+    methods: [GET]
+
+apachecms_backend_demos_add:
+    path:     /nuevo
+    defaults: { _controller: ApachecmsBackendBundle:Demos:add }
+    options:
+        breadcrumb:
+            label: Crear demo
+            parent_route: apachecms_backend_demos
+    methods: [GET]
+
+apachecms_backend_demos_create:
+    path:     /create
+    defaults: { _controller: ApachecmsBackendBundle:Demos:create }
+    methods: POST
+    options:
+        breadcrumb:
+            label: Crear demo
+            parent_route: apachecms_backend_demos
+
+apachecms_backend_demos_edit:
+    path:     /editar/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Demos:edit }
+    methods: [GET]
+    options:
+        breadcrumb:
+            label: Editar demo
+            parent_route: apachecms_backend_demos
+
+apachecms_backend_demos_update:
+    path:     /update/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Demos:update }
+    methods: [PUT]
+    options:
+        breadcrumb:
+            label: Editar demo
+            parent_route: apachecms_backend_demos
+
+apachecms_backend_demos_delete:
+    path:     /delete/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Demos:delete }
+    methods: [POST,DELETE]
+

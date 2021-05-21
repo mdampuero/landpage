@@ -1,0 +1,61 @@
+security_login_frontend:
+    path:     /login
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Login:index
+    options:
+        breadcrumb:
+            label: login
+            parent_route: apachecms_frontend_homepage
+
+
+security_logout_frontend:
+    path:     /logout
+    defaults:  
+        _controller: ApachecmsFrontendBundle:Login:logout
+
+security_frontend_add:
+    path:     /crearCuenta
+    defaults: { _controller: ApachecmsFrontendBundle:Login:add }
+    options:
+        breadcrumb:
+            label: Crear cuenta
+            parent_route: security_login_frontend
+    methods: [GET]
+
+security_frontend_selectPlan:
+    path:     /plan/{id}
+    defaults: { _controller: ApachecmsFrontendBundle:Login:selectPlan }
+    options:
+        breadcrumb:
+            label: Crear cuenta
+            parent_route: security_login_frontend
+    methods: [GET]
+
+security_frontend_profile:
+    path:     /profile
+    defaults: { _controller: ApachecmsFrontendBundle:Login:profile }
+    options:
+        breadcrumb:
+            label: Crear cuenta
+            parent_route: security_login_frontend
+    methods: [GET]
+
+security_frontend_username:
+    path:     /username
+    defaults: { _controller: ApachecmsFrontendBundle:Login:username }
+    options:
+        breadcrumb:
+            label: Crear cuenta
+            parent_route: security_login_frontend
+    methods: [GET]
+
+        
+security_reset_password_frontend:
+    path:     /restablecer/{id}/{code}
+    defaults: 
+        _controller: ApachecmsFrontendBundle:Login:reset
+    options:
+        breadcrumb:
+            label: Restablecer contraseña
+            parent_route: security_login_frontend
+    methods: [GET,POST]

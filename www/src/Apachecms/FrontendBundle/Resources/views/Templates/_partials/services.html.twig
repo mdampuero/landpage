@@ -1,0 +1,40 @@
+{% if entity.isProductService and entity.services | length %}
+    <section id="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading" data-label="edit" data-type="input" id="productOrServiceTitle">{{ entity.labels.productOrServiceTitle }}</h2>
+                    <hr class="my-4" id="columns">
+                </div>
+            </div>
+        </div>
+        <div class="container" >
+            <div class="row">
+                {% for service in entity.services %}
+                    {% if entity.services | length == 1 %}
+                        <div class="col-lg-4 offset-lg-4 col-sm-12 text-center cards mb-4">
+                    {% elseif entity.services | length == 2 %}
+                        <div class="col-lg-6 col-md-6 text-center cards mb-4">
+                    {% else %}
+                    <div class="col-lg-4 col-md-6 text-center cards mb-4">
+                    {% endif %}
+                        <div class="card">
+                            <div style="height:250px; background-image: url('https://land.page{{ web_image('uploads/or/' ~ service.picture).resize('600') }}'); background-position: center center;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;">
+                                
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title" style="height:48px;">{{ service.title }}</h5>
+                                <p class="card-text" style="height: 200px; overflow-y: auto;">{{ service.description }}</p>
+                                {% if service.action %}
+                                <a href="{% if prod %}{{service.action }}{% else %}javascript:void(0){% endif %}" attr-action="{{ service.title }}" class="js-scroll-trigger btn btn-primary btn-block text-white productOrServiceBtn"  id="productOrServiceBtn">{{service.label }}</a>
+                                {% else %}
+                                <div style="height:36px">&nbsp;</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}

@@ -1,0 +1,89 @@
+<script>
+    var markers = null;
+    function initAutocomplete() {
+        {% if entity is defined and entity.addressLat is not null and entity.addressLng is not null %}
+        var myLatlng = new google.maps.LatLng({{ entity.addressLat }}, {{ entity.addressLng }});
+        {% else %}
+        var myLatlng = new google.maps.LatLng(-32.0062296, -62.083145);
+        {% endif %}
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: myLatlng,
+            zoom: {% if entity is defined and entity.addressZoom %} {{ entity.addressZoom }} {% else %} 5 {% endif %},
+            mapTypeId: 'roadmap'
+        });
+        if($("#apachecms_backendbundle_business_addressLat").val() && $("#apachecms_backendbundle_business_addressLng").val()){
+            markers = new google.maps.Marker({
+                position: myLatlng,
+                draggable: true,
+                map: map,
+                title: 'Arrastre el ícono hasta la ubicación deseada'
+            });
+
+        }
+        var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        map.addListener('bounds_changed', function() {
+            searchBox.setBounds(map.getBounds());
+        });
+        map.addListener('zoom_changed', function() {
+            $("#apachecms_backendbundle_business_addressZoom").val(map.getZoom());
+        });
+        
+        
+        searchBox.addListener('places_changed', function() {
+            var places = searchBox.getPlaces();
+            var place=places[0];
+            if (places.length == 0) {
+                return;
+            }
+
+            // markers.forEach(function(marker) {
+            //     marker.setMap(null);
+            // });
+            if(markers)
+                markers.setMap(null);
+            markers = null;
+            var bounds = new google.maps.LatLngBounds();
+            // places.forEach(function(place) {
+                if (!place.geometry) {
+                    console.log("Returned place contains no geometry");
+                    return;
+                }
+
+                markers=new google.maps.Marker({
+                    map: map,
+                    draggable:true,
+                    title: place.name,
+                    position: place.geometry.location
+                });
+                $("#apachecms_backendbundle_business_addressLat").val(markers.getPosition().lat());
+                $("#apachecms_backendbundle_business_addressLng").val(markers.getPosition().lng());
+                if (place.geometry.viewport) {
+                    bounds.union(place.geometry.viewport);
+                } else {
+                    bounds.extend(place.geometry.location);
+                }
+            // });
+            map.fitBounds(bounds);
+           
+            google.maps.event.addListener(markers, "dragend", function(e) {
+                var lat, lng, address;
+                $("#apachecms_backendbundle_business_addressLat").val(markers.getPosition().lat());
+                $("#apachecms_backendbundle_business_addressLng").val(markers.getPosition().lng());
+            });
+        });
+        if(markers){
+            google.maps.event.addListener(markers, "dragend", function(e) {
+                var lat, lng, address;
+                $("#apachecms_backendbundle_business_addressLat").val(markers.getPosition().lat());
+                $("#apachecms_backendbundle_business_addressLng").val(markers.getPosition().lng());
+            });
+        }
+    }
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ setting.getData.googleMapsId }}&libraries=places&callback=initAutocomplete" async defer>
+</script>

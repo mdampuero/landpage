@@ -1,0 +1,63 @@
+<aside class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar">
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+                        {# <li class="nav-small-cap">PERSONAL</li> #}
+                        <li class="{% if (app.request.get('_route') == 'apachecms_backend_homepage') %}active{% endif %}">
+                            <a href="{{ path('apachecms_backend_homepage')}}" aria-expanded="false">
+                                <i class="mdi mdi-gauge"></i><span class="hide-menu">Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="{% if 'apachecms_backend_landings' in app.request.get('_route') %}active{% endif %}">
+                            <a href="{{ path('apachecms_backend_landings')}}" aria-expanded="false">
+                                <i class="mdi mdi-web"></i><span class="hide-menu">Landings</span>
+                            </a>
+                        </li>
+                        <li class="{% if 'apachecms_backend_customers' in app.request.get('_route') %}active{% endif %}">
+                            <a href="{{ path('apachecms_backend_customers')}}" aria-expanded="false">
+                                <i class="mdi mdi-account"></i><span class="hide-menu">Clientes</span>
+                            </a>
+                        </li>
+                        <li class="{% if 'apachecms_backend_pays' in app.request.get('_route') %}active{% endif %}">
+                            <a href="{{ path('apachecms_backend_pays')}}" aria-expanded="false">
+                                <i class="mdi mdi-cash-usd"></i><span class="hide-menu">Pagos</span>
+                            </a>
+                        </li>
+                        <li class="{% if 'apachecms_backend_plans' in app.request.get('_route') %}active{% endif %}">
+                            <a href="{{ path('apachecms_backend_plans')}}" aria-expanded="false">
+                                <i class="mdi mdi-security-home"></i><span class="hide-menu">Planes</span>
+                            </a>
+                        </li>
+                        <li class="{% if 'apachecms_backend_pages' in app.request.get('_route') %}active{% endif %}">
+                            <a href="{{ path('apachecms_backend_pages')}}" aria-expanded="false">
+                                <i class="mdi mdi-file-document-box"></i><span class="hide-menu">Páginas estáticas</span>
+                            </a>
+                        </li>
+                        <li class="{% if 'apachecms_backend_industries' in app.request.get('_route') %}active{% endif %}">
+                            <a href="{{ path('apachecms_backend_industries')}}" aria-expanded="false">
+                                <i class="mdi mdi-factory"></i><span class="hide-menu">Industrias</span>
+                            </a>
+                        </li>
+                        <li class="{% if 'apachecms_backend_users' in app.request.get('_route') %}active{% endif %}">
+                            <a href="{{ path('apachecms_backend_users')}}" aria-expanded="false">
+                                <i class="mdi mdi-account-card-details"></i><span class="hide-menu">Usuarios</span>
+                            </a>
+                        </li>
+                        <li class="{% if 'apachecms_backend_settings' in app.request.get('_route') %}active{% endif %}">
+                            <a href="{{ path('apachecms_backend_settings')}}" aria-expanded="false">
+                                <i class="mdi mdi-settings"></i><span class="hide-menu">Configuraciones</span>
+                            </a>
+                        </li>
+                        {# <li class="{% if 'apachecms_backend_demos' in app.request.get('_route') %}active{% endif %}">
+                            <a href="{{ path('apachecms_backend_demos')}}" aria-expanded="false">
+                                <i class="mdi mdi-ambulance"></i><span class="hide-menu">Demos</span>
+                            </a>
+                        </li> #}
+                    </ul>
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+        </aside>

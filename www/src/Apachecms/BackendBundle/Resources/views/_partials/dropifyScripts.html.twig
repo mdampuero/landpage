@@ -1,0 +1,21 @@
+<script src="{{ asset('bundles/apachecmsbackend/assets/plugins/dropify/dist/js/dropify.min.js') }}"></script>
+<script>
+    $(function (){
+        $('.dropify').dropify({
+            messages: {
+                'default': 'Arrastre y suelte el archivo o haga click',
+                'replace': 'Arrastre y suelte o haga click para reemplazar',
+                'remove':  'Eliminar',
+                'error':   'Error, algo salió mal'
+            },
+            error: {
+                'fileSize': 'El tamaño del archivo es muy grande.',
+                'minWidth': 'El ancho de la imagen es muy pequeño.',
+                'maxWidth': 'El ancho de la imagen es muy grande.',
+                'minHeight': 'El ancho de la imagen es muy pequeño.',
+                'maxHeight': 'El ancho de la imagen es muy grande.',
+                'imageFormat': 'El formato de la imagen no es soportado.'
+            }
+        });
+    });
+</script>

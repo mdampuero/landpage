@@ -1,0 +1,16 @@
+
+    <div class="container text-center">
+       {% if entity.social %}
+        <br>
+        <div class="social text-center">
+            {% if prod == false or entity.useWhatsapp and entity.contactPhone %}<a id="landing_step4_contactEmail" target="_blank" href="https://api.whatsapp.com/send?phone={{ entity.contactPhone }}&text=Consulta%20desde%20LandPage" title="WhatsApp" class="sr-contact-2 fa bg-section fa-whatsapp {% if entity.useWhatsappMobile %} d-sm-none {% endif %}"></a>{% endif %}
+            {% if prod == false or entity.socials.web %}<a data-label="edit" data-type="link" id="landing_step3_web"  target="_blank" href="{{ entity.socials.web }}" title="Web" class="sr-contact-3 fa bg-section fa-globe"></a>{% endif %}
+            {% if prod == false or entity.socials.facebook %}<a data-label="edit" data-type="link" id="landing_step3_facebook"  target="_blank" href="{{ entity.socials.facebook }}" title="Facebook" class="sr-contact-4 fa bg-section fa-facebook"></a>{% endif %}
+            {% if prod == false or entity.socials.twitter %}<a data-label="edit" data-type="link" id="landing_step3_twitter"  target="_blank" href="{{ entity.socials.twitter }}" title="Twitter" class="sr-contact-5 fa bg-section fa-twitter"></a>{% endif %}
+            {% if prod == false or entity.socials.googlePlus %}<a data-label="edit" data-type="link" id="landing_step3_googlePlus"  target="_blank" href="{{ entity.socials.googlePlus }}" title="Google" class="sr-contact-6 fa bg-section fa-google"></a>{% endif %}
+            {% if prod == false or entity.socials.linkedin %}<a data-label="edit" data-type="link" id="landing_step3_instagram"  target="_blank" href="{{ entity.socials.linkedin }}" title="Linkedin" class="sr-contact-7 fa bg-section fa-linkedin"></a>{% endif %}
+            {% if prod == false or entity.socials.youtube %}<a data-label="edit" data-type="link" id="landing_step3_youtube"  target="_blank" href="{{ entity.socials.youtube }}" title="Youtube" class="sr-contact-8 fa bg-section fa-youtube"></a>{% endif %}
+            {% if prod == false or entity.socials.instagram %}<a data-label="edit" data-type="link" id="landing_step3_linkedin"  target="_blank" href="{{ entity.socials.instagram }}" title="Instagram" class="sr-contact-9 fa bg-section fa-instagram"></a>{% endif %}
+        </div>
+        {% endif %}
+    </div>

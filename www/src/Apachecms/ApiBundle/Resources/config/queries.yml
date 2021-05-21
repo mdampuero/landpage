@@ -1,0 +1,22 @@
+apachecms_api_queries_getAll:
+    path:     /getAll/{landing}
+    defaults: 
+        _controller: ApachecmsApiBundle:Queries:getAll
+    methods: [GET]
+apachecms_api_queries_getContacts:
+    path:     /getContacts/{landing}
+    defaults: 
+        _controller: ApachecmsApiBundle:Queries:getContacts
+    methods: [GET]
+
+apachecms_api_queries_getChats:
+    path:     /getChats/{landing}
+    defaults: 
+        _controller: ApachecmsApiBundle:Queries:getChats
+    methods: [GET]
+
+apachecms_api_queries_reply:
+    path:     /reply/{queryId}
+    defaults: 
+        _controller: ApachecmsApiBundle:Queries:reply
+    methods: [POST]

@@ -1,0 +1,58 @@
+apachecms_backend_landings:
+    path:     /
+    defaults: 
+        _controller: ApachecmsBackendBundle:Landings:index
+    methods: [GET]
+    options:
+        breadcrumb:
+            label: Landings
+            parent_route: apachecms_backend_homepage
+
+apachecms_backend_landings_load:
+    path:     /load
+    defaults: { _controller: ApachecmsBackendBundle:Landings:load }
+    methods: [GET]
+
+apachecms_backend_landings_load_chats:
+    path:     /loadChats/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Landings:loadChats }
+
+apachecms_backend_landings_approve:
+    path:     /aprobar/{landing}
+    defaults: { _controller: ApachecmsBackendBundle:Landings:approve }
+
+apachecms_backend_landings_reject:
+    path:     /rechazar/{landing}
+    defaults: { _controller: ApachecmsBackendBundle:Landings:reject }
+
+apachecms_backend_landings_view:
+    path:     /ver/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Landings:view }
+    methods: [GET]
+    options:
+        breadcrumb:
+            label: Detalle
+            parent_route: apachecms_backend_landings
+
+apachecms_backend_landings_edit:
+    path:     /editar/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Landings:edit }
+    methods: [GET]
+    options:
+        breadcrumb:
+            label: Editar cliente
+            parent_route: apachecms_backend_landings
+
+apachecms_backend_landings_update:
+    path:     /update/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Landings:update }
+    methods: [PUT]
+    options:
+        breadcrumb:
+            label: Editar cliente
+            parent_route: apachecms_backend_landings
+
+apachecms_backend_landings_delete:
+    path:     /delete/{id}
+    defaults: { _controller: ApachecmsBackendBundle:Landings:delete }
+    methods: [POST,DELETE]

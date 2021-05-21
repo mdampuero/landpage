@@ -1,0 +1,507 @@
+{% extends "ApachecmsFrontendBundle::layout_lp.html.twig" %}
+{% block stylesheet %}
+{{ parent() }} 
+<link href="{{ asset('bundles/apachecmsbackend/assets/plugins/bootstrap-colorpicker-2.5.2/dist/css/bootstrap-colorpicker.min.css') }}" rel="stylesheet">    
+<link href="{{ asset('bundles/apachecmsbackend/fileUpload/css/jquery.fileupload.css') }}" rel="stylesheet">
+{% endblock stylesheet %}
+{% block body %}
+{% block headerPage %}
+{% endblock %}
+<div class="container-fluid">
+    {{ form_start(form, {'attr': {'class': 'sendToApi','id':'registerForm','novalidate':'novalidate'} }) }}
+    <div class="card">
+        <h2 class="card-header">
+            <div id="logo" class="pull-left">
+                <a href="{{ path('apachecms_frontend_dashboard')}}"><img src="{{ asset('bundles/apachecmsfrontend/')}}/img/logo.png" style="max-width: 200px;" alt="" title="" /></img></a>
+            </div>
+            {{form_widget(form.submit,{ 'attr':{'secondary-label':'loading' | trans}})}}
+            <div class="pull-right">
+                <a title="{{ 'mobile' | trans }}" href="javascript:changeScreen('mobile')"><i class="fa fa-mobile"></i></a>
+                &nbsp;
+                <a title="{{ 'tablet' | trans }}" href="javascript:changeScreen('tablet')"><i class="fa fa-tablet"></i></a>
+                &nbsp;
+                <a title="{{ 'desktop' | trans }}" href="javascript:changeScreen('desktop')"><i class="fa fa-desktop"></i></a>
+                &nbsp;
+            </div>
+        </h2>
+        <div class="card-body templates" >
+            <div class="row">
+                <div class="col-sm-2">
+                    <div id="accordion">
+                        <div class="card mb-2">
+                            <div class="card-header tools" id="headingThree">
+                                <h5 class="mb-0">
+                                    <button type="button" onclick="sendScroll(this)" data-scroll="page-top" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    {{ 'templates' | trans }}
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordion">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        {{form_label(form.template)}} 
+                                        {{form_widget(form.template,{ 'attr':{ 'onchange': 'chageTemplate(this.value)'}})}}
+                                        <small class="form-text text-danger">{{ form_errors(form.template)}}</small>
+                                        {# <select onchange="chageTemplate(this.value)">
+                                        <option value="template_1">1</option>
+                                        <option value="template_2">2</option>
+                                        <option value="template_3">3</option>
+                                        </select> #}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-2">
+                            <div class="card-header tools" id="navbar">
+                                <h5 class="mb-0">
+                                    <button type="button" onclick="sendScroll(this)" data-scroll="page-top" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseNavBar" aria-expanded="false" aria-controls="collapseNavBar">
+                                    {{ 'navbar' | trans }}
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseNavBar" class="collapse" aria-labelledby="navbar" data-parent="#accordion">
+                                <div class="card-body">
+                                    <div class="form-group hidden" onclick="sendScroll(this)" data-scroll="page-top">
+                                        {{form_label(form.navBarTop)}} 
+                                        <div class="input-group colorpicker-component">
+                                            {{form_widget(form.navBarTop,{'attr':{'class':'form-control'}})}}
+                                            <span class="input-group-addon"><i></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" onclick="sendScroll(this)" data-scroll="page-top">
+                                        {{form_label(form.navBarTopText)}} 
+                                        <div class="input-group colorpicker-component">
+                                            {{form_widget(form.navBarTopText,{'attr':{'class':'form-control'}})}}
+                                            <span class="input-group-addon"><i></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" onclick="sendScrollToPixel(this)" data-scroll="150">
+                                        {{form_label(form.navBarFixed)}} 
+                                        <div class="input-group colorpicker-component">
+                                            {{form_widget(form.navBarFixed,{'attr':{'class':'form-control'}})}}
+                                            <span class="input-group-addon"><i></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" onclick="sendScrollToPixel(this)" data-scroll="150">
+                                        {{form_label(form.navBarFixedText)}} 
+                                        <div class="input-group colorpicker-component">
+                                            {{form_widget(form.navBarFixedText,{'attr':{'class':'form-control'}})}}
+                                            <span class="input-group-addon"><i></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-2">
+                            <div class="card-header tools" id="headingOne">
+                                <h5 class="mb-0">
+                                    <button type="button" onclick="sendScroll(this)" data-scroll="page-top" class="btn btn-link" data-toggle="collapse" data-target="#background" aria-expanded="true" aria-controls="background">
+                                    {{ 'background.image' | trans }}
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="background" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                <div class="card-body">
+                                    <img id="preview-backgroundImage" src="{{ entity.backgroundImage }}" class="img-thumbnail">
+                                    <br>
+                                    <button type="button" class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#exampleModal">
+                                        {{ 'change' | trans }}
+                                    </button>
+                                    <br>
+                                    <div class="form-group">
+                                        <label>{{ 'brightness' | trans }}</label>
+                                        <div class="slidecontainer">
+                                            <input type="range" min="0" max="1" value="{{ entity.brightness }}" step="0.05" class="slider form-control" id="brightness">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-2">
+                            <div class="card-header tools" id="section.color">
+                                <h5 class="mb-0">
+                                    <button type="button" onclick="sendScroll(this)" data-scroll="about" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseColorSection" aria-expanded="false" aria-controls="collapseColorSection">
+                                    {{ 'section.color' | trans }}
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseColorSection" class="collapse" aria-labelledby="navbar" data-parent="#accordion">
+                                <div class="card-body">
+                                    {% if entity.colorsSuggested  %}
+                                    <div class="form-group">
+                                        <label>{{ 'color.suggested' | trans }}</label>
+                                        <ul class="list-group" id="palette-colors">
+                                            {% for color in entity.colorsSuggested  %}
+                                                {% if color != '#FFFFFF'%}
+                                                    <li class="list-group-item" onclick="sendColor(this)" data-color="{{ color }}" style="background-color:{{ color }}">&nbsp;</li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    {% endif %}
+                                    <div class="form-group" onclick="sendScroll(this)" data-scroll="about">
+                                        {{form_label(form.colorPrimary)}} 
+                                        <div class="input-group colorpicker-component">
+                                            {{form_widget(form.colorPrimary,{'attr':{'class':'form-control'}})}}
+                                            <span class="input-group-addon"><i></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-10 text-center">
+                    <iframe class="shadow" onload="init()" id="frame-id" name="frame-id" style="width:100%; height:610px; border:0;" src="{{ path('apachecms_frontend_landing_preview',{ id:entity.id,'template':entity.template }) }}"></iframe>
+                </div>
+                <div class="col-sm-4">
+                    {{form_widget(form.template)}}
+                    <small class="form-text text-danger">{{ form_errors(form.template)}}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hidden">
+        {{ form_widget(form.contactPhone)}}
+        {{ form_widget(form.contactEmail)}}
+        {{ form_widget(form.contactAddress)}}
+        <input id="navbarAbout" name="apachecms_backendbundle_landinglabel[navbarAbout]" type="text" value="{{ entity.labels.navbarAbout }}">
+        <input id="navbarProductOrService" name="apachecms_backendbundle_landinglabel[navbarProductOrService]" type="text" value="{{ entity.labels.navbarProductOrService }}">
+        <input id="navbarContact" name="apachecms_backendbundle_landinglabel[navbarContact]" type="text" value="{{ entity.labels.navbarContact }}">
+        <textarea id="headerTitle" name="apachecms_backendbundle_landinglabel[headerTitle]">{{ entity.labels.headerTitle }}</textarea>
+        <input id="contactName" name="apachecms_backendbundle_landinglabel[contactName]" type="text" value="{{ entity.labels.contactName }}">
+        <input id="contactEmail" name="apachecms_backendbundle_landinglabel[contactEmail]" type="text" value="{{ entity.labels.contactEmail }}">
+        <input id="formLegend" name="apachecms_backendbundle_landinglabel[formLegend]" type="text" value="{{ entity.labels.formLegend }}">
+        <input id="contactPhone" name="apachecms_backendbundle_landinglabel[contactPhone]" type="text" value="{{ entity.labels.contactPhone }}">
+        <input id="contactQuery" name="apachecms_backendbundle_landinglabel[contactQuery]" type="text" value="{{ entity.labels.contactQuery }}">
+        <input id="contactBtn" name="apachecms_backendbundle_landinglabel[contactBtn]" type="text" value="{{ entity.labels.contactBtn }}">
+        <input id="aboutTitle" name="apachecms_backendbundle_landinglabel[aboutTitle]" type="text" value="{{ entity.labels.aboutTitle }}">
+        <textarea id="aboutDescription" name="apachecms_backendbundle_landinglabel[aboutDescription]" >{{ entity.labels.aboutDescription }}</textarea>
+        <input id="productOrServiceTitle" name="apachecms_backendbundle_landinglabel[productOrServiceTitle]" type="text" value="{{ entity.labels.productOrServiceTitle }}">
+        <textarea id="productOrServiceDescription" name="apachecms_backendbundle_landinglabel[productOrServiceDescription]">{{ entity.labels.productOrServiceDescription }}</textarea>
+        <input id="productOrServiceBtn" name="apachecms_backendbundle_landinglabel[productOrServiceBtn]" type="text" value="{{ entity.labels.productOrServiceBtn }}">
+        <input id="landing_step3_web" name="apachecms_backendbundle_landingsocial[web]" type="text" value="{{ entity.socials.web }}">
+        <input id="landing_step3_facebook" name="apachecms_backendbundle_landingsocial[facebook]" type="text" value="{{ entity.socials.facebook }}">
+        <input id="landing_step3_twitter" name="apachecms_backendbundle_landingsocial[twitter]" type="text" value="{{ entity.socials.twitter }}">
+        <input id="landing_step3_googlePlus" name="apachecms_backendbundle_landingsocial[googlePlus]" type="text" value="{{ entity.socials.googlePlus }}">
+        <input id="landing_step3_instagram" name="apachecms_backendbundle_landingsocial[instagram]" type="text" value="{{ entity.socials.instagram }}">
+        <input id="landing_step3_youtube" name="apachecms_backendbundle_landingsocial[youtube]" type="text" value="{{ entity.socials.youtube }}">
+        <input id="landing_step3_linkedin" name="apachecms_backendbundle_landingsocial[linkedin]" type="text" value="{{ entity.socials.linkedin }}">
+    </div>
+    {{ form_end(form) }}
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modalLabels">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ 'edit.label' | trans }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input hidden all">
+                    <div class="form-group">
+                        <input id="input" type="text" class="form-control" value="" max-length="32"/>
+                    </div>
+                </div>
+                <div class="link hidden all">
+                    <div class="form-group">
+                        <input id="link" type="text" class="form-control" value="" placeholder="https://..." max-length="32"/>
+                    </div>
+                </div>
+                <div class="textarea hidden all">
+                    <div class="form-group">
+                        <textarea id="textarea" class="form-control" style="height:250px;"/></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" id="save-labels">{{ 'accept' | trans }}</button>
+                {# <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> #}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{ 'background.image' | trans }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link active" id="my-images" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">{{ 'my.pictures' | trans }} (<span id="counter-image">0</span>)</a></a>
+                            <a class="nav-item nav-link" id="public-images" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">{{ 'public.pictures.landpage' | trans }}</a>
+                            <a class="nav-item nav-link" id="unsplash-image" data-toggle="tab" href="#unsplash-image-body" role="tab" aria-controls="unsplash-image-body" aria-selected="false">{{ 'unplash.image' | trans }}</a>
+                        </div>
+                    </nav>
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="my-imagenes">
+                            <br>
+                            {{ include('ApachecmsFrontendBundle::Account/_partials/pictures.html.twig') }}
+                        </div>
+                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="public-images">
+                            <br/>
+                            <div class="row ">
+                                {% if filesIndustry | length %}
+                                    {% for file in filesIndustry %}
+                                        <div class="col-sm-3"  style="margin-bottom:15px; margin-top:15px; cursor:pointer;" data-scroll="page-top" onclick="sendBackground(this)" data-src='{{ app.request.scheme }}://{{ app.request.httpHost }}{{ asset('uploads/or/') ~ file.name }}'>
+                                            <div class="cover img-thumbnail" style="height:100px; background-image:url('{{ asset('uploads/sm/') ~ file.name }}')"></div>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <h5 class="text-secondary">{{ 'no.results' | trans }}</h5>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="unsplash-image-body" role="tabpanel" aria-labelledby="unsplash-image">
+                            <br/>
+                            <div class="input-group mb-3">
+                                <input onkeypress="return runScript(event)" type="text" class="form-control" id="query_unplash" placeholder="{{ 'search' | trans }}" aria-label="{{ 'search' | trans }}" aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button" onclick="setAndSearch(this)"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                            <h5 class="text-secondary" id="unsplash-image-body-title"></h5>
+                            <div class="row" id="unsplash-image-body-content"></div>
+                            <div class="text-center" id="unsplash-image-paginator">
+                                <div class="btn-group ">
+                                    <button class="btn btn-outline-info" type="button" id="unsplash-image-paginator-previous">{{ 'previous' | trans }}</button>
+                                    <button class="btn btn-outline-info" type="button" id="unsplash-image-paginator-next">{{ 'next' | trans }}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'close' | trans }}</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+<script src="{{ asset('bundles/apachecmsbackend/assets/plugins/bootstrap-colorpicker-2.5.2/dist/js/bootstrap-colorpicker.js') }}"></script>
+<script type="text/javascript">
+    var page=1,currentLabel;
+    
+    height=$(document).height()-168;
+    if(height>500){
+        $('#frame-id').css('height',height);
+    }
+    
+    function beforeSuccess(response) {
+        location.href = response.data.to;
+    }
+    function editLabel(object){
+        $('.hidden').hide();
+        currentLabel=object;
+        if(currentLabel.attr('data-type')=='input'){
+            $('.input #input').val(currentLabel.html());
+        }else if(currentLabel.attr('data-type')=='textarea'){
+            var value=currentLabel.html();
+            var regex = /<br\s*[\/]?>/gi;
+            {# $("#mydiv").html(str.replace(regex, "\n")); #}
+            $('.textarea #textarea').text(value.replace(regex, ""));
+        }else if(currentLabel.attr('data-type')=='link'){
+            console.log(currentLabel.attr('data-href'));
+            $('.link #link').val(currentLabel.attr('data-href'));
+        }
+        $('.'+currentLabel.attr('data-type')).show();
+        $('#'+currentLabel.attr('data-type')).focus();
+        $('#modalLabels').modal('show');
+    }
+    
+    function changeScreen(src) {
+        if(src=='desktop'){
+            $('#frame-id').animate({width: '100%'}, 'normal');
+        }else if(src=='tablet'){
+            $('#frame-id').animate({width: '760px'}, 'normal');
+        }else{
+            $('#frame-id').animate({width: '375px'}, 'normal');
+        }
+    }
+    function sendScroll(object){
+        var goTo=$(object).attr('data-scroll');
+        setUpFrame({'section':'','scroll':goTo });
+    }
+    function sendScrollToPixel(object){
+        var goTo=$(object).attr('data-scroll');
+        setUpFrame({'section':'','scroll':'null','scrollToPixel':goTo });
+    }
+    function sendBackground(object){
+        $('#preview-backgroundImage').attr('src',$(object).attr('data-src'));
+        sendScroll(object);
+        $('#landing_step5_backgroundImage').val($(object).attr('data-src')).trigger('change');
+    }
+    function sendColor(object){
+        $('#landing_step5_colorPrimary').val($(object).attr('data-color')).trigger('change');
+    }
+    
+    function searchUnplash(page){
+        var container=$('#unsplash-image-body-content');
+        var title=$('#unsplash-image-body-title');
+        $('#unsplash-image-paginator').hide();
+        container.html('');
+        title.html('{{ 'loading' | trans }}');
+        $.get('https://api.unsplash.com/search/photos', { 
+            client_id:'6e8628ec97c379a161751b6bec34efecf3a21e64723e3ab483f09f79b6a89a13',
+            query:$('#query_unplash').val(),
+            orientation: 'landscape',
+            per_page: 12,
+            page: page
+        }, function (result) {
+            $('#unsplash-image-paginator-previous').attr('disabled',(page==1));
+            $('#unsplash-image-paginator-next').attr('disabled',(result.total_pages<=page));
+            if(result.total > 0){
+                $('#unsplash-image-paginator').show();
+                title.html('{{ 'find.result' | trans }} '+result.total+' {{ 'result' | trans }}');
+                for(var i=0; i<result.results.length; i++){
+                    container.append(`<div class="col-sm-3" style="margin-bottom:15px; margin-top:15px; cursor:pointer;" data-scroll="page-top" onclick="sendBackground(this)" data-src='${result.results[i].urls.regular}'>
+                        <div class="cover img-thumbnail" style="height:100px; background-image:url('${result.results[i].urls.small}')"></div>
+                    </div>`);
+                }
+            }else{
+                title.html('{{ 'no.results' | trans }}');
+            }
+        });
+    }
+    
+    function sendColumn(object){
+        var columns=$(object).val();
+        setUpFrame({'section':'grid','class':columns,'scroll':'columns' });
+    }
+    function setUpFrame(message) { 
+        var frame = window.frames['frame-id'];
+        frame.messageReceive(message);
+    }
+    function setAndSearch(){
+        page=1;
+        searchUnplash(page);
+    }
+    function runScript(e) {
+        if (e.keyCode == 13) {
+            setAndSearch();
+            return false;
+        }
+    }
+    function init(){
+        $('#unsplash-image-paginator-previous').on('click',function (){
+            page--;
+            searchUnplash(page);
+        })
+        $('#unsplash-image-paginator-next').on('click',function (){
+            page++;
+            searchUnplash(page);
+        })
+        setUpFrame({'section':'navBarTop','color':$('#landing_step5_navBarTop').val(),'scroll':'null' });      
+        setUpFrame({'section':'navBarTopText','color':$('#landing_step5_navBarTopText').val(),'scroll':'null' });      
+        setUpFrame({'section':'navBarFixed','color':$('#landing_step5_navBarFixed').val(),'scroll':'null' });      
+        setUpFrame({'section':'navBarFixedText','color':$('#landing_step5_navBarFixedText').val(),'scroll':'null' });  
+        setUpFrame({'section':'colorPrimary','color':$('#landing_step5_colorPrimary').val(),'scroll':'null' });  
+        setUpFrame({'section':'background','src':$('#landing_step5_backgroundImage').val(),'scroll':'null' });  
+        setUpFrame({'section':'brightness','val':$('#landing_step5_brightness').val(),'scroll':'null' });
+    }
+    function chageTemplate(template){
+        loading.show();
+        var timeout=setTimeout(function (){
+            loading.hide();
+            {# receiveMessage(result.data); #}
+        }, 2000);
+        let url='{{ path('apachecms_frontend_landing_preview',{ id:entity.id,'template':'__TEMPLATE__' }) }}';
+        $('#frame-id').attr('src',url.replace('__TEMPLATE__',template));
+    }
+    $(function (){
+
+        $('#query_unplash').val('{{ entity.business.industry.tagUnsplash }}');
+        
+        $('#nav-tab a').on('click', function (e) {
+            e.preventDefault()
+            $(this).tab('show')
+            })
+        $(".templates .card").hover(function ()    {
+            $(this).addClass('shadow');
+        },function (){
+            $(this).removeClass('shadow');
+        });
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            if($(e.target).attr('id')=='unsplash-image'){
+                setAndSearch();
+            }
+        })
+        $('.colorpicker-component').colorpicker({
+            extensions: [
+            {
+            name: 'swatches', // extension name to load
+            options: { // extension options
+                colors: {
+                'black': '#000000',
+                'gray': '#888888',
+                'white': '#ffffff',
+                'red': 'red',
+                'default': '#777777',
+                'primary': '#337ab7',
+                'success': '#5cb85c',
+                'info': '#5bc0de',
+                'warning': '#f0ad4e',
+                'danger': '#d9534f'
+                },
+                namesAsValues: true
+            }
+            }
+        ]}
+        );
+
+        $('#save-labels').on('click',function(){
+            
+            $('#modalLabels').modal('hide');
+            var value=$('.'+currentLabel.attr('data-type')+' #'+currentLabel.attr('data-type')).val();
+            console.log(currentLabel);
+            $('#'+currentLabel.attr('id')).val(value);
+            setUpFrame({'section':'labels','value':value,'src':currentLabel,'scroll':'null' });
+        });
+        $('#brightness').on('change',function (){
+            $('#landing_step5_brightness').val($(this).val()).trigger('change');
+            {# setUpFrame({'section':'brightness','val':$(this).val(),'scroll':'null' }); #}
+        });
+        
+        $('#counter-image').html(counterImage);
+        $('#landing_step5_navBarTop').change(function (){
+            setUpFrame({'section':'navBarTop','color':$(this).val(),'scroll':'null' });
+        }).click(function (){
+            setUpFrame({'section':'','scroll':'page-top' });
+        });
+        $('#landing_step5_navBarTopText').change(function (){
+            setUpFrame({'section':'navBarTopText','color':$(this).val(),'scroll':'null' });
+        });
+        $('#landing_step5_navBarFixed').change(function (){
+            setUpFrame({'section':'navBarFixed','color':$(this).val(),'scroll':'null' });
+        });
+        $('#landing_step5_navBarFixedText').change(function (){
+            setUpFrame({'section':'navBarFixedText','color':$(this).val(),'scroll':'null' });
+        });
+        $('#landing_step5_navBarFixedText').change(function (){
+            setUpFrame({'section':'navBarFixedText','color':$(this).val(),'scroll':'null' });
+        });
+        $('#landing_step5_colorPrimary').change(function (){
+            setUpFrame({'section':'colorPrimary','color':$(this).val(),'scroll':'null' });
+        });
+        $('#landing_step5_backgroundImage').change(function (){
+            setUpFrame({'section':'background','src':$(this).val(),'scroll':'null' });
+        });
+        $('#landing_step5_brightness').change(function (){
+            setUpFrame({'section':'brightness','val':$(this).val(),'scroll':'null' });
+        });
+    });
+</script>
+{{ include('ApachecmsFrontendBundle::Account/_partials/picturesJs.html.twig') }}
+{% endblock %}

@@ -114,7 +114,7 @@ class LandingRepository extends \Doctrine\ORM\EntityRepository
     
 	public function listAll(){
 		return $this->getAll()
-		->select('e.id','e.title','e.name','b.name as b_name','e.currentStep','e.slug','e.status','e.isReview',"CONCAT(c.firstName,' ',c.lastName) as c_name","DATE_FORMAT(e.createdAt,'%Y-%m-%d %H:%i') as createdAt");
+		->select('e.id','e.title','e.name','b.name as b_name','e.currentStep','e.slug','e.status','e.isReview',"CONCAT(c.firstName,' ',c.lastName) as c_name","e.createdAt");
 	}
 
 	public function getUniqueNotDeleted(array $parameters){

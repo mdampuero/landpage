@@ -26,7 +26,7 @@ class UserRepository extends \Doctrine\ORM\EntityRepository {
             WHEN e.role = \'ROLE_OPER\' THEN \'Operador\' 
             WHEN e.role = \'ROLE_USER\' THEN \'Usuario\' 
             ELSE \'Otro\' END AS role',
-        'e.name',"DATE_FORMAT(e.createdAt,'%d/%m/%Y %H:%i') as createdAt");
+        'e.name','e.createdAt');
 	}
 	public function getUniqueNotDeleted(array $parameters){
         return $this->createQueryBuilder('e')

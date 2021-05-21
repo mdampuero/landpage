@@ -32,7 +32,15 @@
                 { title:"Max. Landings",data: "maxLanding","className": "text-center" },
                 { title:"Precio",data: "price","className": "text-right"},
                 { title:"% Anual",data: "percentDiscount","className": "text-right"},
-                { title:"Actualizado",data: "updatedAt","className": "text-center" , "sType": "date-euro" },
+                { 
+                 title:"Actualizado",
+                    data: "updatedAt",
+                    "sType": "date-euro",
+                    render: function (data, type, JsonResultRow, meta) {
+                        var d = new Date(data.timestamp * 1000);
+                        return `${(d.getDate()<10?'0':'') + d.getDate()}/${(d.getMonth()+1)}/${d.getFullYear()} ${(d.getHours()<10?'0':'') + d.getHours()}:${(d.getMinutes()<10?'0':'') + d.getMinutes()}`;
+                    }
+                },
                 {
                     data: null,
                     orderable: false,

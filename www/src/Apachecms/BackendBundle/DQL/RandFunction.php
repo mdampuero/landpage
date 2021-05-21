@@ -10,7 +10,7 @@ use Doctrine\ORM\Query\Parser;
 /**
  * Class RandFunction
  *
- * Adds the hability to use the MySQL DATE_FORMAT function inside Doctrine
+ * Adds the hability to use the MySQL RAND function inside Doctrine
  *
  * @package Vf\Bundle\VouchedforBundle\DQL
  */

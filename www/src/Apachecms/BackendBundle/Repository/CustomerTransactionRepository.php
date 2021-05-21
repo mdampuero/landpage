@@ -38,6 +38,6 @@ class CustomerTransactionRepository extends \Doctrine\ORM\EntityRepository {
             'e.collectionId',
             'e.collectionStatus',
             "CONCAT(c.firstName,' ',c.lastName) as c_name",
-            "DATE_FORMAT(e.createdAt,'%d/%m/%Y %H:%i') as createdAt");
+            "e.createdAt");
 	}
 }

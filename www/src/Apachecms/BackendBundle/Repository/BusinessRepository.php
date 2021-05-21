@@ -19,6 +19,6 @@ class BusinessRepository extends \Doctrine\ORM\EntityRepository {
 	}
 	public function listAll(){
         return $this->getAll()
-        ->select('e.id','e.email','e.picture','e.document','e.firstName',"DATE_FORMAT(e.createdAt,'%d/%m/%Y %H:%i') as createdAt");
+        ->select('e.id','e.email','e.picture','e.document','e.firstName');
 	}
 }

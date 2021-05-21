@@ -20,7 +20,7 @@ class LandingServiceRepository extends \Doctrine\ORM\EntityRepository
     
 	public function listAll(){
 		return $this->getAll()
-		->select('e.id','e.name','e.price',"DATE_FORMAT(e.createdAt,'%d/%m/%Y %H:%i') as createdAt");
+		->select('e.id','e.name','e.price',"e.createdAt");
 	}
 
 	public function getUniqueNotDeleted(array $parameters){

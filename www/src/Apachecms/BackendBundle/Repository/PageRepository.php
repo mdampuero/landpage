@@ -28,7 +28,7 @@ class PageRepository extends \Doctrine\ORM\EntityRepository
     
 	public function listAll(){
 		return $this->getAll()
-		->select('e.id','e.nameEs',"DATE_FORMAT(e.updatedAt,'%d/%m/%Y %H:%i') as updatedAt");
+		->select('e.id','e.nameEs',"e.updatedAt");
 	}
 
 	public function getUniqueNotDeleted(array $parameters){

@@ -20,7 +20,7 @@ class CustomerRepository extends \Doctrine\ORM\EntityRepository {
 	public function listAll(){
         return $this->getAll()
         ->leftJoin('e.plan','p')
-        ->select('e.id','e.email','e.picture','e.document','p.nameEs','e.profileIsComplete','e.isLocked','e.useTrial',"CONCAT(COALESCE(e.firstName,''),' ',COALESCE(e.lastName,'')) as c_name",'e.facebookId','e.googleId',"DATE_FORMAT(e.createdAt,'%d/%m/%Y %H:%i') as createdAt");
+        ->select('e.id','e.email','e.picture','e.document','p.nameEs','e.profileIsComplete','e.isLocked','e.useTrial',"CONCAT(COALESCE(e.firstName,''),' ',COALESCE(e.lastName,'')) as c_name",'e.facebookId','e.googleId',"e.createdAt");
 	}
 	public function getUniqueNotDeleted(array $parameters){
         $explode=explode('@',$parameters['email']);

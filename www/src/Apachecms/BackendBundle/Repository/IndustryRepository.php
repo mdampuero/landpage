@@ -20,7 +20,7 @@ class IndustryRepository extends \Doctrine\ORM\EntityRepository
     
 	public function listAll(){
 		return $this->getAll()
-		->select('e.id','e.name',"DATE_FORMAT(e.createdAt,'%d/%m/%Y %H:%i') as createdAt");
+		->select('e.id','e.name',"e.createdAt");
 	}
 
 	public function getUniqueNotDeleted(array $parameters){

@@ -28,7 +28,7 @@ class PlanRepository extends \Doctrine\ORM\EntityRepository
     
 	public function listAll(){
 		return $this->getAll()
-		->select('e.id','e.nameEs','e.price','e.order','e.percentDiscount','e.trialDays','e.maxBusiness','e.maxLanding',"DATE_FORMAT(e.updatedAt,'%d/%m/%Y %H:%i') as updatedAt");
+		->select('e.id','e.nameEs','e.price','e.order','e.percentDiscount','e.trialDays','e.maxBusiness','e.maxLanding',"e.updatedAt");
 	}
 
 	public function getUniqueNotDeleted(array $parameters){

@@ -1,6 +1,7 @@
 <?php
 
 namespace Apachecms\BackendBundle\Repository;
+use Doctrine\ORM\Query\Expr;
 
 /**
  * CountryRepository
@@ -22,4 +23,17 @@ class CountryRepository extends \Doctrine\ORM\EntityRepository
 		}
 		return $qb->getQuery();
 	}
+	public function getAllActive(){
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb->select('co')
+            ->from('ApachecmsBackendBundle:Country','co')
+            ->join('ApachecmsBackendBundle:Customer','cu',Expr\Join::WITH,$qb->expr()->eq('cu.country', 'co.id'))
+            ->join('ApachecmsBackendBundle:Landing','l',Expr\Join::WITH,$qb->expr()->eq('cu.id', 'l.customer'))
+            ->where('l.isPublished=1')
+            ->andWhere('cu.isLocked =0')
+            ->groupBy('cu.country')
+        ;
+        return $qb->getQuery()->getResult();
+    }
 }

@@ -84,8 +84,8 @@ class CronController extends BaseController
         ->setParameter('to',$dateTime->format('Y-m-d 23:59:59'))
         ->getQuery()->getResult();
         foreach ($customers as $key => $customer) {
-            $customer->setIsLocked(true);
-            $customer->setLockedType('trial_expiret');
+            #$customer->setIsLocked();
+            #$customer->setLockedType('trial_expiret');
             $customer->setLockedDescription('Tu versión de prueba ha caducado, renueva tu plan ahora.');
             $em->persist($customer);
             $em->flush();

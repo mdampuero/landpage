@@ -1001,3 +1001,9 @@ font-size: 12px;
 line-height: 1.428571429;
 border-radius: 15px;
 }
+.truncate {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{{ title }} 
+    {% if app.request.attributes.get('_route_params')._breadcrumbs is defined %}
+    - {{ (app.request.attributes.get('_route_params')['_breadcrumbs']|last)['label'] | trans }}
+    {% endif %}
+    {% endblock %}</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    <meta name="google-signin-client_id" content="586658376187-qfad5da3nsg3m6i5cbqku5d7rn1kcq72.apps.googleusercontent.com">
+    <link href="{{ asset('bundles/apachecmsfrontend/')}}img/favicon.png" rel="icon">
+    <link href="{{ asset('bundles/apachecmsfrontend/')}}img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,400" rel="stylesheet">
+    <link href="{{ asset('bundles/apachecmsfrontend/')}}lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="{{ asset('bundles/apachecmsfrontend/')}}lib/animate/animate.min.css" rel="stylesheet">
+    <link href="{{ asset('bundles/apachecmsbackend/assets/plugins/toast-master/css/jquery.toast.css') }}" rel="stylesheet">
+
+
+    <style>
+        .truncate {
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+    </style>
+</head>
+
+<body>
+    {% block body %}
+    {% endblock %}
+    {{ include('ApachecmsFrontendBundle::footer.html.twig') }}   
+    {% block javascripts %}
+    <script src="{{ asset('bundles/apachecmsfrontend/')}}lib/jquery/jquery.min.js"></script>
+    <script src="{{ asset('bundles/apachecmsfrontend/')}}lib/jquery/jquery-migrate.min.js"></script>
+    <script src="{{ asset('bundles/apachecmsfrontend/')}}lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('bundles/apachecmsfrontend/')}}lib/easing/easing.min.js"></script>
+    <script src="{{ asset('bundles/apachecmsfrontend/')}}lib/wow/wow.min.js"></script>
+    <script src="{{ asset('bundles/apachecmsfrontend/')}}lib/waypoints/waypoints.min.js"></script>
+    <script src="{{ asset('bundles/apachecmsfrontend/')}}lib/counterup/counterup.min.js"></script>
+    <script src="{{ asset('bundles/apachecmsfrontend/')}}lib/superfish/hoverIntent.js"></script>
+    <script src="{{ asset('bundles/apachecmsfrontend/')}}lib/superfish/superfish.min.js"></script>
+    <script src="{{ asset('bundles/apachecmsfrontend/')}}js/main.js"></script>
+    <script src="{{ asset('bundles/apachecmsbackend/assets/plugins/toast-master/js/jquery.toast.js') }}"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+     <script>
+        function showSpinner(){
+            return `<div id="spinner" class="text-center">
+                        <i class="fa fa-gear fa-spin text-primary" style="font-size:60px"></i>
+                    </div>`;
+        }
+        $(function (){
+            {% for message in app.session.flashBag.get('success') %}
+                $.toast({
+                    heading: 'Resultado OK',
+                    text: '{{ message }}',
+                    position: 'top-right',
+                    icon: 'success',
+                    hideAfter: 2000, 
+                    stack: 6
+                });
+            {% endfor %}
+            {% for message in app.session.flashBag.get('warning') %}
+                $.toast({
+                    heading: 'Atención',
+                    text: '{{ message }}',
+                    position: 'top-right',
+                    icon: 'warning',
+                    hideAfter: 2000, 
+                    stack: 6
+                });
+            {% endfor %}
+            {% for message in app.session.flashBag.get('danger') %}
+                $.toast({
+                    heading: 'Error',
+                    text: '{{ message }}',
+                    position: 'top-right',
+                    icon: 'error',
+                    hideAfter: 2000, 
+                    stack: 6
+                });
+            {% endfor %}
+            gapi.auth2.init({
+                client_id: '586658376187-qfad5da3nsg3m6i5cbqku5d7rn1kcq72.apps.googleusercontent.com'
+            });
+            if (auth2.isSignedIn.get()) {
+                var profile = auth2.currentUser.get().getBasicProfile();
+                console.log('ID: ' + profile.getId());
+                console.log('Full Name: ' + profile.getName());
+                console.log('Given Name: ' + profile.getGivenName());
+                console.log('Family Name: ' + profile.getFamilyName());
+                console.log('Image URL: ' + profile.getImageUrl());
+                console.log('Email: ' + profile.getEmail());
+                }
+        });
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+            console.log('Name: ' + profile.getName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+            }
+        
+    </script>
+    {% endblock %}
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-135355882-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-135355882-1');
+</script>
+</body>
+</html>

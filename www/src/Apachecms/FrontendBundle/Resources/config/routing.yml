@@ -33,6 +33,29 @@ apachecms_frontend_change_lang:
     path:     /changeLocale
     defaults: { _controller: ApachecmsFrontendBundle:Default:changeLocale }
 
+apachecms_frontend_landings_home:
+    path:     /landings
+    defaults: { _controller: ApachecmsFrontendBundle:ListLanding:nav,industry: 0 ,industry_name: 'Todo', country: 0 ,country_name: 'Todo', page: 1  }
+    options:
+        breadcrumb:
+            label: account.my.landings
+            parent_route: apachecms_frontend_homepage
+apachecms_frontend_landings_all:
+    path:     /landings/all
+    defaults: { _controller: ApachecmsFrontendBundle:ListLanding:seo }
+    options:
+        breadcrumb:
+            label: account.my.landings
+            parent_route: apachecms_frontend_homepage
+
+apachecms_frontend_landings_nav:
+    path:     /landings/{industry}/{industry_name}/{country}/{country_name}/{page}
+    defaults: { _controller: ApachecmsFrontendBundle:ListLanding:nav }
+    options:
+        breadcrumb:
+            label: account.my.landings
+            parent_route: apachecms_frontend_homepage
+
 apachecms_frontend_dashboard:
     path:     /dashboard
     defaults: { _controller: ApachecmsFrontendBundle:Account:index }

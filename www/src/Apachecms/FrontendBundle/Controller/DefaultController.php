@@ -13,8 +13,8 @@ use Apachecms\BackendBundle\Entity\CustomerTransaction;
 class DefaultController extends Controller
 {
     public function indexAction(){
-        // header('Location: https://www.land.page');
-        // exit();
+        header('Location: https://www.land.page');
+        exit();
         return $this->render('ApachecmsFrontendBundle:Default:index_tmp.html.twig');
     }
     

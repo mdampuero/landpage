@@ -178,12 +178,12 @@ class LoginController extends BaseController{
             $em->persist($entity);
             $em->flush();
 
-            // $message = (new \Swift_Message($this->getParameter('title').' - '.$this->get('translator')->trans('welcome')))
-            // ->setFrom(array($this->getParameter('mailer_user')=>$this->getParameter('title')))
-            // ->setTo($entity->getEmail())
-            // ->setReplyTo($this->getParameter('no.reply'))
-            // ->setBody($this->renderView('ApachecmsBackendBundle:Emails:Register/welcomeAndActive.html.twig', array('entity' => $entity)),'text/html');
-            // $this->get('mailer')->send($message); 
+            $message = (new \Swift_Message($this->getParameter('title').' - '.$this->get('translator')->trans('welcome')))
+            ->setFrom(array($this->getParameter('mailer_user')=>$this->getParameter('title')))
+            ->setTo($entity->getEmail())
+            ->setReplyTo($this->getParameter('no.reply'))
+            ->setBody($this->renderView('ApachecmsBackendBundle:Emails:Register/welcomeAndActive.html.twig', array('entity' => $entity)),'text/html');
+            $this->get('mailer')->send($message); 
 
             $token = new UsernamePasswordToken($entity, $entity->getPlainPassword(), "main", $entity->getRoles());
             $this->get("security.token_storage")->setToken($token);

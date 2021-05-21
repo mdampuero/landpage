@@ -1,0 +1,115 @@
+
+{% extends "ApachecmsFrontendBundle::layout_basic.html.twig" %}
+{% block body %}
+
+    {{ include('ApachecmsFrontendBundle::_partials/brand.html.twig') }}
+
+{#https://css-tricks.com/snippets/css/truncate-string-with-ellipsis/#}
+
+    <main role="main">
+
+
+        <div class="album py-2 bg-light">
+            {{ form_start(form, {'attr': {'class': 'form-inline justify-content-center col-md-12'}}) }}
+            {{ form_row(form.country,  {'attr': {'class': 'form-row col-12'}}) }}
+            {{ form_row(form.industry,  {'attr': {'class': 'form-row col-12'}}) }}
+            {#  form_row(form.Fecha,  {'attr': {'class': 'form-row col-md-6'}}) #}
+
+            <div style="margin-top: 25px;">
+                {{ form_rest(form) }}
+
+            </div>
+            {{ form_end(form) }}
+            <hr/>
+            <div class="container">
+
+
+                <div class="row">
+                    {%  for landpage in landings %}
+
+                    <div class="col-md-4">
+                        <div class="card mb-4 shadow-sm">
+                            <div class=" cover img-thumbnail" style="height:150px; background-image:url('{{ landpage.backgroundImage }}')"></div>
+                            <div class="card-body">
+                                <p style="min-height: 50px"><a target="_blank" href="/{{ landpage.customer.usernameUrl }}/{{ landpage.slug }}">{{  landpage.title }}</a></p>
+
+                                <p class="card-text truncate" style="min-height: 72px" >
+                                    {{ landpage.description }}
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <!-- Facebook -->
+                                        <a href="http://www.facebook.com/sharer.php?u={{ ("https://land.page/"~landpage.customer.usernameUrl ~'/' ~ landpage.slug )|url_encode }}" target="_blank">
+                                            <img width="25px" src="https://simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook" />
+                                        </a>
+
+                                        <a href="https://twitter.com/share?url={{ ("https://land.page/"~landpage.customer.usernameUrl ~'/' ~ landpage.slug )|url_encode }}&amp;text={{ landpage.title|url_encode }}{{ (" https://land.page/"~landpage.customer.usernameUrl ~'/' ~ landpage.slug )|url_encode }}&amp;hashtags=" target="_blank">
+                                            <img  width="25px" src="https://simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" />
+                                        </a>
+
+                                        <!-- LinkedIn -->
+                                        {#
+
+                                        <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url={{ ("https://land.page/"~landpage.customer.usernameUrl ~'/' ~ landpage.slug )|url_encode }}" target="_blank">
+                                            <img   width="25px" src="https://simplesharebuttons.com/images/somacro/linkedin.png" alt="LinkedIn" />
+                                        </a>
+                                        #}
+                                    </div>
+                                    <small class="text-muted">{{  landpage.publishedToAt|date('d M Y') }}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% endfor %}
+                </div>
+                <nav aria-label="Pagination">
+                    {% spaceless %}
+                        {% if total > 1 %}
+                            <ul class="pagination justify-content-center col-md-12">
+                                {% for i in 1..total %}
+                                    {% if 0 == (current - nearbyPagesLimit) - loop.index %}
+                                        <li class="page-item"><a href="{{ url('apachecms_frontend_landings_nav',{'industry': industry_id_page,'industry_name': industry_name_page,'country': country_id_page,'country_name': country_name_page,'page':1}) }}"  class="page-link" >1</a></li>
+                                        {% if 1 != loop.index %}
+                                            <li class="page-item"><span>…</span></li>
+                                        {% endif %}
+                                    {% elseif 0 == (current + nearbyPagesLimit) - loop.index  and (current + nearbyPagesLimit) < total %}
+                                        <li class="page-item"><span>…</span></li>
+                                    {% elseif 0 < (current - nearbyPagesLimit) - loop.index %}
+                                    {% elseif 0 > (current + nearbyPagesLimit) - loop.index %}
+                                    {% else %}
+                                        <li {{ current == loop.index ? 'class=" page-item active"' }}>
+                                            {% if current == loop.index  %}
+                                                <span class="page-link">{{ loop.index }}</span>
+                                            {% else %}
+                                                <a href="{{ url('apachecms_frontend_landings_nav',{'industry': industry_id_page,'industry_name': industry_name_page,'country': country_id_page,'country_name':country_name_page,'page':loop.index}) }}" class="page-link" >{{ loop.index }}</a>
+                                            {% endif %}
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if current != total  and (current + nearbyPagesLimit) < total %}
+                                    <li><a href="{{  url('apachecms_frontend_landings_nav',{'industry': industry_id_page,'industry_name': industry_name_page,'country': country_id_page,'country_name':country_name_page,'page':total}) }}"  class="page-link" >{{ total }}</a></li>
+                                {% endif %}
+                            </ul>
+                        {% endif %}
+                    {% endspaceless %}
+                </nav>
+            </div>
+            <div class="row center-block justify-content-center">
+                <div>
+                    <a href="{{ url('apachecms_frontend_landings_all') }}" class="btn btn-primary">Ver todas las LandPages por Industrias y Paises</a>
+                </div>
+                <div style="margin-left: 10px">
+                    <a href="{{ url('apachecms_frontend_landings_home') }}" class="btn btn-warning">Últimas LandPages</a>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+{% endblock body %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://connect.facebook.net/en_US/sdk.js"></script>
+{% endblock javascripts %}

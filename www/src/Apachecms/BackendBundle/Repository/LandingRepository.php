@@ -2,6 +2,7 @@
 
 namespace Apachecms\BackendBundle\Repository;
 
+use Doctrine\ORM\Query\Expr;
 /**
  * LandingRepository
  *
@@ -19,7 +20,83 @@ class LandingRepository extends \Doctrine\ORM\EntityRepository
 		->setParameter('isDelete',false)
         ->orderBy("e.createdAt","DESC");
     }
-    
+    public function _findByCountryAndIndustry($country_id=0,$industry_id=0,$offset=0,$limit=9){
+        $em = $this->getEntityManager();
+        $DQL="SELECT l 
+            FROM ApachecmsBackendBundle:Landing l
+            JOIN ApachecmsBackendBundle:Customer cu
+            JOIN ApachecmsBackendBundle:Business bu
+             WHERE l.isPublished=1 AND l.customer = cu AND cu.isLocked =0 AND bu.customer = cu";
+        if($industry_id!==0 && !is_null($industry_id)){
+            $DQL .=' AND bu.industry=?1 ';
+        }
+        if($country_id!==0 && !is_null($country_id)){
+            $DQL .=' AND cu.country=?2 ';
+        }
+        #$DQL
+        $query= $em->createQuery($DQL);
+        $query->setMaxResults($limit);
+        $query->setFirstResult($offset);
+        if($industry_id!==0 && !is_null($industry_id)){
+            $query->setParameter(1,$industry_id);
+        }
+        if($country_id!==0 && !is_null($country_id)){
+            $query->setParameter(2,$country_id);
+        }
+        return $query->getResult();
+    }
+    public function findByCountryAndIndustry($country_id=0,$industry_id=0,$offset=0,$limit=9){
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb->select('l')
+            ->from('ApachecmsBackendBundle:Landing','l')
+            ->join('ApachecmsBackendBundle:Customer','cu',Expr\Join::WITH,$qb->expr()->eq('cu.id', 'l.customer'))
+            ->join('ApachecmsBackendBundle:Business','bu',Expr\Join::WITH,$qb->expr()->eq('bu.customer', 'cu.id'))
+            ->where('l.isPublished=1')
+	            ->andWhere('l.isReview = true')
+
+            ->andWhere('cu.isLocked =0')
+            ->groupBy('l.id')
+            ->orderBy('l.publishedFromAt','DESC')
+        ;
+
+        if($industry_id!==0 && !is_null($industry_id)){
+            $qb->andWhere('bu.industry = :industry')
+                ->setParameter('industry',$industry_id);
+        }
+        if($country_id!==0 && !is_null($country_id)){
+            $qb->andWhere('cu.country = :country')
+                ->setParameter('country',$country_id);
+
+        }
+        $qb->setMaxResults($limit);
+        $qb->setFirstResult($offset);
+
+        return $qb->getQuery()->getResult();
+    }
+    public function countByCountryAndIndustry($country_id=0,$industry_id=0){
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb->select('COUNT(DISTINCT l.id)')
+            ->from('ApachecmsBackendBundle:Landing','l')
+        ->join('ApachecmsBackendBundle:Customer','cu',Expr\Join::WITH,$qb->expr()->eq('cu.id', 'l.customer'))
+        ->join('ApachecmsBackendBundle:Business','bu',Expr\Join::WITH,$qb->expr()->eq('bu.customer', 'cu.id'))
+        ->where('l.isPublished=1')
+        ->andWhere('cu.isLocked =0');
+
+        if($industry_id!==0 && !is_null($industry_id)){
+            $qb->andWhere('bu.industry = :industry')
+                ->setParameter('industry',$industry_id);
+        }
+        if($country_id!==0 && !is_null($country_id)){
+            $qb->andWhere('cu.country = :country')
+                ->setParameter('country',$country_id);
+
+        }
+        $total = $qb->getQuery()->getOneOrNullResult();
+        $total = is_null($total) ? [] : $total;
+        return  intval(current($total));
+    }
     public function findOneBySlug($slug,$usernameUrl=null){
 		return $this->createQueryBuilder('e')
         ->select('e')

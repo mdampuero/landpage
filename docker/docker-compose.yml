@@ -34,7 +34,7 @@ services:
         environment:
             - MYSQL_DATABASE=landpage
             - MYSQL_ROOT_PASSWORD=Secreta007
-            - MYSQL_USER=root
+            - MYSQL_USER=landpage
             - MYSQL_PASSWORD=Secreta007
     landpage_memcached:
         image: memcached:latest
